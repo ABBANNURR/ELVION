@@ -1,445 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <title>ELVION</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
-}
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
-html,body{
-    width:100%;
-    min-height:100%;
-    background:#050505;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-    padding-bottom:90px;
-}
-
-button{
-    font-family:inherit;
-    border:0;
-    outline:0;
-    cursor:pointer;
+background:#030504;
+color:white;
+font-family:Arial,sans-serif;
+padding-bottom:90px;
 }
 
 .app{
-    width:100%;
-    max-width:520px;
-    margin:auto;
-    min-height:100vh;
-    background:
-        radial-gradient(circle at top,#14231c 0%,#070908 35%,#050505 70%);
+max-width:520px;
+margin:auto;
+min-height:100vh;
+background:
+radial-gradient(circle at top,#102018,#030504 55%);
 }
 
-/* HEADER */
 .header{
-    padding:22px 18px 10px;
-    text-align:center;
+text-align:center;
+padding:25px 15px 12px;
 }
 
 .logo{
-    font-size:30px;
-    font-weight:900;
-    letter-spacing:5px;
-    color:#fff;
-    text-shadow:
-        0 0 8px #00ff88,
-        0 0 25px rgba(0,255,136,.5);
+font-size:31px;
+font-weight:900;
+letter-spacing:5px;
+color:#fff;
+text-shadow:0 0 20px #00ff88;
 }
 
 .subtitle{
-    margin-top:5px;
-    color:#7d8a84;
-    font-size:12px;
-    letter-spacing:2px;
+font-size:11px;
+color:#708078;
+letter-spacing:2px;
+margin-top:5px;
 }
 
-/* PAGES */
 .page{
-    display:none;
-    padding:15px;
-    animation:fade .2s ease;
+display:none;
+padding:15px;
 }
 
 .page.active{
-    display:block;
+display:block;
 }
 
-@keyframes fade{
-    from{opacity:.2;transform:translateY(5px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-/* CARDS */
 .card{
-    background:linear-gradient(145deg,#111614,#080a09);
-    border:1px solid #1e3028;
-    border-radius:20px;
-    padding:20px;
-    margin-bottom:14px;
-    box-shadow:0 8px 30px rgba(0,0,0,.35);
+background:#0a0e0c;
+border:1px solid #1d3026;
+border-radius:20px;
+padding:20px;
+margin-bottom:14px;
 }
 
-.card-title{
-    font-size:13px;
-    color:#7d8a84;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    margin-bottom:10px;
+.title{
+font-size:12px;
+color:#748078;
+text-transform:uppercase;
+letter-spacing:1.5px;
+margin-bottom:10px;
 }
 
-/* BALANCE */
 .balance{
-    text-align:center;
-    padding:28px 15px;
+text-align:center;
 }
 
-.balance-number{
-    font-size:42px;
-    font-weight:900;
-    color:#00ff88;
-    text-shadow:0 0 20px rgba(0,255,136,.35);
-    word-break:break-word;
+.amount{
+font-size:42px;
+font-weight:900;
+color:#00ff88;
+text-shadow:0 0 20px rgba(0,255,136,.3);
 }
 
-.coin-name{
-    color:#8b9690;
-    margin-top:5px;
-    font-size:13px;
-    letter-spacing:2px;
+.coin{
+color:#6f7b74;
+font-size:12px;
+letter-spacing:2px;
+margin-top:4px;
 }
 
-/* MINING */
-.mining-box{
-    text-align:center;
-}
-
-.mining-status{
-    color:#00ff88;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:15px;
-}
-
-.countdown{
-    font-size:34px;
-    font-weight:900;
-    letter-spacing:2px;
-    margin:10px 0;
-}
-
-.small{
-    color:#77817c;
-    font-size:12px;
-}
-
-.claim-btn{
-    width:100%;
-    margin-top:18px;
-    padding:16px;
-    border-radius:14px;
-    background:#00ff88;
-    color:#00150b;
-    font-size:16px;
-    font-weight:900;
-    box-shadow:0 0 25px rgba(0,255,136,.2);
-}
-
-.claim-btn:disabled{
-    opacity:.35;
-}
-
-/* PHASE */
 .phase{
-    text-align:center;
+text-align:center;
 }
 
-.phase-title{
-    font-size:14px;
-    color:#aeb8b3;
-    margin-bottom:8px;
+.phase-time{
+font-size:25px;
+font-weight:900;
+margin:8px 0;
 }
 
-.phase-countdown{
-    font-size:25px;
-    font-weight:900;
-    color:#fff;
+.mining{
+text-align:center;
 }
 
-/* STATS */
+.mining-time{
+font-size:36px;
+font-weight:900;
+margin:12px 0;
+}
+
+.status{
+color:#00ff88;
+font-weight:bold;
+font-size:12px;
+}
+
+button{
+font-family:Arial,sans-serif;
+cursor:pointer;
+}
+
+.green{
+width:100%;
+padding:15px;
+border:0;
+border-radius:14px;
+background:#00ff88;
+color:#00150b;
+font-weight:900;
+font-size:15px;
+margin-top:15px;
+}
+
+.green:disabled{
+opacity:.3;
+}
+
 .stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
 .stat{
-    background:#0b100e;
-    border:1px solid #18251f;
-    border-radius:15px;
-    padding:15px;
+background:#080c0a;
+border:1px solid #17251e;
+border-radius:14px;
+padding:14px;
 }
 
 .stat-label{
-    font-size:11px;
-    color:#6e7973;
+font-size:10px;
+color:#68736d;
 }
 
 .stat-value{
-    margin-top:7px;
-    font-size:18px;
-    font-weight:bold;
+font-size:17px;
+font-weight:bold;
+margin-top:6px;
 }
 
-/* TASKS */
 .task{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:16px;
-    background:#0b100e;
-    border:1px solid #1b2a23;
-    border-radius:15px;
-    margin-bottom:10px;
-}
-
-.task-info{
-    flex:1;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+background:#0a0f0c;
+border:1px solid #1a2c22;
+padding:15px;
+border-radius:15px;
+margin-bottom:10px;
 }
 
 .task-name{
-    font-weight:bold;
-    font-size:14px;
+font-size:13px;
+font-weight:bold;
 }
 
 .task-reward{
-    color:#00ff88;
-    font-size:12px;
-    margin-top:5px;
+color:#00ff88;
+font-size:11px;
+margin-top:5px;
 }
 
 .task-btn{
-    background:#00ff88;
-    color:#00150b;
-    padding:10px 14px;
-    border-radius:10px;
-    font-weight:bold;
-    font-size:12px;
-    white-space:nowrap;
+background:#00ff88;
+color:#00150b;
+border:0;
+border-radius:10px;
+padding:10px 13px;
+font-size:11px;
+font-weight:bold;
 }
 
 .task-btn.done{
-    background:#1c2923;
-    color:#65726b;
+background:#17221d;
+color:#65716b;
 }
 
-/* BOOST */
-.boost-box{
-    text-align:center;
+.boost{
+text-align:center;
 }
 
 .boost-icon{
-    font-size:55px;
-    margin-bottom:10px;
+font-size:55px;
+margin-bottom:10px;
 }
 
-.boost-title{
-    font-size:23px;
-    font-weight:900;
+.boost h2{
+font-size:23px;
 }
 
-.boost-description{
-    color:#87918c;
-    margin:10px 0 20px;
-    line-height:1.5;
-    font-size:13px;
+.description{
+color:#78837d;
+font-size:13px;
+line-height:1.5;
+margin:12px 0;
 }
 
-.boost-btn{
-    width:100%;
-    padding:16px;
-    border-radius:14px;
-    background:#00ff88;
-    color:#00150b;
-    font-weight:900;
-    font-size:15px;
-}
-
-.boost-btn:disabled{
-    opacity:.35;
-}
-
-/* REFERRAL */
-.ref-code{
-    background:#080c0a;
-    border:1px solid #1b3025;
-    padding:15px;
-    border-radius:12px;
-    text-align:center;
-    color:#00ff88;
-    word-break:break-all;
-    font-weight:bold;
-    margin:15px 0;
-}
-
-.copy-btn{
-    width:100%;
-    padding:14px;
-    background:#151d19;
-    border:1px solid #273a30;
-    color:#fff;
-    border-radius:12px;
-    font-weight:bold;
-}
-
-/* PROFILE */
 .profile-row{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    padding:14px 0;
-    border-bottom:1px solid #16211c;
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:13px 0;
+border-bottom:1px solid #17231d;
 }
 
 .profile-row:last-child{
-    border-bottom:0;
+border-bottom:0;
 }
 
-.profile-label{
-    color:#6e7973;
-    font-size:12px;
+.label{
+font-size:11px;
+color:#68736d;
 }
 
-.profile-value{
-    text-align:right;
-    font-weight:bold;
-    font-size:13px;
-    max-width:60%;
-    word-break:break-word;
+.value{
+font-size:12px;
+font-weight:bold;
+text-align:right;
+max-width:60%;
+word-break:break-word;
 }
 
-/* TOKENOMICS */
-.token-row{
-    margin-bottom:15px;
+.referral{
+background:#070b09;
+border:1px solid #1b3024;
+border-radius:12px;
+padding:15px;
+margin:15px 0;
+text-align:center;
+color:#00ff88;
+font-size:12px;
+word-break:break-all;
+}
+
+.copy{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #26392f;
+background:#121914;
+color:white;
+font-weight:bold;
+}
+
+.token{
+margin-bottom:15px;
 }
 
 .token-top{
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    margin-bottom:7px;
+display:flex;
+justify-content:space-between;
+font-size:13px;
+margin-bottom:7px;
 }
 
-.token-bar{
-    width:100%;
-    height:8px;
-    border-radius:10px;
-    background:#111815;
-    overflow:hidden;
+.bar{
+height:7px;
+background:#101713;
+border-radius:10px;
+overflow:hidden;
 }
 
-.token-fill{
-    height:100%;
-    background:#00ff88;
-    border-radius:10px;
+.fill{
+height:100%;
+background:#00ff88;
 }
 
-/* NAV */
 .nav{
-    position:fixed;
-    z-index:999;
-    left:50%;
-    bottom:10px;
-    transform:translateX(-50%);
-    width:calc(100% - 18px);
-    max-width:500px;
-    background:rgba(8,12,10,.96);
-    border:1px solid #20352a;
-    border-radius:20px;
-    padding:8px 4px;
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    backdrop-filter:blur(15px);
+position:fixed;
+bottom:9px;
+left:50%;
+transform:translateX(-50%);
+width:calc(100% - 18px);
+max-width:500px;
+background:rgba(8,12,10,.97);
+border:1px solid #20352a;
+border-radius:20px;
+display:grid;
+grid-template-columns:repeat(6,1fr);
+padding:7px 3px;
+z-index:999;
 }
 
-.nav-btn{
-    background:transparent;
-    color:#64706a;
-    padding:7px 2px;
-    font-size:9px;
-    font-weight:bold;
+.nav button{
+border:0;
+background:none;
+color:#647069;
+font-size:9px;
+font-weight:bold;
+padding:6px 2px;
 }
 
-.nav-btn .icon{
-    display:block;
-    font-size:19px;
-    margin-bottom:3px;
+.nav button.active{
+color:#00ff88;
 }
 
-.nav-btn.active{
-    color:#00ff88;
+.icon{
+display:block;
+font-size:18px;
+margin-bottom:3px;
 }
 
-/* HOME BUTTON */
-.green-btn{
-    width:100%;
-    padding:15px;
-    border-radius:13px;
-    background:#00ff88;
-    color:#00150b;
-    font-weight:900;
-    margin-top:10px;
+.loading{
+text-align:center;
+padding:25px;
+color:#65716b;
+font-size:13px;
 }
 
-/* TOAST */
 .toast{
-    position:fixed;
-    z-index:2000;
-    left:50%;
-    top:20px;
-    transform:translateX(-50%) translateY(-100px);
-    background:#101814;
-    border:1px solid #284637;
-    color:#fff;
-    padding:13px 18px;
-    border-radius:12px;
-    font-size:13px;
-    transition:.3s;
-    max-width:90%;
-    text-align:center;
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%) translateY(-100px);
+background:#111a15;
+border:1px solid #2b4636;
+padding:13px 18px;
+border-radius:12px;
+font-size:12px;
+z-index:2000;
+transition:.3s;
 }
 
 .toast.show{
-    transform:translateX(-50%) translateY(0);
+transform:translateX(-50%) translateY(0);
 }
 
-/* LOADING */
-.loading{
-    text-align:center;
-    padding:30px 10px;
-    color:#65716b;
+.wallet{
+margin-top:15px;
 }
 
-.error{
-    color:#ff6b6b;
-    text-align:center;
-    padding:20px;
-    font-size:13px;
-}
 </style>
 </head>
 
@@ -447,1269 +371,1364 @@ button{
 
 <div class="app">
 
-<header class="header">
-    <div class="logo">ELVION</div>
-    <div class="subtitle">MINING ECOSYSTEM</div>
-</header>
+<div class="header">
+<div class="logo">ELVION</div>
+<div class="subtitle">MINING ECOSYSTEM</div>
+</div>
+
 
 <!-- HOME -->
+
 <section id="home" class="page active">
 
-    <div class="card balance">
-        <div class="card-title">Your Balance</div>
-        <div class="balance-number" id="balance">0</div>
-        <div class="coin-name">ELVION</div>
-    </div>
+<div class="card balance">
 
-    <div class="card phase">
-        <div class="phase-title">Mining Phase Ends In</div>
-        <div class="phase-countdown" id="phaseCountdown">Loading...</div>
-        <div class="small">October 1, 2026 — January 1, 2027</div>
-    </div>
+<div class="title">Your Balance</div>
 
-    <div class="card">
-        <div class="card-title">Mining</div>
+<div class="amount" id="balance">
+0
+</div>
 
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-label">Mining Reward</div>
-                <div class="stat-value">1,000</div>
-            </div>
+<div class="coin">
+ELVION
+</div>
 
-            <div class="stat">
-                <div class="stat-label">Cycle</div>
-                <div class="stat-value" id="cycle">0</div>
-            </div>
-        </div>
+</div>
 
-        <button class="green-btn" onclick="showPage('mining')">
-            ⛏️ Open Mining
-        </button>
-    </div>
 
-    <div class="card">
-        <div class="card-title">Total Supply</div>
-        <div class="balance-number" style="font-size:30px">100,000,000</div>
-        <div class="coin-name">ELVION</div>
+<div class="card phase">
 
-        <button class="green-btn" onclick="showPage('tokenomics')">
-            View Tokenomics
-        </button>
-    </div>
+<div class="title">
+Mining Phase Ends In
+</div>
+
+<div
+class="phase-time"
+id="phaseCountdown">
+Loading...
+</div>
+
+<div class="coin">
+October 1, 2026 — January 1, 2027
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="title">
+Mining
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-label">
+Reward
+</div>
+<div class="stat-value">
+1,000
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">
+Cycle
+</div>
+<div class="stat-value"
+id="cycle">
+0
+</div>
+</div>
+
+</div>
+
+<button
+class="green"
+onclick="showPage('mining')">
+OPEN MINING
+</button>
+
+</div>
+
+
+<div class="card">
+
+<div class="title">
+Total Supply
+</div>
+
+<div
+class="amount"
+style="font-size:30px">
+100,000,000
+</div>
+
+<div class="coin">
+ELVION
+</div>
+
+<button
+class="green"
+onclick="showPage('tokenomics')">
+VIEW TOKENOMICS
+</button>
+
+</div>
 
 </section>
+
 
 <!-- MINING -->
+
 <section id="mining" class="page">
 
-    <div class="card mining-box">
+<div class="card mining">
 
-        <div class="card-title">24-Hour Mining</div>
+<div class="title">
+24-Hour Mining
+</div>
 
-        <div class="mining-status" id="miningStatus">
-            MINING ACTIVE
-        </div>
+<div
+class="status"
+id="miningStatus">
+MINING ACTIVE
+</div>
 
-        <div class="countdown" id="miningCountdown">
-            24:00:00
-        </div>
+<div
+class="mining-time"
+id="miningCountdown">
+24:00:00
+</div>
 
-        <div class="small">
-            Your next claim becomes available when the cycle ends.
-        </div>
+<div class="coin">
+Next claim countdown
+</div>
 
-        <button
-            id="claimBtn"
-            class="claim-btn"
-            onclick="claimMining()"
-            disabled>
-            CLAIM 1,000 ELVION
-        </button>
+<button
+id="claimBtn"
+class="green"
+onclick="claimMining()"
+disabled>
+CLAIM 1,000 ELVION
+</button>
 
-    </div>
+</div>
 
-    <div class="card">
-        <div class="card-title">Mining Information</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Reward</div>
-            <div class="profile-value">1,000 ELVION</div>
-        </div>
+<div class="card">
 
-        <div class="profile-row">
-            <div class="profile-label">Standard Cycle</div>
-            <div class="profile-value">24 Hours</div>
-        </div>
+<div class="title">
+Mining Information
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">With Boost</div>
-            <div class="profile-value">12 Hours</div>
-        </div>
+<div class="profile-row">
+<div class="label">Reward</div>
+<div class="value">1,000 ELVION</div>
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Auto Mining</div>
-            <div class="profile-value">Enabled</div>
-        </div>
-    </div>
+<div class="profile-row">
+<div class="label">Standard Cycle</div>
+<div class="value">24 Hours</div>
+</div>
+
+<div class="profile-row">
+<div class="label">Boost Cycle</div>
+<div class="value">12 Hours</div>
+</div>
+
+<div class="profile-row">
+<div class="label">Auto Mining</div>
+<div class="value">Enabled</div>
+</div>
+
+</div>
 
 </section>
+
 
 <!-- TASKS -->
+
 <section id="tasks" class="page">
 
-    <div class="card">
-        <div class="card-title">Daily Tasks</div>
-        <div class="small">
-            Complete tasks and claim your ELVION rewards.
-            Tasks reset every 24 hours.
-        </div>
-    </div>
+<div class="card">
 
-    <div id="tasksList">
-        <div class="loading">Loading tasks...</div>
-    </div>
+<div class="title">
+Daily Tasks
+</div>
+
+<div class="description">
+Complete tasks and earn 5,000 ELVION per task.
+Tasks reset every 24 hours.
+</div>
+
+</div>
+
+<div id="tasksList">
+<div class="loading">
+Loading tasks...
+</div>
+</div>
 
 </section>
+
 
 <!-- BOOST -->
+
 <section id="boost" class="page">
 
-    <div class="card boost-box">
+<div class="card boost">
 
-        <div class="boost-icon">⚡</div>
+<div class="boost-icon">
+⚡
+</div>
 
-        <div class="boost-title">2× Mining Boost</div>
+<h2>
+2× Mining Boost
+</h2>
 
-        <div class="boost-description">
-            Upgrade your mining speed permanently.
-            Your mining cycle changes from 24 hours to 12 hours.
-        </div>
+<div class="description">
+Pay 500,000 ELVION to activate
+a permanent 2× mining speed.
+Your cycle becomes 12 hours.
+</div>
 
-        <div class="card">
-            <div class="profile-row">
-                <div class="profile-label">Cost</div>
-                <div class="profile-value">500,000 ELVION</div>
-            </div>
+<div class="profile-row">
+<div class="label">Cost</div>
+<div class="value">500,000 ELVION</div>
+</div>
 
-            <div class="profile-row">
-                <div class="profile-label">Mining Speed</div>
-                <div class="profile-value">2×</div>
-            </div>
+<div class="profile-row">
+<div class="label">Speed</div>
+<div class="value">2×</div>
+</div>
 
-            <div class="profile-row">
-                <div class="profile-label">Cycle</div>
-                <div class="profile-value">12 Hours</div>
-            </div>
+<div class="profile-row">
+<div class="label">Cycle</div>
+<div class="value">12 Hours</div>
+</div>
 
-            <div class="profile-row">
-                <div class="profile-label">Duration</div>
-                <div class="profile-value">Permanent</div>
-            </div>
-        </div>
+<button
+id="boostBtn"
+class="green"
+onclick="buyBoost()">
+BUY BOOST — 500,000 ELVION
+</button>
 
-        <button
-            id="boostBtn"
-            class="boost-btn"
-            onclick="buyBoost()">
-            BUY BOOST — 500,000 ELVION
-        </button>
-
-    </div>
+</div>
 
 </section>
+
 
 <!-- REFERRAL -->
+
 <section id="referral" class="page">
 
-    <div class="card">
+<div class="card">
 
-        <div class="card-title">Referral Program</div>
+<div class="title">
+Referral Program
+</div>
 
-        <div style="font-size:25px;font-weight:900;margin:10px 0">
-            Earn 10,000 ELVION
-        </div>
+<div style="
+font-size:24px;
+font-weight:900;
+margin:10px 0;">
+10,000 ELVION
+</div>
 
-        <div class="small">
-            Invite a new Telegram user and receive
-            10,000 ELVION when the referral is registered.
-        </div>
+<div class="description">
+Invite new Telegram users and earn
+10,000 ELVION for each valid referral.
+</div>
 
-        <div class="card-title" style="margin-top:25px">
-            Your Referral Link
-        </div>
+<div class="title">
+Your Referral Link
+</div>
 
-        <div class="ref-code" id="referralLink">
-            Loading...
-        </div>
+<div
+class="referral"
+id="referralLink">
+Loading...
+</div>
 
-        <button class="copy-btn" onclick="copyReferral()">
-            📋 COPY REFERRAL LINK
-        </button>
+<button
+class="copy"
+onclick="copyReferral()">
+COPY REFERRAL LINK
+</button>
 
-    </div>
+</div>
 
-    <div class="card">
 
-        <div class="profile-row">
-            <div class="profile-label">Referrals</div>
-            <div class="profile-value" id="refCount">0</div>
-        </div>
+<div class="card">
 
-        <div class="profile-row">
-            <div class="profile-label">Referral Earnings</div>
-            <div class="profile-value" id="refEarned">0 ELVION</div>
-        </div>
+<div class="profile-row">
+<div class="label">Referrals</div>
+<div
+class="value"
+id="refCount">
+0
+</div>
+</div>
 
-    </div>
+<div class="profile-row">
+<div class="label">Earned</div>
+<div
+class="value"
+id="refEarned">
+0 ELVION
+</div>
+</div>
+
+</div>
 
 </section>
+
 
 <!-- PROFILE -->
+
 <section id="profile" class="page">
 
-    <div class="card">
+<div class="card">
 
-        <div class="card-title">Profile</div>
+<div class="title">
+Profile
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Name</div>
-            <div class="profile-value" id="profileName">Loading...</div>
-        </div>
+<div class="profile-row">
+<div class="label">Name</div>
+<div
+class="value"
+id="profileName">
+Loading...
+</div>
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Username</div>
-            <div class="profile-value" id="profileUsername">Loading...</div>
-        </div>
+<div class="profile-row">
+<div class="label">Username</div>
+<div
+class="value"
+id="profileUsername">
+Loading...
+</div>
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Telegram ID</div>
-            <div class="profile-value" id="profileId">Loading...</div>
-        </div>
+<div class="profile-row">
+<div class="label">Telegram ID</div>
+<div
+class="value"
+id="profileId">
+Loading...
+</div>
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Balance</div>
-            <div class="profile-value" id="profileBalance">0 ELVION</div>
-        </div>
+<div class="profile-row">
+<div class="label">Balance</div>
+<div
+class="value"
+id="profileBalance">
+0 ELVION
+</div>
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Mining Cycles</div>
-            <div class="profile-value" id="profileCycles">0</div>
-        </div>
+<div class="profile-row">
+<div class="label">Mining Cycles</div>
+<div
+class="value"
+id="profileCycles">
+0
+</div>
+</div>
 
-        <div class="profile-row">
-            <div class="profile-label">Boost</div>
-            <div class="profile-value" id="profileBoost">Inactive</div>
-        </div>
+<div class="profile-row">
+<div class="label">Boost</div>
+<div
+class="value"
+id="profileBoost">
+Inactive
+</div>
+</div>
 
-    </div>
+</div>
 
-    <div class="card">
 
-        <div class="card-title">Wallet</div>
+<div class="card">
 
-        <div class="small">
-            Wallet connection is optional and will be available soon.
-        </div>
+<div class="title">
+Wallet
+</div>
 
-        <button
-            class="copy-btn"
-            style="margin-top:15px"
-            onclick="showToast('Wallet connection will be available soon.')">
-            CONNECT WALLET
-        </button>
+<div class="description">
+Connect your TON wallet. Wallet connection is optional.
+</div>
 
-    </div>
+<div
+id="ton-connect"
+class="wallet">
+</div>
+
+<div
+id="walletStatus"
+style="
+text-align:center;
+margin-top:12px;
+font-size:11px;
+color:#68736d;">
+Wallet not connected
+</div>
+
+</div>
 
 </section>
 
+
 <!-- TOKENOMICS -->
+
 <section id="tokenomics" class="page">
 
-    <div class="card">
+<div class="card">
 
-        <div class="card-title">ELVION Tokenomics</div>
+<div class="title">
+ELVION Tokenomics
+</div>
 
-        <div style="font-size:30px;font-weight:900;text-align:center;margin:15px 0">
-            100,000,000
-        </div>
+<div
+class="amount"
+style="
+font-size:30px;
+text-align:center;">
+100,000,000
+</div>
 
-        <div class="small" style="text-align:center">
-            TOTAL SUPPLY
-        </div>
+<div
+class="coin"
+style="text-align:center;">
+TOTAL SUPPLY
+</div>
 
-    </div>
+</div>
 
-    <div class="card">
 
-        <div class="token-row">
-            <div class="token-top">
-                <span>Community & Mining</span>
-                <b>60%</b>
-            </div>
-            <div class="token-bar">
-                <div class="token-fill" style="width:60%"></div>
-            </div>
-        </div>
+<div class="card">
 
-        <div class="token-row">
-            <div class="token-top">
-                <span>Liquidity</span>
-                <b>10%</b>
-            </div>
-            <div class="token-bar">
-                <div class="token-fill" style="width:10%"></div>
-            </div>
-        </div>
+<div class="token">
+<div class="token-top">
+<span>Community & Mining</span>
+<b>60%</b>
+</div>
+<div class="bar">
+<div class="fill" style="width:60%"></div>
+</div>
+</div>
 
-        <div class="token-row">
-            <div class="token-top">
-                <span>Ecosystem</span>
-                <b>10%</b>
-            </div>
-            <div class="token-bar">
-                <div class="token-fill" style="width:10%"></div>
-            </div>
-        </div>
+<div class="token">
+<div class="token-top">
+<span>Liquidity</span>
+<b>10%</b>
+</div>
+<div class="bar">
+<div class="fill" style="width:10%"></div>
+</div>
+</div>
 
-        <div class="token-row">
-            <div class="token-top">
-                <span>Treasury / Reserve</span>
-                <b>8%</b>
-            </div>
-            <div class="token-bar">
-                <div class="token-fill" style="width:8%"></div>
-            </div>
-        </div>
+<div class="token">
+<div class="token-top">
+<span>Ecosystem</span>
+<b>10%</b>
+</div>
+<div class="bar">
+<div class="fill" style="width:10%"></div>
+</div>
+</div>
 
-        <div class="token-row">
-            <div class="token-top">
-                <span>Team</span>
-                <b>7%</b>
-            </div>
-            <div class="token-bar">
-                <div class="token-fill" style="width:7%"></div>
-            </div>
-        </div>
+<div class="token">
+<div class="token-top">
+<span>Treasury / Reserve</span>
+<b>8%</b>
+</div>
+<div class="bar">
+<div class="fill" style="width:8%"></div>
+</div>
+</div>
 
-        <div class="token-row">
-            <div class="token-top">
-                <span>Marketing</span>
-                <b>5%</b>
-            </div>
-            <div class="token-bar">
-                <div class="token-fill" style="width:5%"></div>
-            </div>
-        </div>
+<div class="token">
+<div class="token-top">
+<span>Team</span>
+<b>7%</b>
+</div>
+<div class="bar">
+<div class="fill" style="width:7%"></div>
+</div>
+</div>
 
-    </div>
+<div class="token">
+<div class="token-top">
+<span>Marketing</span>
+<b>5%</b>
+</div>
+<div class="bar">
+<div class="fill" style="width:5%"></div>
+</div>
+</div>
+
+</div>
 
 </section>
 
 </div>
 
-<!-- BOTTOM NAV -->
+
+<!-- NAV -->
+
 <nav class="nav">
 
-    <button class="nav-btn active" id="nav-home"
-            onclick="showPage('home')">
-        <span class="icon">🏠</span>
-        Home
-    </button>
+<button
+id="nav-home"
+class="active"
+onclick="showPage('home')">
+<span class="icon">🏠</span>
+Home
+</button>
 
-    <button class="nav-btn" id="nav-mining"
-            onclick="showPage('mining')">
-        <span class="icon">⛏️</span>
-        Mining
-    </button>
+<button
+id="nav-mining"
+onclick="showPage('mining')">
+<span class="icon">⛏️</span>
+Mining
+</button>
 
-    <button class="nav-btn" id="nav-tasks"
-            onclick="showPage('tasks')">
-        <span class="icon">🎯</span>
-        Tasks
-    </button>
+<button
+id="nav-tasks"
+onclick="showPage('tasks')">
+<span class="icon">🎯</span>
+Tasks
+</button>
 
-    <button class="nav-btn" id="nav-boost"
-            onclick="showPage('boost')">
-        <span class="icon">⚡</span>
-        Boost
-    </button>
+<button
+id="nav-boost"
+onclick="showPage('boost')">
+<span class="icon">⚡</span>
+Boost
+</button>
 
-    <button class="nav-btn" id="nav-referral"
-            onclick="showPage('referral')">
-        <span class="icon">👥</span>
-        Referral
-    </button>
+<button
+id="nav-referral"
+onclick="showPage('referral')">
+<span class="icon">👥</span>
+Referral
+</button>
 
-    <button class="nav-btn" id="nav-profile"
-            onclick="showPage('profile')">
-        <span class="icon">👤</span>
-        Profile
-    </button>
+<button
+id="nav-profile"
+onclick="showPage('profile')">
+<span class="icon">👤</span>
+Profile
+</button>
 
 </nav>
 
-<div class="toast" id="toast"></div>
+
+<div
+id="toast"
+class="toast">
+</div>
+
 
 <script>
 
-/* =========================================
-   ELVION APP
-========================================= */
-
-var tg = null;
-
-try{
-    if(window.Telegram && window.Telegram.WebApp){
-        tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-    }
-}catch(e){
-    console.log("Telegram WebApp unavailable");
-}
-
-var API = "";
-var initData = "";
+var tg =
+window.Telegram &&
+window.Telegram.WebApp
+? window.Telegram.WebApp
+: null;
 
 if(tg){
-    initData = tg.initData || "";
+try{
+tg.ready();
+tg.expand();
+}catch(e){}
 }
 
-var userData = null;
-var referralData = null;
+var initData =
+tg ? (tg.initData || "") : "";
+
 var miningEnd = 0;
 
 var PHASE_END = 1798761600;
 
 
-/* =========================================
-   BASIC HELPERS
-========================================= */
+function toast(message){
 
-function showToast(message){
+var el =
+document.getElementById("toast");
 
-    var toast = document.getElementById("toast");
+el.innerText = message;
 
-    if(!toast) return;
+el.classList.add("show");
 
-    toast.innerText = message;
-    toast.classList.add("show");
+setTimeout(function(){
+el.classList.remove("show");
+},2500);
 
-    setTimeout(function(){
-        toast.classList.remove("show");
-    },2500);
 }
 
 
-function formatNumber(value){
+function number(value){
 
-    var n = Number(value || 0);
+return Number(value || 0)
+.toLocaleString("en-US");
 
-    return n.toLocaleString("en-US");
 }
 
 
-function apiUrl(path){
+function api(path){
 
-    if(!initData){
-        return API + path;
-    }
-
-    return API + path +
-        (path.indexOf("?") >= 0 ? "&" : "?") +
-        "initData=" + encodeURIComponent(initData);
+if(!initData){
+return path;
 }
 
+return path +
+(path.includes("?") ? "&" : "?") +
+"initData=" +
+encodeURIComponent(initData);
 
-/* =========================================
-   PAGE NAVIGATION
-========================================= */
+}
+
 
 function showPage(page){
 
-    var pages = document.querySelectorAll(".page");
+document
+.querySelectorAll(".page")
+.forEach(function(p){
+p.classList.remove("active");
+});
 
-    for(var i=0;i<pages.length;i++){
-        pages[i].classList.remove("active");
-    }
+var target =
+document.getElementById(page);
 
-    var target = document.getElementById(page);
-
-    if(target){
-        target.classList.add("active");
-    }
-
-    var navs = document.querySelectorAll(".nav-btn");
-
-    for(var j=0;j<navs.length;j++){
-        navs[j].classList.remove("active");
-    }
-
-    var nav = document.getElementById("nav-" + page);
-
-    if(nav){
-        nav.classList.add("active");
-    }
-
-    if(page === "tasks"){
-        loadTasks();
-    }
-
-    if(page === "profile"){
-        loadUser();
-    }
-
-    if(page === "referral"){
-        loadReferral();
-    }
-
-    if(tg){
-        try{
-            tg.HapticFeedback.impactOccurred("light");
-        }catch(e){}
-    }
-
-    window.scrollTo(0,0);
+if(target){
+target.classList.add("active");
 }
 
+document
+.querySelectorAll(".nav button")
+.forEach(function(b){
+b.classList.remove("active");
+});
 
-/* =========================================
-   LOAD USER
-========================================= */
+var nav =
+document.getElementById(
+"nav-" + page
+);
+
+if(nav){
+nav.classList.add("active");
+}
+
+if(page === "tasks"){
+loadTasks();
+}
+
+if(page === "profile"){
+loadUser();
+}
+
+if(page === "referral"){
+loadReferral();
+}
+
+window.scrollTo(0,0);
+
+}
+
 
 function loadUser(){
 
-    if(!initData){
+if(!initData){
 
-        document.getElementById("profileName").innerText =
-            "Open inside Telegram";
+document.getElementById("profileName")
+.innerText =
+"Open inside Telegram";
 
-        document.getElementById("profileUsername").innerText =
-            "Telegram Mini App";
+return;
 
-        document.getElementById("profileId").innerText =
-            "Unavailable";
+}
 
-        return;
-    }
+fetch(api("/api/user"))
 
-    fetch(apiUrl("/api/user"),{
-        method:"GET",
-        headers:{
-            "Accept":"application/json"
-        }
-    })
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
+.then(function(r){
+return r.json();
+})
 
-        if(!data || data.success === false){
+.then(function(data){
 
-            showToast(data && data.error ?
-                data.error :
-                "Unable to load profile");
+if(!data.success){
 
-            return;
-        }
+toast(
+data.error ||
+"Unable to load user"
+);
 
-        userData = data;
+return;
 
-        updateUserUI(data);
-    })
-    .catch(function(error){
+}
 
-        console.log(error);
+var u = data.user;
 
-        showToast("Connection error");
-    });
+document.getElementById("balance")
+.innerText =
+number(u.balance);
+
+document.getElementById("cycle")
+.innerText =
+number(u.mining_cycles);
+
+document.getElementById("profileName")
+.innerText =
+u.first_name || "Telegram User";
+
+document.getElementById("profileUsername")
+.innerText =
+u.username
+? "@" + u.username
+: "No username";
+
+document.getElementById("profileId")
+.innerText =
+u.telegram_id;
+
+document.getElementById("profileBalance")
+.innerText =
+number(u.balance) +
+" ELVION";
+
+document.getElementById("profileCycles")
+.innerText =
+number(u.mining_cycles);
+
+document.getElementById("profileBoost")
+.innerText =
+Number(u.boost) === 1
+? "Active — 2×"
+: "Inactive";
+
+miningEnd =
+Number(
+data.mining.next_claim || 0
+);
+
+updateMining();
+
+});
+
 }
 
 
-/* =========================================
-   UPDATE USER UI
-========================================= */
+function updateMining(){
 
-function updateUserUI(data){
+var now =
+Math.floor(Date.now()/1000);
 
-    var user = data.user || data;
+var diff =
+Math.max(0,miningEnd-now);
 
-    var balance =
-        user.balance !== undefined ?
-        user.balance :
-        data.balance || 0;
+var h =
+Math.floor(diff/3600);
 
-    var cycles =
-        user.mining_cycles !== undefined ?
-        user.mining_cycles :
-        data.mining_cycles || 0;
+var m =
+Math.floor((diff%3600)/60);
 
-    var boost =
-        user.boost !== undefined ?
-        user.boost :
-        data.boost || 0;
+var s =
+diff%60;
 
-    document.getElementById("balance").innerText =
-        formatNumber(balance);
+document.getElementById(
+"miningCountdown"
+).innerText =
+String(h).padStart(2,"0") +
+":" +
+String(m).padStart(2,"0") +
+":" +
+String(s).padStart(2,"0");
 
-    document.getElementById("cycle").innerText =
-        formatNumber(cycles);
+var btn =
+document.getElementById("claimBtn");
 
-    document.getElementById("profileBalance").innerText =
-        formatNumber(balance) + " ELVION";
+if(diff <= 0){
 
-    document.getElementById("profileCycles").innerText =
-        formatNumber(cycles);
+btn.disabled = false;
 
-    document.getElementById("profileBoost").innerText =
-        Number(boost) === 1 ?
-        "Active — 2×" :
-        "Inactive";
+btn.innerText =
+"CLAIM 1,000 ELVION";
 
-    var firstName =
-        user.first_name ||
-        data.first_name ||
-        "";
+document.getElementById(
+"miningStatus"
+).innerText =
+"MINING COMPLETE";
 
-    var username =
-        user.username ||
-        data.username ||
-        "";
+}else{
 
-    var telegramId =
-        user.telegram_id ||
-        user.id ||
-        data.telegram_id ||
-        data.id ||
-        "";
+btn.disabled = true;
 
-    document.getElementById("profileName").innerText =
-        firstName || "Telegram User";
+btn.innerText =
+"MINING IN PROGRESS";
 
-    document.getElementById("profileUsername").innerText =
-        username ? "@" + username : "No username";
+document.getElementById(
+"miningStatus"
+).innerText =
+"MINING ACTIVE";
 
-    document.getElementById("profileId").innerText =
-        telegramId || "Unavailable";
-
-    if(data.mining_end){
-        miningEnd = Number(data.mining_end);
-    }
-
-    if(user.mining_end){
-        miningEnd = Number(user.mining_end);
-    }
-
-    if(data.next_claim){
-        miningEnd = Number(data.next_claim);
-    }
-
-    if(user.next_claim){
-        miningEnd = Number(user.next_claim);
-    }
-
-    updateMiningButton();
 }
 
-
-/* =========================================
-   MINING
-========================================= */
-
-function updateMiningButton(){
-
-    var btn = document.getElementById("claimBtn");
-
-    if(!btn) return;
-
-    var now = Math.floor(Date.now()/1000);
-
-    if(miningEnd > 0 && now >= miningEnd){
-
-        btn.disabled = false;
-        btn.innerText = "CLAIM 1,000 ELVION";
-
-        document.getElementById("miningStatus").innerText =
-            "MINING COMPLETE";
-
-    }else{
-
-        btn.disabled = true;
-
-        document.getElementById("miningStatus").innerText =
-            "MINING ACTIVE";
-    }
 }
 
 
 function claimMining(){
 
-    if(!initData){
+if(!initData){
 
-        showToast("Open ELVION inside Telegram");
+toast("Open ELVION inside Telegram");
 
-        return;
-    }
+return;
 
-    var btn = document.getElementById("claimBtn");
+}
 
-    btn.disabled = true;
-    btn.innerText = "CLAIMING...";
+var btn =
+document.getElementById("claimBtn");
 
-    fetch(apiUrl("/api/claim"),{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            initData:initData
-        })
-    })
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
+btn.disabled = true;
 
-        if(data.success){
+btn.innerText =
+"CLAIMING...";
 
-            showToast(
-                "Claimed " +
-                formatNumber(data.reward || 1000) +
-                " ELVION"
-            );
+fetch(api("/api/claim"),{
 
-            if(data.balance !== undefined){
+method:"POST",
 
-                document.getElementById("balance").innerText =
-                    formatNumber(data.balance);
+headers:{
+"Content-Type":
+"application/json"
+},
 
-                document.getElementById("profileBalance").innerText =
-                    formatNumber(data.balance) + " ELVION";
-            }
+body:JSON.stringify({
+initData:initData
+})
 
-            if(data.mining_end){
-                miningEnd = Number(data.mining_end);
-            }
+})
 
-            if(data.next_claim){
-                miningEnd = Number(data.next_claim);
-            }
+.then(function(r){
+return r.json();
+})
 
-            loadUser();
+.then(function(data){
 
-        }else{
+if(data.success){
 
-            showToast(
-                data.error ||
-                "Claim failed"
-            );
+toast(
+"+" +
+number(data.reward) +
+" ELVION CLAIMED"
+);
 
-            updateMiningButton();
-        }
-    })
-    .catch(function(error){
+miningEnd =
+Number(data.next_claim);
 
-        console.log(error);
+document.getElementById(
+"balance"
+).innerText =
+number(data.balance);
 
-        showToast("Connection error");
+document.getElementById(
+"profileBalance"
+).innerText =
+number(data.balance) +
+" ELVION";
 
-        updateMiningButton();
-    });
+document.getElementById(
+"cycle"
+).innerText =
+number(data.mining_cycles);
+
+updateMining();
+
+}else{
+
+toast(
+data.error ||
+"Claim failed"
+);
+
+loadUser();
+
+}
+
+})
+
+.catch(function(){
+
+toast("Connection error");
+
+loadUser();
+
+});
+
 }
 
 
-/* =========================================
-   MINING COUNTDOWN
-========================================= */
+function phaseCountdown(){
 
-function updateMiningCountdown(){
+var now =
+Math.floor(Date.now()/1000);
 
-    var element =
-        document.getElementById("miningCountdown");
+var diff =
+Math.max(0,PHASE_END-now);
 
-    if(!element) return;
+var d =
+Math.floor(diff/86400);
 
-    if(!miningEnd){
+var h =
+Math.floor((diff%86400)/3600);
 
-        element.innerText = "24:00:00";
+var m =
+Math.floor((diff%3600)/60);
 
-        return;
-    }
+var s =
+diff%60;
 
-    var now =
-        Math.floor(Date.now()/1000);
+document.getElementById(
+"phaseCountdown"
+).innerText =
+d + "D " +
+String(h).padStart(2,"0") + "H " +
+String(m).padStart(2,"0") + "M " +
+String(s).padStart(2,"0") + "S";
 
-    var diff =
-        Math.max(0,miningEnd-now);
-
-    var hours =
-        Math.floor(diff/3600);
-
-    var minutes =
-        Math.floor((diff%3600)/60);
-
-    var seconds =
-        diff%60;
-
-    element.innerText =
-        String(hours).padStart(2,"0") +
-        ":" +
-        String(minutes).padStart(2,"0") +
-        ":" +
-        String(seconds).padStart(2,"0");
-
-    updateMiningButton();
 }
 
-
-/* =========================================
-   PHASE COUNTDOWN
-========================================= */
-
-function updatePhaseCountdown(){
-
-    var element =
-        document.getElementById("phaseCountdown");
-
-    if(!element) return;
-
-    var now =
-        Math.floor(Date.now()/1000);
-
-    var diff =
-        Math.max(0,PHASE_END-now);
-
-    var days =
-        Math.floor(diff/86400);
-
-    var hours =
-        Math.floor((diff%86400)/3600);
-
-    var minutes =
-        Math.floor((diff%3600)/60);
-
-    var seconds =
-        diff%60;
-
-    element.innerText =
-        days + "D " +
-        String(hours).padStart(2,"0") + "H " +
-        String(minutes).padStart(2,"0") + "M " +
-        String(seconds).padStart(2,"0") + "S";
-}
-
-
-/* =========================================
-   TASKS
-========================================= */
 
 function loadTasks(){
 
-    var container =
-        document.getElementById("tasksList");
+if(!initData){
 
-    if(!initData){
+document.getElementById(
+"tasksList"
+).innerHTML =
+'<div class="loading">Open inside Telegram.</div>';
 
-        container.innerHTML =
-            '<div class="error">Open ELVION inside Telegram to load tasks.</div>';
+return;
 
-        return;
-    }
+}
 
-    container.innerHTML =
-        '<div class="loading">Loading tasks...</div>';
+fetch(api("/api/tasks"))
 
-    fetch(apiUrl("/api/tasks"))
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
+.then(function(r){
+return r.json();
+})
 
-        var tasks =
-            data.tasks ||
-            [];
+.then(function(data){
 
-        if(!tasks.length){
+var box =
+document.getElementById(
+"tasksList"
+);
 
-            container.innerHTML =
-                '<div class="card"><div class="loading">No tasks available.</div></div>';
+box.innerHTML = "";
 
-            return;
-        }
+(data.tasks || [])
+.forEach(function(task){
 
-        container.innerHTML = "";
+var item =
+document.createElement("div");
 
-        tasks.forEach(function(task){
+item.className =
+"task";
 
-            var wrapper =
-                document.createElement("div");
+var left =
+document.createElement("div");
 
-            wrapper.className = "task";
+left.innerHTML =
+"<div class='task-name'>" +
+task.name +
+"</div>" +
+"<div class='task-reward'>+" +
+number(task.reward) +
+" ELVION</div>";
 
-            var info =
-                document.createElement("div");
+var button =
+document.createElement("button");
 
-            info.className = "task-info";
+button.className =
+"task-btn";
 
-            var name =
-                document.createElement("div");
+if(task.claimed){
 
-            name.className = "task-name";
+button.innerText =
+"CLAIMED";
 
-            name.innerText =
-                task.name ||
-                task.title ||
-                "ELVION Task";
+button.classList.add("done");
 
-            var reward =
-                document.createElement("div");
+button.disabled = true;
 
-            reward.className = "task-reward";
+}else{
 
-            reward.innerText =
-                "+" +
-                formatNumber(task.reward || 5000) +
-                " ELVION";
+button.innerText =
+"OPEN";
 
-            info.appendChild(name);
-            info.appendChild(reward);
+button.onclick =
+function(){
 
-            var button =
-                document.createElement("button");
+if(tg){
 
-            button.className = "task-btn";
+try{
+tg.openTelegramLink(
+task.url
+);
+}catch(e){
+window.open(
+task.url,
+"_blank"
+);
+}
 
-            if(task.completed || task.claimed){
+}else{
+window.open(
+task.url,
+"_blank"
+);
+}
 
-                button.classList.add("done");
+setTimeout(function(){
 
-                button.innerText = "CLAIMED";
+claimTask(task.id);
 
-                button.disabled = true;
+},1500);
 
-            }else{
+};
 
-                button.innerText = "OPEN";
+}
 
-                button.onclick = function(){
+item.appendChild(left);
+item.appendChild(button);
 
-                    openTask(task);
-                };
-            }
+box.appendChild(item);
 
-            wrapper.appendChild(info);
-            wrapper.appendChild(button);
+});
 
-            container.appendChild(wrapper);
+});
 
-        });
-
-    })
-    .catch(function(error){
-
-        console.log(error);
-
-        container.innerHTML =
-            '<div class="error">Unable to load tasks.</div>';
-    });
 }
 
 
-function openTask(task){
+function claimTask(id){
 
-    var url =
-        task.url ||
-        task.link ||
-        "";
+fetch(api("/api/task/claim"),{
 
-    if(url){
+method:"POST",
 
-        if(tg){
+headers:{
+"Content-Type":
+"application/json"
+},
 
-            try{
-                tg.openTelegramLink(url);
-            }catch(e){
-                window.open(url,"_blank");
-            }
+body:JSON.stringify({
+initData:initData,
+task_id:id
+})
 
-        }else{
+})
 
-            window.open(url,"_blank");
-        }
+.then(function(r){
+return r.json();
+})
 
-    }
+.then(function(data){
 
-    setTimeout(function(){
+if(data.success){
 
-        claimTask(
-            task.id ||
-            task.task_id ||
-            task.key
-        );
+toast(
+"+" +
+number(data.reward) +
+" ELVION"
+);
 
-    },1200);
+loadUser();
+loadTasks();
+
+}else{
+
+toast(
+data.error ||
+"Task not claimed"
+);
+
 }
 
+});
 
-function claimTask(taskId){
-
-    if(!initData || !taskId) return;
-
-    fetch(apiUrl("/api/task/claim"),{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            initData:initData,
-            task_id:taskId
-        })
-    })
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
-
-        if(data.success){
-
-            showToast(
-                "+" +
-                formatNumber(data.reward || 5000) +
-                " ELVION"
-            );
-
-            loadUser();
-            loadTasks();
-
-        }else{
-
-            showToast(
-                data.error ||
-                "Task could not be claimed"
-            );
-        }
-
-    })
-    .catch(function(error){
-
-        console.log(error);
-
-    });
 }
 
-
-/* =========================================
-   BOOST
-========================================= */
 
 function buyBoost(){
 
-    if(!initData){
+if(!initData){
 
-        showToast("Open ELVION inside Telegram");
+toast("Open inside Telegram");
 
-        return;
-    }
+return;
 
-    var btn =
-        document.getElementById("boostBtn");
+}
 
-    btn.disabled = true;
-    btn.innerText = "PROCESSING...";
+var button =
+document.getElementById(
+"boostBtn"
+);
 
-    fetch(apiUrl("/api/boost"),{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            initData:initData
-        })
-    })
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
+button.disabled = true;
 
-        if(data.success){
+button.innerText =
+"PROCESSING...";
 
-            showToast(
-                "2× Boost activated permanently!"
-            );
+fetch(api("/api/boost"),{
 
-            btn.innerText =
-                "BOOST ACTIVE — 2×";
+method:"POST",
 
-            loadUser();
+headers:{
+"Content-Type":
+"application/json"
+},
 
-        }else{
+body:JSON.stringify({
+initData:initData
+})
 
-            showToast(
-                data.error ||
-                "Unable to activate boost"
-            );
+})
 
-            btn.disabled = false;
+.then(function(r){
+return r.json();
+})
 
-            btn.innerText =
-                "BUY BOOST — 500,000 ELVION";
-        }
+.then(function(data){
 
-    })
-    .catch(function(error){
+if(data.success){
 
-        console.log(error);
+toast("2× BOOST ACTIVATED");
 
-        showToast("Connection error");
+button.innerText =
+"BOOST ACTIVE — 2×";
 
-        btn.disabled = false;
+loadUser();
 
-        btn.innerText =
-            "BUY BOOST — 500,000 ELVION";
-    });
+}else{
+
+toast(
+data.error ||
+"Boost failed"
+);
+
+button.disabled = false;
+
+button.innerText =
+"BUY BOOST — 500,000 ELVION";
+
+}
+
+});
+
 }
 
 
-/* =========================================
-   REFERRAL
-========================================= */
-
 function loadReferral(){
 
-    if(!initData){
+if(!initData){
 
-        document.getElementById("referralLink").innerText =
-            "Open inside Telegram";
+document.getElementById(
+"referralLink"
+).innerText =
+"Open inside Telegram";
 
-        return;
-    }
+return;
 
-    fetch(apiUrl("/api/referrals"))
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(data){
+}
 
-        referralData = data;
+fetch(api("/api/referrals"))
 
-        var link =
-            data.referral_link ||
-            data.link ||
-            "";
+.then(function(r){
+return r.json();
+})
 
-        document.getElementById("referralLink").innerText =
-            link || "Referral link unavailable";
+.then(function(data){
 
-        document.getElementById("refCount").innerText =
-            formatNumber(
-                data.referral_count ||
-                data.count ||
-                0
-            );
+document.getElementById(
+"referralLink"
+).innerText =
+data.referral_link ||
+"Referral link unavailable";
 
-        document.getElementById("refEarned").innerText =
-            formatNumber(
-                data.referral_earned ||
-                data.earned ||
-                0
-            ) +
-            " ELVION";
+document.getElementById(
+"refCount"
+).innerText =
+number(data.referral_count);
 
-    })
-    .catch(function(error){
+document.getElementById(
+"refEarned"
+).innerText =
+number(data.referral_earned) +
+" ELVION";
 
-        console.log(error);
+});
 
-        document.getElementById("referralLink").innerText =
-            "Unable to load referral link";
-    });
 }
 
 
 function copyReferral(){
 
-    var link =
-        document.getElementById("referralLink").innerText;
+var text =
+document.getElementById(
+"referralLink"
+).innerText;
 
-    if(!link || link === "Loading..." ||
-       link === "Referral link unavailable"){
+if(!text ||
+text.includes("unavailable") ||
+text.includes("Loading")){
 
-        showToast("Referral link is not ready");
+toast("Referral link unavailable");
 
-        return;
-    }
+return;
 
-    if(navigator.clipboard){
+}
 
-        navigator.clipboard.writeText(link)
-        .then(function(){
+navigator.clipboard
+.writeText(text)
+.then(function(){
 
-            showToast("Referral link copied!");
+toast("Referral link copied");
 
-        })
-        .catch(function(){
+})
+.catch(function(){
 
-            showToast("Copy failed");
+toast("Copy failed");
 
-        });
+});
 
-    }else{
-
-        var textarea =
-            document.createElement("textarea");
-
-        textarea.value = link;
-
-        document.body.appendChild(textarea);
-
-        textarea.select();
-
-        try{
-            document.execCommand("copy");
-
-            showToast("Referral link copied!");
-
-        }catch(e){
-
-            showToast("Copy failed");
-
-        }
-
-        document.body.removeChild(textarea);
-    }
 }
 
 
-/* =========================================
-   START
-========================================= */
+/* WALLET */
 
-function startApp(){
+var tonUI = null;
 
-    loadUser();
+function initWallet(){
 
-    loadReferral();
-
-    updatePhaseCountdown();
-
-    updateMiningCountdown();
+if(
+typeof TON_CONNECT_UI ===
+"undefined"
+){
+return;
 }
 
+try{
+
+tonUI =
+new TON_CONNECT_UI.TonConnectUI({
+
+manifestUrl:
+"https://elvion-tyb7.onrender.com/tonconnect-manifest.json",
+
+buttonRootId:
+"ton-connect"
+
+});
+
+tonUI.onStatusChange(
+function(wallet){
+
+var status =
+document.getElementById(
+"walletStatus"
+);
+
+if(wallet){
+
+var address =
+wallet.account.address;
+
+status.innerText =
+"Connected: " +
+address;
+
+status.style.color =
+"#00ff88";
+
+saveWallet(address);
+
+}else{
+
+status.innerText =
+"Wallet not connected";
+
+status.style.color =
+"#68736d";
+
+}
+
+});
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+
+function saveWallet(address){
+
+if(!initData) return;
+
+fetch(api("/api/wallet"),{
+
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+initData:initData,
+
+wallet_address:address
+
+})
+
+});
+
+}
+
+
+/* START */
 
 setInterval(function(){
 
-    updatePhaseCountdown();
-    updateMiningCountdown();
+phaseCountdown();
+updateMining();
 
 },1000);
 
 
-/* Start without blocking the buttons */
 setTimeout(function(){
 
-    startApp();
+loadUser();
+loadReferral();
+initWallet();
 
-},300);
+},500);
+
+
+phaseCountdown();
 
 </script>
 
