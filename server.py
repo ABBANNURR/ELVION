@@ -1,20 +1,20 @@
 import os
 import time
-import json
 import hmac
 import hashlib
 import sqlite3
+import json
 from urllib.parse import parse_qsl
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_file
 
 app = Flask(__name__)
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
-TOTAL_SUPPLY = 100_000_000
-COMMUNITY_ALLOCATION = 60_000_000
+DB_FILE = "elvion.db"
 
+TOTAL_SUPPLY = 100_000_000
 MINING_REWARD = 1_000
 MINING_INTERVAL = 24 * 60 * 60
 
@@ -24,42 +24,28 @@ TASK_RESET = 24 * 60 * 60
 BOOST_COST = 500_000
 BOOST_MULTIPLIER = 2
 
-DB_FILE = "elvion.db"
-
 TASKS = {
     "telegram_channel": {
         "title": "Join ELVION Channel",
-        "url": "https://t.me/ELVIONOfficial",
-        "reward": TASK_REWARD,
+        "url": "https://t.me/ELVIONOfficial"
     },
     "telegram_group": {
         "title": "Join ELVION Group",
-        "url": "https://t.me/ELVIONOFFICIALGROUP",
-        "reward": TASK_REWARD,
-    },
+        "url": "https://t.me/ELVIONOFFICIALGROUP"
+    }
 }
 
-X_URL = os.getenv("ELVION_X_URL", "").strip()
 
-if X_URL:
-    TASKS["x_follow"] = {
-        "title": "Follow ELVION on X",
-        "url": X_URL,
-        "reward": TASK_REWARD,
-    }
-
-
-def db():
+def get_db():
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
     return conn
 
 
 def init_db():
-    conn = db()
-    cur = conn.cursor()
+    conn = get_db()
 
-    cur.execute("""
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS users (
             telegram_id INTEGER PRIMARY KEY,
             username TEXT DEFAULT '',
@@ -68,58 +54,18 @@ def init_db():
             balance INTEGER DEFAULT 0,
             mining_started_at INTEGER DEFAULT 0,
             mining_cycles INTEGER DEFAULT 0,
-            boosted INTEGER DEFAULT 0,
-            created_at INTEGER DEFAULT 0,
-            updated_at INTEGER DEFAULT 0
+            boosted INTEGER DEFAULT 0
         )
     """)
 
-    cur.execute("""
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS task_claims (
-            telegram_id INTEGER NOT NULL,
-            task_key TEXT NOT NULL,
+            telegram_id INTEGER,
+            task_key TEXT,
             last_claim INTEGER DEFAULT 0,
             PRIMARY KEY (telegram_id, task_key)
         )
     """)
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS stats (
-            id INTEGER PRIMARY KEY,
-            community_distributed INTEGER DEFAULT 0
-        )
-    """)
-
-    cur.execute("""
-        INSERT OR IGNORE INTO stats
-        (id, community_distributed)
-        VALUES (1, 0)
-    """)
-
-    columns = {
-        row["name"]
-        for row in cur.execute(
-            "PRAGMA table_info(users)"
-        ).fetchall()
-    }
-
-    required_columns = {
-        "username": "TEXT DEFAULT ''",
-        "first_name": "TEXT DEFAULT ''",
-        "last_name": "TEXT DEFAULT ''",
-        "balance": "INTEGER DEFAULT 0",
-        "mining_started_at": "INTEGER DEFAULT 0",
-        "mining_cycles": "INTEGER DEFAULT 0",
-        "boosted": "INTEGER DEFAULT 0",
-        "created_at": "INTEGER DEFAULT 0",
-        "updated_at": "INTEGER DEFAULT 0",
-    }
-
-    for column, definition in required_columns.items():
-        if column not in columns:
-            cur.execute(
-                f"ALTER TABLE users ADD COLUMN {column} {definition}"
-            )
 
     conn.commit()
     conn.close()
@@ -128,32 +74,22 @@ def init_db():
 init_db()
 
 
-def verify_telegram_init_data(init_data):
-    if not BOT_TOKEN:
-        return None
+def verify_telegram(init_data):
 
-    if not init_data:
+    if not BOT_TOKEN or not init_data:
         return None
 
     try:
-        parsed = dict(
-            parse_qsl(
-                init_data,
-                keep_blank_values=True
-            )
-        )
+        data = dict(parse_qsl(init_data))
 
-        received_hash = parsed.pop(
-            "hash",
-            None
-        )
+        received_hash = data.pop("hash", None)
 
         if not received_hash:
             return None
 
         data_check_string = "\n".join(
-            f"{key}={parsed[key]}"
-            for key in sorted(parsed)
+            f"{key}={data[key]}"
+            for key in sorted(data)
         )
 
         secret_key = hmac.new(
@@ -174,78 +110,51 @@ def verify_telegram_init_data(init_data):
         ):
             return None
 
-        auth_date = int(
-            parsed.get("auth_date", "0")
+        user_data = json.loads(
+            data.get("user", "{}")
         )
 
-        if int(time.time()) - auth_date > 86400:
+        if not user_data.get("id"):
             return None
 
-        telegram_user = json.loads(
-            parsed.get("user", "{}")
-        )
-
-        if not telegram_user.get("id"):
-            return None
-
-        return telegram_user
+        return user_data
 
     except Exception:
         return None
 
 
-def get_init_data():
+def get_user_from_request():
 
-    if request.method == "POST":
-
-        data = request.get_json(
-            silent=True
-        ) or {}
-
-        return data.get(
-            "initData",
-            ""
-        )
-
-    return request.args.get(
+    init_data = request.args.get(
         "initData",
         ""
     )
 
+    if not init_data and request.is_json:
 
-def authenticated_user():
-    return verify_telegram_init_data(
-        get_init_data()
-    )
+        body = request.get_json(
+            silent=True
+        ) or {}
+
+        init_data = body.get(
+            "initData",
+            ""
+        )
+
+    return verify_telegram(init_data)
 
 
-def create_or_update_user(tg_user):
+def save_user(tg_user):
 
     telegram_id = int(
         tg_user["id"]
     )
 
-    username = tg_user.get(
-        "username",
-        ""
-    )
-
-    first_name = tg_user.get(
-        "first_name",
-        ""
-    )
-
-    last_name = tg_user.get(
-        "last_name",
-        ""
-    )
-
     now = int(time.time())
 
-    conn = db()
-    cur = conn.cursor()
+    conn = get_db()
 
-    user = cur.execute(
+    user = conn.execute(
         """
         SELECT *
         FROM users
@@ -254,9 +163,9 @@ def create_or_update_user(tg_user):
         (telegram_id,)
     ).fetchone()
 
-    if not user:
+    if user is None:
 
-        cur.execute(
+        conn.execute(
             """
             INSERT INTO users (
                 telegram_id,
@@ -266,58 +175,40 @@ def create_or_update_user(tg_user):
                 balance,
                 mining_started_at,
                 mining_cycles,
-                boosted,
-                created_at,
-                updated_at
+                boosted
             )
-            VALUES (
-                ?, ?, ?, ?,
-                0, ?, 0, 0, ?, ?
-            )
+            VALUES (?, ?, ?, ?, 0, ?, 0, 0)
             """,
             (
                 telegram_id,
-                username,
-                first_name,
-                last_name,
-                now,
-                now,
+                tg_user.get("username", ""),
+                tg_user.get("first_name", ""),
+                tg_user.get("last_name", ""),
                 now
             )
         )
 
     else:
 
-        mining_started_at = (
-            user["mining_started_at"]
-        )
-
-        if not mining_started_at:
-            mining_started_at = now
-
-        cur.execute(
+        conn.execute(
             """
             UPDATE users
             SET username = ?,
                 first_name = ?,
-                last_name = ?,
-                mining_started_at = ?,
-                updated_at = ?
+                last_name = ?
             WHERE telegram_id = ?
             """,
             (
-                username,
-                first_name,
-                last_name,
-                mining_started_at,
-                now,
+                tg_user.get("username", ""),
+                tg_user.get("first_name", ""),
+                tg_user.get("last_name", ""),
                 telegram_id
             )
         )
 
     conn.commit()
 
-    user = cur.execute(
+    user = conn.execute(
         """
         SELECT *
         FROM users
@@ -334,91 +225,42 @@ def create_or_update_user(tg_user):
 def mining_interval(user):
 
     if user["boosted"]:
-        return (
-            MINING_INTERVAL //
-            BOOST_MULTIPLIER
-        )
+        return 12 * 60 * 60
 
     return MINING_INTERVAL
 
 
-def get_status(user):
+def user_status(user):
 
     now = int(time.time())
 
     started = int(
-        user["mining_started_at"] or now
+        user["mining_started_at"]
     )
 
     interval = mining_interval(user)
 
-    elapsed = max(
-        0,
-        now - started
-    )
+    elapsed = now - started
 
     remaining = max(
         0,
         interval - elapsed
     )
 
-    claim_ready = (
-        elapsed >= interval
-    )
-
-    conn = db()
-
-    stats = conn.execute(
-        """
-        SELECT community_distributed
-        FROM stats
-        WHERE id = 1
-        """
-    ).fetchone()
-
-    community_distributed = int(
-        stats["community_distributed"] or 0
-    )
-
-    conn.close()
-
-    community_remaining = max(
-        0,
-        COMMUNITY_ALLOCATION -
-        community_distributed
-    )
-
     return {
-        "balance": int(
-            user["balance"]
-        ),
-        "mining_started_at": started,
+        "balance": user["balance"],
+        "mining_cycles": user["mining_cycles"],
+        "boosted": bool(user["boosted"]),
         "mining_interval": interval,
-        "mining_reward": MINING_REWARD,
         "remaining_seconds": remaining,
-        "claim_ready": claim_ready,
-        "mining_cycles": int(
-            user["mining_cycles"]
-        ),
-        "boosted": bool(
-            user["boosted"]
-        ),
-        "community_distributed":
-            community_distributed,
-        "community_remaining":
-            community_remaining,
-        "total_supply":
-            TOTAL_SUPPLY,
+        "claim_ready": elapsed >= interval
     }
 
 
 @app.route("/")
 def home():
 
-    return send_from_directory(
-        ".",
-        "index.html"
-    )
+    return send_file("index.html")
 
 
 @app.route("/health")
@@ -426,245 +268,114 @@ def health():
 
     return jsonify({
         "status": "online",
-        "project": "ELVION",
-        "message":
-            "ELVION backend is running"
+        "project": "ELVION"
     })
 
 
-@app.route(
-    "/api/user",
-    methods=["GET"]
-)
+@app.route("/api/user")
 def api_user():
 
-    tg_user = authenticated_user()
+    tg_user = get_user_from_request()
 
     if not tg_user:
-
         return jsonify({
-            "error":
-                "Telegram authentication failed"
+            "error": "Telegram authentication failed"
         }), 401
 
-    user = create_or_update_user(
-        tg_user
-    )
-
-    status = get_status(user)
+    user = save_user(tg_user)
 
     return jsonify({
-        "telegram_id":
-            int(user["telegram_id"]),
-        "username":
-            user["username"],
-        "first_name":
-            user["first_name"],
-        "last_name":
-            user["last_name"],
-        **status
+        "telegram_id": user["telegram_id"],
+        "username": user["username"],
+        "first_name": user["first_name"],
+        "last_name": user["last_name"],
+        **user_status(user)
     })
 
 
-@app.route(
-    "/api/status",
-    methods=["GET"]
-)
-def api_status():
+@app.route("/api/claim", methods=["POST"])
+def claim():
 
-    tg_user = authenticated_user()
+    tg_user = get_user_from_request()
 
     if not tg_user:
-
         return jsonify({
-            "error":
-                "Telegram authentication failed"
+            "error": "Telegram authentication failed"
         }), 401
 
-    user = create_or_update_user(
-        tg_user
-    )
-
-    return jsonify(
-        get_status(user)
-    )
-
-
-@app.route(
-    "/api/claim",
-    methods=["POST"]
-)
-def api_claim():
-
-    tg_user = authenticated_user()
-
-    if not tg_user:
-
-        return jsonify({
-            "error":
-                "Telegram authentication failed"
-        }), 401
-
-    user = create_or_update_user(
-        tg_user
-    )
+    user = save_user(tg_user)
 
     now = int(time.time())
 
-    started = int(
-        user["mining_started_at"] or now
-    )
+    interval = mining_interval(user)
 
-    interval = mining_interval(
-        user
-    )
-
-    elapsed = now - started
+    elapsed = now - user["mining_started_at"]
 
     if elapsed < interval:
 
         return jsonify({
             "success": False,
-            "message":
-                "Mining is still running",
-            "remaining_seconds":
-                interval - elapsed,
-            "claim_ready":
-                False
+            "message": "Mining is still running",
+            "remaining_seconds": interval - elapsed
         }), 400
 
-    conn = db()
+    conn = get_db()
 
-    try:
+    new_balance = (
+        user["balance"]
+        + MINING_REWARD
+    )
 
-        cur = conn.cursor()
+    new_cycles = (
+        user["mining_cycles"]
+        + 1
+    )
 
-        stats = cur.execute(
-            """
-            SELECT community_distributed
-            FROM stats
-            WHERE id = 1
-            """
-        ).fetchone()
-
-        community_distributed = int(
-            stats["community_distributed"] or 0
+    conn.execute(
+        """
+        UPDATE users
+        SET balance = ?,
+            mining_cycles = ?,
+            mining_started_at = ?
+        WHERE telegram_id = ?
+        """,
+        (
+            new_balance,
+            new_cycles,
+            now,
+            user["telegram_id"]
         )
+    )
 
-        community_remaining = max(
-            0,
-            COMMUNITY_ALLOCATION -
-            community_distributed
-        )
+    conn.commit()
+    conn.close()
 
-        if community_remaining <= 0:
-
-            return jsonify({
-                "success": False,
-                "message":
-                    "Community mining allocation has been reached."
-            }), 400
-
-        reward = min(
-            MINING_REWARD,
-            community_remaining
-        )
-
-        new_balance = (
-            int(user["balance"])
-            + reward
-        )
-
-        new_cycles = (
-            int(user["mining_cycles"])
-            + 1
-        )
-
-        cur.execute(
-            """
-            UPDATE users
-            SET balance = ?,
-                mining_cycles = ?,
-                mining_started_at = ?,
-                updated_at = ?
-            WHERE telegram_id = ?
-            """,
-            (
-                new_balance,
-                new_cycles,
-                now,
-                now,
-                int(user["telegram_id"])
-            )
-        )
-
-        cur.execute(
-            """
-            UPDATE stats
-            SET community_distributed =
-                community_distributed + ?
-            WHERE id = 1
-            """,
-            (reward,)
-        )
-
-        conn.commit()
-
-        return jsonify({
-            "success": True,
-            "message":
-                f"You claimed {reward:,} ELVION",
-            "reward":
-                reward,
-            "balance":
-                new_balance,
-            "next_mining_started_at":
-                now,
-            "next_claim_seconds":
-                interval
-        })
-
-    except Exception as e:
-
-        conn.rollback()
-
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
-    finally:
-        conn.close()
+    return jsonify({
+        "success": True,
+        "reward": MINING_REWARD,
+        "balance": new_balance,
+        "mining_cycles": new_cycles,
+        "remaining_seconds": interval
+    })
 
 
-@app.route(
-    "/api/tasks",
-    methods=["GET"]
-)
-def api_tasks():
+@app.route("/api/tasks")
+def tasks():
 
-    tg_user = authenticated_user()
+    tg_user = get_user_from_request()
 
     if not tg_user:
-
         return jsonify({
-            "error":
-                "Telegram authentication failed"
+            "error": "Telegram authentication failed"
         }), 401
 
-    user = create_or_update_user(
-        tg_user
-    )
-
-    telegram_id = int(
-        user["telegram_id"]
-    )
+    user = save_user(tg_user)
 
     now = int(time.time())
 
-    conn = db()
+    conn = get_db()
 
-    result = []
+    output = []
 
     for key, task in TASKS.items():
 
@@ -673,372 +384,247 @@ def api_tasks():
             SELECT last_claim
             FROM task_claims
             WHERE telegram_id = ?
-              AND task_key = ?
+            AND task_key = ?
             """,
             (
-                telegram_id,
+                user["telegram_id"],
                 key
             )
         ).fetchone()
 
         last_claim = (
-            int(row["last_claim"])
+            row["last_claim"]
             if row
             else 0
         )
 
         available = (
-            last_claim == 0
-            or now - last_claim >=
-               TASK_RESET
+            now - last_claim
+            >= TASK_RESET
         )
 
-        remaining = 0
-
-        if not available:
-
-            remaining = (
-                TASK_RESET -
-                (now - last_claim)
-            )
-
-        result.append({
+        output.append({
             "key": key,
             "title": task["title"],
             "url": task["url"],
-            "reward": task["reward"],
-            "available": available,
-            "remaining_seconds":
-                max(0, remaining)
+            "reward": TASK_REWARD,
+            "available": available
         })
 
     conn.close()
 
     return jsonify({
-        "tasks": result,
-        "reset_seconds":
-            TASK_RESET
+        "tasks": output
     })
 
 
-@app.route(
-    "/api/task/claim",
-    methods=["POST"]
-)
-def api_task_claim():
+@app.route("/api/task/claim", methods=["POST"])
+def task_claim():
 
-    tg_user = authenticated_user()
+    tg_user = get_user_from_request()
 
     if not tg_user:
-
         return jsonify({
-            "error":
-                "Telegram authentication failed"
+            "error": "Telegram authentication failed"
         }), 401
 
-    data = request.get_json(
+    body = request.get_json(
         silent=True
     ) or {}
 
-    task_key = data.get(
-        "task_key",
-        ""
+    task_key = body.get(
+        "task_key"
     )
 
     if task_key not in TASKS:
 
         return jsonify({
             "success": False,
-            "message":
-                "Invalid task"
+            "message": "Invalid task"
         }), 400
 
-    user = create_or_update_user(
-        tg_user
-    )
-
-    telegram_id = int(
-        user["telegram_id"]
-    )
+    user = save_user(tg_user)
 
     now = int(time.time())
 
-    conn = db()
+    conn = get_db()
 
-    try:
-
-        cur = conn.cursor()
-
-        row = cur.execute(
-            """
-            SELECT last_claim
-            FROM task_claims
-            WHERE telegram_id = ?
-              AND task_key = ?
-            """,
-            (
-                telegram_id,
-                task_key
-            )
-        ).fetchone()
-
-        if row:
-
-            last_claim = int(
-                row["last_claim"]
-            )
-
-            if (
-                now - last_claim
-                < TASK_RESET
-            ):
-
-                return jsonify({
-                    "success": False,
-                    "message":
-                        "Task reward is not ready yet",
-                    "remaining_seconds":
-                        TASK_RESET -
-                        (now - last_claim)
-                }), 400
-
-        stats = cur.execute(
-            """
-            SELECT community_distributed
-            FROM stats
-            WHERE id = 1
-            """
-        ).fetchone()
-
-        community_distributed = int(
-            stats["community_distributed"] or 0
+    row = conn.execute(
+        """
+        SELECT last_claim
+        FROM task_claims
+        WHERE telegram_id = ?
+        AND task_key = ?
+        """,
+        (
+            user["telegram_id"],
+            task_key
         )
+    ).fetchone()
 
-        community_remaining = max(
-            0,
-            COMMUNITY_ALLOCATION -
-            community_distributed
-        )
+    if row:
 
-        if community_remaining <= 0:
+        if now - row["last_claim"] < TASK_RESET:
+
+            conn.close()
 
             return jsonify({
                 "success": False,
-                "message":
-                    "Community reward allocation has been reached."
+                "message": "Task already claimed"
             }), 400
 
-        reward = min(
-            TASKS[task_key]["reward"],
-            community_remaining
+    new_balance = (
+        user["balance"]
+        + TASK_REWARD
+    )
+
+    conn.execute(
+        """
+        UPDATE users
+        SET balance = ?
+        WHERE telegram_id = ?
+        """,
+        (
+            new_balance,
+            user["telegram_id"]
         )
+    )
 
-        new_balance = (
-            int(user["balance"])
-            + reward
+    conn.execute(
+        """
+        INSERT OR REPLACE INTO task_claims (
+            telegram_id,
+            task_key,
+            last_claim
         )
-
-        cur.execute(
-            """
-            UPDATE users
-            SET balance = ?,
-                updated_at = ?
-            WHERE telegram_id = ?
-            """,
-            (
-                new_balance,
-                now,
-                telegram_id
-            )
+        VALUES (?, ?, ?)
+        """,
+        (
+            user["telegram_id"],
+            task_key,
+            now
         )
+    )
 
-        cur.execute(
-            """
-            INSERT INTO task_claims
-            (
-                telegram_id,
-                task_key,
-                last_claim
-            )
-            VALUES (?, ?, ?)
-            ON CONFLICT(
-                telegram_id,
-                task_key
-            )
-            DO UPDATE SET
-                last_claim =
-                    excluded.last_claim
-            """,
-            (
-                telegram_id,
-                task_key,
-                now
-            )
-        )
+    conn.commit()
+    conn.close()
 
-        cur.execute(
-            """
-            UPDATE stats
-            SET community_distributed =
-                community_distributed + ?
-            WHERE id = 1
-            """,
-            (reward,)
-        )
-
-        conn.commit()
-
-        return jsonify({
-            "success": True,
-            "reward":
-                reward,
-            "balance":
-                new_balance,
-            "message":
-                f"You received {reward:,} ELVION"
-        })
-
-    except Exception as e:
-
-        conn.rollback()
-
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
-    finally:
-        conn.close()
+    return jsonify({
+        "success": True,
+        "reward": TASK_REWARD,
+        "balance": new_balance
+    })
 
 
-@app.route(
-    "/api/boost",
-    methods=["POST"]
-)
-def api_boost():
+@app.route("/api/boost", methods=["POST"])
+def boost():
 
-    tg_user = authenticated_user()
+    tg_user = get_user_from_request()
 
     if not tg_user:
-
         return jsonify({
-            "error":
-                "Telegram authentication failed"
+            "error": "Telegram authentication failed"
         }), 401
 
-    user = create_or_update_user(
-        tg_user
-    )
-
-    telegram_id = int(
-        user["telegram_id"]
-    )
+    user = save_user(tg_user)
 
     if user["boosted"]:
 
         return jsonify({
             "success": False,
-            "message":
-                "Boost is already active."
+            "message": "Boost is already active"
         }), 400
 
-    balance = int(
+    if user["balance"] < BOOST_COST:
+
+        return jsonify({
+            "success": False,
+            "message": "Not enough ELVION"
+        }), 400
+
+    new_balance = (
         user["balance"]
+        - BOOST_COST
     )
 
-    if balance < BOOST_COST:
+    conn = get_db()
 
-        return jsonify({
-            "success": False,
-            "message":
-                f"You need {BOOST_COST:,} ELVION."
-        }), 400
-
-    now = int(time.time())
-
-    conn = db()
-
-    try:
-
-        new_balance = (
-            balance -
-            BOOST_COST
+    conn.execute(
+        """
+        UPDATE users
+        SET balance = ?,
+            boosted = 1
+        WHERE telegram_id = ?
+        """,
+        (
+            new_balance,
+            user["telegram_id"]
         )
+    )
 
-        conn.execute(
-            """
-            UPDATE users
-            SET balance = ?,
-                boosted = 1,
-                updated_at = ?
-            WHERE telegram_id = ?
-            """,
-            (
-                new_balance,
-                now,
-                telegram_id
-            )
-        )
-
-        conn.commit()
-
-        return jsonify({
-            "success": True,
-            "message":
-                "2x Mining Boost activated!",
-            "balance":
-                new_balance,
-            "boosted":
-                True,
-            "multiplier":
-                BOOST_MULTIPLIER
-        })
-
-    except Exception as e:
-
-        conn.rollback()
-
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
-    finally:
-        conn.close()
-
-
-@app.route(
-    "/api/tokenomics",
-    methods=["GET"]
-)
-def api_tokenomics():
+    conn.commit()
+    conn.close()
 
     return jsonify({
+        "success": True,
+        "balance": new_balance,
+        "boosted": True,
+        "multiplier": BOOST_MULTIPLIER
+    })
 
+
+@app.route("/api/tokenomics")
+def tokenomics():
+
+    return jsonify({
         "name": "ELVION",
-
         "symbol": "ELVION",
-
-        "total_supply":
-            TOTAL_SUPPLY,
-
+        "total_supply": TOTAL_SUPPLY,
         "allocations": [
-
             {
-                "name":
-                    "Community & Mining",
+                "name": "Community & Mining",
                 "percentage": 60,
-                "amount":
-                    60_000_000
+                "amount": 60000000
             },
-
             {
-                "name":
-                    "Liquidity",
+                "name": "Liquidity",
                 "percentage": 10,
-                "amount":
-                    10_000_000
+                "amount": 10000000
             },
-
             {
-   
+                "name": "Ecosystem",
+                "percentage": 10,
+                "amount": 10000000
+            },
+            {
+                "name": "Treasury / Reserve",
+                "percentage": 8,
+                "amount": 8000000
+            },
+            {
+                "name": "Team",
+                "percentage": 7,
+                "amount": 7000000
+            },
+            {
+                "name": "Marketing",
+                "percentage": 5,
+                "amount": 5000000
+            }
+        ]
+    })
+
+
+if __name__ == "__main__":
+
+    port = int(
+        os.getenv(
+            "PORT",
+            "5000"
+        )
+    )
+
+    app.run(
+        host="0.0.0.0",
+        port=port
+    )
