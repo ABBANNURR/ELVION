@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>ELVION</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .app {
+      max-width: 520px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 18px 15px 95px;
+      background:
+        radial-gradient(circle at 50% 10%, #151515 0%, #000 45%);
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      background: linear-gradient(145deg, #fff, #555);
+      color: #000;
+      box-shadow: 0 0 25px rgba(255,255,255,.16);
+    }
+
+    .brand-name {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .network {
+      padding: 7px 11px;
+      border: 1px solid #222;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #aaa;
+      background: #0c0c0c;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      margin-right: 5px;
+      box-shadow: 0 0 8px #fff;
+    }
+
+    /* BALANCE */
+    .balance-card {
+      background: linear-gradient(145deg, #111, #050505);
+      border: 1px solid #222;
+      border-radius: 24px;
+      padding: 23px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.55);
+    }
+
+    .balance-label {
+      color: #888;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .balance {
+      font-size: 38px;
+      font-weight: 900;
+      margin: 9px 0 3px;
+      letter-spacing: 1px;
+    }
+
+    .coin-name {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    /* MINING */
+    .mining-area {
+      text-align: center;
+      padding: 27px 0 20px;
+    }
+
+    .mine-button {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      border: 1px solid #333;
+      background:
+        radial-gradient(circle at 35% 30%, #333, #111 45%, #050505 70%);
+      color: #fff;
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      cursor: pointer;
+      box-shadow:
+        0 0 0 10px rgba(255,255,255,.015),
+        0 0 55px rgba(255,255,255,.08),
+        inset 0 0 35px rgba(255,255,255,.04);
+      transition: transform .08s ease;
+      user-select: none;
+    }
+
+    .mine-button:active {
+      transform: scale(.94);
+    }
+
+    .mine-button.disabled {
+      opacity: .45;
+      transform: none;
+    }
+
+    .energy-box {
+      margin-top: 20px;
+    }
+
+    .energy-top {
+      display: flex;
+      justify-content: space-between;
+      color: #aaa;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .energy-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 20px;
+      background: #181818;
+      overflow: hidden;
+    }
+
+    .energy-fill {
+      height: 100%;
+      width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      transition: width .2s ease;
+    }
+
+    .rate {
+      margin-top: 12px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    .rate strong {
+      color: #fff;
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-top: 20px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 11px;
+    }
+
+    .card {
+      background: #0b0b0b;
+      border: 1px solid #202020;
+      border-radius: 17px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .task-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .task-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #161616;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .task-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .task-reward {
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .action-btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 9px 14px;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .action-btn.done {
+      background: #222;
+      color: #777;
+    }
+
+    /* BOOST */
+    .boost {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .boost-info {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .boost-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
+      background: #171717;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 21px;
+    }
+
+    .boost-title {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .boost-desc {
+      font-size: 11px;
+      color: #777;
+      margin-top: 3px;
+    }
+
+    .price {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    /* AUTO MINING */
+    .auto-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .auto-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .auto-icon {
+      width: 44px;
+      height: 44px;
+      background: #151515;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+    }
+
+    .auto-title {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .auto-desc {
+      color: #777;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .toggle {
+      width: 48px;
+      height: 27px;
+      background: #292929;
+      border-radius: 30px;
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    .toggle-circle {
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background: #777;
+      transition: .2s;
+    }
+
+    .toggle.active {
+      background: #fff;
+    }
+
+    .toggle.active .toggle-circle {
+      background: #000;
+      transform: translateX(21px);
+    }
+
+    /* USER */
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fff, #444);
+      color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .username {
+      font-weight: 800;
+    }
+
+    .telegram-id {
+      color: #777;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    /* CLAIM */
+    .claim-card {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .claim-title {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .claim-desc {
+      color: #777;
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 7px 0 15px;
+    }
+
+    .claim-btn {
+      width: 100%;
+      border: 0;
+      padding: 13px;
+      border-radius: 13px;
+      background: #fff;
+      color: #000;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .claim-btn:disabled {
+      background: #222;
+      color: #666;
+    }
+
+    /* NAV */
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 495px;
+      height: 66px;
+      border: 1px solid #222;
+      border-radius: 20px;
+      background: rgba(8,8,8,.94);
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: #666;
+      text-align: center;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .nav-item span {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    .nav-item.active {
+      color: #fff;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      transform: translate(-50%, -100px);
+      background: #fff;
+      color: #000;
+      padding: 11px 18px;
+      border-radius: 13px;
+      font-size: 12px;
+      font-weight: 800;
+      z-index: 999;
+      transition: transform .3s ease;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 360px) {
+      .mine-button {
+        width: 165px;
+        height: 165px;
+      }
+
+      .balance {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <div class="logo">E</div>
+      <div class="brand-name">ELVION</div>
+    </div>
+
+    <div class="network">
+      <span class="dot"></span>
+      LIVE
+    </div>
+  </header>
+
+  <!-- BALANCE -->
+  <section class="balance-card">
+    <div class="balance-label">Your Balance</div>
+    <div class="balance" id="balance">0</div>
+    <div class="coin-name">ELVION</div>
+  </section>
+
+  <!-- MINING -->
+  <section class="mining-area">
+
+    <button class="mine-button" id="mineButton">
+      MINE
+    </button>
+
+    <div class="energy-box">
+
+      <div class="energy-top">
+        <span>⚡ Energy</span>
+        <span>
+          <strong id="energy">2000</strong> / 2000
+        </span>
+      </div>
+
+      <div class="energy-bar">
+        <div class="energy-fill" id="energyFill"></div>
+      </div>
+
+    </div>
+
+    <div class="rate">
+      Mining rate:
+      <strong id="miningRate">+1 ELVION / tap</strong>
+    </div>
+
+  </section>
+
+  <!-- CLAIM -->
+  <section class="section">
+
+    <div class="card claim-card">
+
+      <div class="claim-title">⛏️ Daily Mining</div>
+
+      <div class="claim-desc">
+        Mine your ELVION and claim your accumulated rewards
+        after the 24-hour mining cycle.
+      </div>
+
+      <button class="claim-btn" id="claimButton">
+        Claim ELVION
+      </button>
+
+      <div id="claimTimer"
+           style="color:#777;font-size:11px;margin-top:9px;">
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- AUTO MINING -->
+  <section class="section">
+
+    <div class="section-title">Auto Mining</div>
+
+    <div class="card auto-box">
+
+      <div class="auto-left">
+
+        <div class="auto-icon">🤖</div>
+
+        <div>
+          <div class="auto-title">Auto Miner</div>
+          <div class="auto-desc">
+            Mine while you are away
+          </div>
+        </div>
+
+      </div>
+
+      <div class="toggle" id="autoToggle">
+        <div class="toggle-circle"></div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TASKS -->
+  <section class="section">
+
+    <div class="section-title">Tasks</div>
+
+    <div class="card task">
+
+      <div class="task-left">
+
+        <div class="task-icon">𝕏</div>
+
+        <div>
+          <div class="task-name">Follow ELVION on X</div>
+          <div class="task-reward">+5,000 ELVION</div>
+        </div>
+
+      </div>
+
+      <button class="action-btn"
+              onclick="openTask('https://x.com/ABBANNURR4077', 'xTask')"
+              id="xTask">
+        Start
+      </button>
+
+    </div>
+
+    <div class="card task">
+
+      <div class="task-left">
+
+        <div class="task-icon">✈️</div>
+
+        <div>
+          <div class="task-name">Join ELVION Telegram</div>
+          <div class="task-reward">+5,000 ELVION</div>
+        </div>
+
+      </div>
+
+      <button class="action-btn"
+              onclick="openTask('https://t.me/ABBANNURR1', 'tgTask')"
+              id="tgTask">
+        Start
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- BOOST -->
+  <section class="section">
+
+    <div class="section-title">Boost</div>
+
+    <div class="card boost">
+
+      <div class="boost-info">
+
+        <div class="boost-icon">⚡</div>
+
+        <div>
+          <div class="boost-title">Mining Boost ×2</div>
+          <div class="boost-desc">
+            Double your mining rate
+          </div>
+          <div class="price">
+            Cost: 500,000 ELVION
+          </div>
+        </div>
+
+      </div>
+
+      <button class="action-btn" onclick="buyBoost()">
+        Buy
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- USER -->
+  <section class="section">
+
+    <div class="section-title">Account</div>
+
+    <div class="card user-card">
+
+      <div class="avatar" id="avatar">
+        E
+      </div>
+
+      <div>
+        <div class="username" id="username">
+          Telegram User
+        </div>
+
+        <div class="telegram-id" id="telegramId">
+          Telegram ID: Detecting...
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+
+  <div class="nav-item active"
+       onclick="scrollToTop()">
+    <span>⛏️</span>
+    Mine
+  </div>
+
+  <div class="nav-item"
+       onclick="scrollToSection('tasks')">
+    <span>🎯</span>
+    Tasks
+  </div>
+
+  <div class="nav-item"
+       onclick="scrollToSection('boost')">
+    <span>⚡</span>
+    Boost
+  </div>
+
+  <div class="nav-item"
+       onclick="scrollToSection('account')">
+    <span>👤</span>
+    Account
+  </div>
+
+</nav>
+
+<script>
+
+  /* =========================================
+     TELEGRAM MINI APP
+  ========================================= */
+
+  const tg = window.Telegram && window.Telegram.WebApp
+    ? window.Telegram.WebApp
+    : null;
+
+  if (tg) {
+    tg.ready();
+    tg.expand();
+
+    try {
+      tg.setHeaderColor("#000000");
+      tg.setBackgroundColor("#000000");
+    } catch (e) {}
+  }
+
+
+  /* =========================================
+     STATE
+  ========================================= */
+
+  let balance = Number(localStorage.getItem("elvion_balance")) || 0;
+
+  let energy = Number(localStorage.getItem("elvion_energy"));
+
+  if (isNaN(energy)) {
+    energy = 2000;
+  }
+
+  let miningRate =
+    Number(localStorage.getItem("elvion_rate")) || 1;
+
+  let autoMining =
+    localStorage.getItem("elvion_auto") === "true";
+
+  let lastClaim =
+    Number(localStorage.getItem("elvion_last_claim")) || 0;
+
+  let boost =
+    Number(localStorage.getItem("elvion_boost")) || 1;
+
+
+  /* =========================================
+     TELEGRAM USER
+  ========================================= */
+
+  let telegramUser = null;
+
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+
+    telegramUser = tg.initDataUnsafe.user;
+
+    const fullName =
+      [
+        telegramUser.first_name || "",
+        telegramUser.last_name || ""
+      ]
+      .join(" ")
+      .trim();
+
+    document.getElementById("username").textContent =
+      fullName ||
+      (telegramUser.username
+        ? "@" + telegramUser.username
+        : "Telegram User");
+
+    document.getElementById("telegramId").textContent =
+      "Telegram ID: " + telegramUser.id;
+
+    const firstLetter =
+      (telegramUser.first_name || "E")
+        .charAt(0)
+        .toUpperCase();
+
+    document.getElementById("avatar").textContent =
+      firstLetter;
+
+  } else {
+
+    document.getElementById("username").textContent =
+      "Telegram User";
+
+    document.getElementById("telegramId").textContent =
+      "Open ELVION inside Telegram";
+
+  }
+
+
+  /* =========================================
+     UI
+  ========================================= */
+
+  const balanceElement =
+    document.getElementById("balance");
+
+  const energyElement =
+    document.getElementById("energy");
+
+  const energyFill =
+    document.getElementById("energyFill");
+
+  const mineButton =
+    document.getElementById("mineButton");
+
+  const autoToggle =
+    document.getElementById("autoToggle");
+
+  const miningRateElement =
+    document.getElementById("miningRate");
+
+
+  function formatNumber(number) {
+
+    return Math.floor(number)
+      .toLocaleString("en-US");
+
+  }
+
+
+  function updateUI() {
+
+    balanceElement.textContent =
+      formatNumber(balance);
+
+    energyElement.textContent =
+      formatNumber(energy);
+
+    const percentage =
+      Math.max(0, Math.min(100, (energy / 2000) * 100));
+
+    energyFill.style.width =
+      percentage + "%";
+
+    miningRateElement.textContent =
+      "+" + miningRate + " ELVION / tap";
+
+    if (energy <= 0) {
+      mineButton.classList.add("disabled");
+    } else {
+      mineButton.classList.remove("disabled");
+    }
+
+    if (autoMining) {
+      autoToggle.classList.add("active");
+    } else {
+      autoToggle.classList.remove("active");
+    }
+
+    localStorage.setItem(
+      "elvion_balance",
+      balance
+    );
+
+    localStorage.setItem(
+      "elvion_energy",
+      energy
+    );
+
+    localStorage.setItem(
+      "elvion_rate",
+      miningRate
+    );
+
+    localStorage.setItem(
+      "elvion_auto",
+      autoMining
+    );
+
+    localStorage.setItem(
+      "elvion_boost",
+      boost
+    );
+  }
+
+
+  /* =========================================
+     MINING
+  ========================================= */
+
+  mineButton.addEventListener("click", function () {
+
+    if (energy <= 0) {
+
+      showToast(
+        "⚡ Energy is empty. Wait for recovery."
+      );
+
+      return;
+    }
+
+    const reward = miningRate;
+
+    balance += reward;
+
+    energy -= 1;
+
+    updateUI();
+
+    showFloatingReward(reward);
+
+    sendMiningData();
+
+  });
+
+
+  function showFloatingReward(amount) {
+
+    const reward = document.createElement("div");
+
+    reward.textContent =
+      "+" + amount + " ELVION";
+
+    reward.style.position = "fixed";
+    reward.style.left = "50%";
+    reward.style.top = "42%";
+    reward.style.transform = "translate(-50%, -50%)";
+    reward.style.color = "#fff";
+    reward.style.fontSize = "20px";
+    reward.style.fontWeight = "900";
+    reward.style.pointerEvents = "none";
+    reward.style.zIndex = "1000";
+    reward.style.transition = "all .7s ease";
+
+    document.body.appendChild(reward);
+
+    setTimeout(() => {
+
+      reward.style.top = "32%";
+      reward.style.opacity = "0";
+
+    }, 50);
+
+    setTimeout(() => {
+
+      reward.remove();
+
+    }, 800);
+
+  }
+
+
+  /* =========================================
+     ENERGY RECOVERY
+  ========================================= */
+
+  setInterval(() => {
+
+    if (energy < 2000) {
+
+      energy += 1;
+
+      updateUI();
+
+    }
+
+  }, 3000);
+
+
+  /* =========================================
+     AUTO MINING
+  ========================================= */
+
+  autoToggle.addEventListener("click", function () {
+
+    autoMining = !autoMining;
+
+    updateUI();
+
+    showToast(
+      autoMining
+        ? "🤖 Auto Mining enabled"
+        : "Auto Mining disabled"
+    );
+
+  });
+
+
+  setInterval(() => {
+
+    if (!autoMining) {
+      return;
+    }
+
+    if (energy <= 0) {
+      return;
+    }
+
+    balance += miningRate;
+
+    energy -= 1;
+
+    updateUI();
+
+  }, 5000);
+
+
+  /* =========================================
+     CLAIM — 24 HOURS
+  ========================================= */
+
+  const CLAIM_TIME =
+    24 * 60 * 60 * 1000;
+
+
+  function updateClaim() {
+
+    const now = Date.now();
+
+    const difference =
+      now - lastClaim;
+
+    const claimButton =
+      document.getElementById("claimButton");
+
+    const timer =
+      document.getElementById("claimTimer");
+
+
+    if (lastClaim === 0 || difference >= CLAIM_TIME) {
+
+      claimButton.disabled = false;
+
+      timer.textContent =
+        "Your 24-hour claim is available.";
+
+      return;
+    }
+
+
+    claimButton.disabled = true;
+
+    const remaining =
+      CLAIM_TIME - difference;
+
+    const hours =
+      Math.floor(
+        remaining / (1000 * 60 * 60)
+      );
+
+    const minutes =
+      Math.floor(
+  
