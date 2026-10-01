@@ -2,330 +2,443 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>ELVION</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+    background:#050505;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  background:#050505;
-  color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
+    padding-bottom:90px;
 }
 
 button{
-  border:0;
-  outline:0;
-  cursor:pointer;
-  font:inherit;
+    font-family:inherit;
+    border:0;
+    outline:0;
+    cursor:pointer;
 }
 
 .app{
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
-  padding:18px 16px 95px;
+    width:100%;
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top,#14231c 0%,#070908 35%,#050505 70%);
 }
 
+/* HEADER */
 .header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
+    padding:22px 18px 10px;
+    text-align:center;
 }
 
 .logo{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:4px;
+    font-size:30px;
+    font-weight:900;
+    letter-spacing:5px;
+    color:#fff;
+    text-shadow:
+        0 0 8px #00ff88,
+        0 0 25px rgba(0,255,136,.5);
 }
 
-.status{
-  font-size:11px;
-  color:#6cff9b;
-  border:1px solid #1c6b39;
-  padding:6px 9px;
-  border-radius:20px;
+.subtitle{
+    margin-top:5px;
+    color:#7d8a84;
+    font-size:12px;
+    letter-spacing:2px;
 }
 
+/* PAGES */
 .page{
-  display:none;
+    display:none;
+    padding:15px;
+    animation:fade .2s ease;
 }
 
 .page.active{
-  display:block;
+    display:block;
 }
 
+@keyframes fade{
+    from{opacity:.2;transform:translateY(5px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* CARDS */
 .card{
-  background:#0d0d0d;
-  border:1px solid #202020;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:14px;
+    background:linear-gradient(145deg,#111614,#080a09);
+    border:1px solid #1e3028;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
 }
 
-.balance-label{
-  color:#888;
-  font-size:13px;
-  margin-bottom:8px;
+.card-title{
+    font-size:13px;
+    color:#7d8a84;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    margin-bottom:10px;
 }
 
+/* BALANCE */
 .balance{
-  font-size:38px;
-  font-weight:900;
-  word-break:break-word;
+    text-align:center;
+    padding:28px 15px;
 }
 
-.coin{
-  color:#aaa;
-  font-size:14px;
-  margin-left:5px;
+.balance-number{
+    font-size:42px;
+    font-weight:900;
+    color:#00ff88;
+    text-shadow:0 0 20px rgba(0,255,136,.35);
+    word-break:break-word;
 }
 
+.coin-name{
+    color:#8b9690;
+    margin-top:5px;
+    font-size:13px;
+    letter-spacing:2px;
+}
+
+/* MINING */
 .mining-box{
-  text-align:center;
-  padding:25px 15px;
+    text-align:center;
 }
 
-.mining-title{
-  color:#999;
-  font-size:13px;
-  margin-bottom:10px;
+.mining-status{
+    color:#00ff88;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:15px;
 }
 
-.timer{
-  font-size:34px;
-  font-weight:900;
-  letter-spacing:2px;
-  margin:10px 0 18px;
+.countdown{
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:2px;
+    margin:10px 0;
 }
 
-.primary{
-  width:100%;
-  padding:15px;
-  border-radius:13px;
-  background:#fff;
-  color:#000;
-  font-weight:900;
-  font-size:15px;
+.small{
+    color:#77817c;
+    font-size:12px;
 }
 
-.primary:active{
-  transform:scale(.98);
+.claim-btn{
+    width:100%;
+    margin-top:18px;
+    padding:16px;
+    border-radius:14px;
+    background:#00ff88;
+    color:#00150b;
+    font-size:16px;
+    font-weight:900;
+    box-shadow:0 0 25px rgba(0,255,136,.2);
 }
 
-.primary:disabled{
-  opacity:.35;
+.claim-btn:disabled{
+    opacity:.35;
 }
 
-.secondary{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  background:#161616;
-  color:#fff;
-  border:1px solid #292929;
-  font-weight:700;
+/* PHASE */
+.phase{
+    text-align:center;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+.phase-title{
+    font-size:14px;
+    color:#aeb8b3;
+    margin-bottom:8px;
+}
+
+.phase-countdown{
+    font-size:25px;
+    font-weight:900;
+    color:#fff;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
 .stat{
-  background:#111;
-  border:1px solid #222;
-  border-radius:14px;
-  padding:15px;
+    background:#0b100e;
+    border:1px solid #18251f;
+    border-radius:15px;
+    padding:15px;
 }
 
 .stat-label{
-  color:#777;
-  font-size:12px;
-  margin-bottom:7px;
+    font-size:11px;
+    color:#6e7973;
 }
 
 .stat-value{
-  font-weight:800;
-  font-size:17px;
+    margin-top:7px;
+    font-size:18px;
+    font-weight:bold;
 }
 
-.section-title{
-  font-size:22px;
-  font-weight:900;
-  margin:4px 0 16px;
+/* TASKS */
+.task{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:16px;
+    background:#0b100e;
+    border:1px solid #1b2a23;
+    border-radius:15px;
+    margin-bottom:10px;
 }
 
-.item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:15px 0;
-  border-bottom:1px solid #1d1d1d;
+.task-info{
+    flex:1;
 }
 
-.item:last-child{
-  border-bottom:0;
+.task-name{
+    font-weight:bold;
+    font-size:14px;
 }
 
-.item-info{
-  min-width:0;
+.task-reward{
+    color:#00ff88;
+    font-size:12px;
+    margin-top:5px;
 }
 
-.item-title{
-  font-weight:800;
-  margin-bottom:5px;
+.task-btn{
+    background:#00ff88;
+    color:#00150b;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:bold;
+    font-size:12px;
+    white-space:nowrap;
 }
 
-.item-sub{
-  color:#777;
-  font-size:12px;
-  word-break:break-word;
+.task-btn.done{
+    background:#1c2923;
+    color:#65726b;
 }
 
-.small-btn{
-  flex-shrink:0;
-  padding:10px 13px;
-  border-radius:10px;
-  background:#fff;
-  color:#000;
-  font-weight:800;
-  font-size:12px;
+/* BOOST */
+.boost-box{
+    text-align:center;
 }
 
-.ref-link{
-  background:#090909;
-  border:1px solid #292929;
-  border-radius:12px;
-  padding:13px;
-  word-break:break-all;
-  color:#bbb;
-  font-size:12px;
-  margin:12px 0;
+.boost-icon{
+    font-size:55px;
+    margin-bottom:10px;
 }
 
+.boost-title{
+    font-size:23px;
+    font-weight:900;
+}
+
+.boost-description{
+    color:#87918c;
+    margin:10px 0 20px;
+    line-height:1.5;
+    font-size:13px;
+}
+
+.boost-btn{
+    width:100%;
+    padding:16px;
+    border-radius:14px;
+    background:#00ff88;
+    color:#00150b;
+    font-weight:900;
+    font-size:15px;
+}
+
+.boost-btn:disabled{
+    opacity:.35;
+}
+
+/* REFERRAL */
+.ref-code{
+    background:#080c0a;
+    border:1px solid #1b3025;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+    color:#00ff88;
+    word-break:break-all;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.copy-btn{
+    width:100%;
+    padding:14px;
+    background:#151d19;
+    border:1px solid #273a30;
+    color:#fff;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+/* PROFILE */
 .profile-row{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding:14px 0;
-  border-bottom:1px solid #1d1d1d;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:14px 0;
+    border-bottom:1px solid #16211c;
 }
 
 .profile-row:last-child{
-  border-bottom:0;
+    border-bottom:0;
 }
 
-.profile-key{
-  color:#777;
+.profile-label{
+    color:#6e7973;
+    font-size:12px;
 }
 
 .profile-value{
-  text-align:right;
-  font-weight:700;
-  max-width:60%;
-  word-break:break-word;
+    text-align:right;
+    font-weight:bold;
+    font-size:13px;
+    max-width:60%;
+    word-break:break-word;
 }
 
+/* TOKENOMICS */
 .token-row{
-  display:flex;
-  justify-content:space-between;
-  padding:13px 0;
-  border-bottom:1px solid #1d1d1d;
+    margin-bottom:15px;
 }
 
-.token-row:last-child{
-  border-bottom:0;
+.token-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:7px;
 }
 
-.phase{
-  text-align:center;
+.token-bar{
+    width:100%;
+    height:8px;
+    border-radius:10px;
+    background:#111815;
+    overflow:hidden;
 }
 
-.phase-time{
-  font-size:27px;
-  font-weight:900;
-  margin:10px 0;
+.token-fill{
+    height:100%;
+    background:#00ff88;
+    border-radius:10px;
 }
 
+/* NAV */
 .nav{
-  position:fixed;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:520px;
-  background:#090909;
-  border-top:1px solid #202020;
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  padding:8px 5px calc(8px + env(safe-area-inset-bottom));
-  z-index:100;
+    position:fixed;
+    z-index:999;
+    left:50%;
+    bottom:10px;
+    transform:translateX(-50%);
+    width:calc(100% - 18px);
+    max-width:500px;
+    background:rgba(8,12,10,.96);
+    border:1px solid #20352a;
+    border-radius:20px;
+    padding:8px 4px;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    backdrop-filter:blur(15px);
 }
 
 .nav-btn{
-  background:transparent;
-  color:#666;
-  padding:7px 2px;
-  font-size:10px;
-  font-weight:700;
+    background:transparent;
+    color:#64706a;
+    padding:7px 2px;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.nav-btn .icon{
+    display:block;
+    font-size:19px;
+    margin-bottom:3px;
 }
 
 .nav-btn.active{
-  color:#fff;
+    color:#00ff88;
 }
 
-.nav-icon{
-  display:block;
-  font-size:18px;
-  margin-bottom:3px;
+/* HOME BUTTON */
+.green-btn{
+    width:100%;
+    padding:15px;
+    border-radius:13px;
+    background:#00ff88;
+    color:#00150b;
+    font-weight:900;
+    margin-top:10px;
 }
 
+/* TOAST */
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:90px;
-  transform:translateX(-50%);
-  background:#fff;
-  color:#000;
-  padding:11px 16px;
-  border-radius:12px;
-  font-size:13px;
-  font-weight:700;
-  display:none;
-  z-index:200;
-  max-width:90%;
-  text-align:center;
+    position:fixed;
+    z-index:2000;
+    left:50%;
+    top:20px;
+    transform:translateX(-50%) translateY(-100px);
+    background:#101814;
+    border:1px solid #284637;
+    color:#fff;
+    padding:13px 18px;
+    border-radius:12px;
+    font-size:13px;
+    transition:.3s;
+    max-width:90%;
+    text-align:center;
 }
 
+.toast.show{
+    transform:translateX(-50%) translateY(0);
+}
+
+/* LOADING */
 .loading{
-  color:#777;
-  text-align:center;
-  padding:25px 0;
+    text-align:center;
+    padding:30px 10px;
+    color:#65716b;
 }
 
 .error{
-  color:#ff7777;
-  font-size:13px;
-  padding:10px 0;
-}
-
-@media(max-width:360px){
-  .balance{font-size:31px}
-  .timer{font-size:27px}
-  .nav-btn{font-size:9px}
+    color:#ff6b6b;
+    text-align:center;
+    padding:20px;
+    font-size:13px;
 }
 </style>
 </head>
@@ -334,727 +447,1271 @@ button{
 
 <div class="app">
 
-  <div class="header">
+<header class="header">
     <div class="logo">ELVION</div>
-    <div class="status">● ONLINE</div>
-  </div>
+    <div class="subtitle">MINING ECOSYSTEM</div>
+</header>
 
-  <!-- HOME -->
-  <section id="home" class="page active">
+<!-- HOME -->
+<section id="home" class="page active">
 
-    <div class="card">
-      <div class="balance-label">Available Balance</div>
-      <div class="balance">
-        <span id="homeBalance">0</span>
-        <span class="coin">ELVION</span>
-      </div>
-    </div>
-
-    <div class="card mining-box">
-      <div class="mining-title">NEXT MINING CLAIM</div>
-      <div id="homeTimer" class="timer">24:00:00</div>
-      <button id="homeClaim" class="primary">CLAIM 1,000 ELVION</button>
+    <div class="card balance">
+        <div class="card-title">Your Balance</div>
+        <div class="balance-number" id="balance">0</div>
+        <div class="coin-name">ELVION</div>
     </div>
 
     <div class="card phase">
-      <div class="mining-title">MINING PHASE ENDS</div>
-      <div id="phaseTimer" class="phase-time">Loading...</div>
-      <div class="item-sub">October 1, 2026 → January 1, 2027</div>
+        <div class="phase-title">Mining Phase Ends In</div>
+        <div class="phase-countdown" id="phaseCountdown">Loading...</div>
+        <div class="small">October 1, 2026 — January 1, 2027</div>
     </div>
 
-    <div class="grid">
-      <div class="stat">
-        <div class="stat-label">Total Supply</div>
-        <div class="stat-value">100,000,000</div>
-      </div>
+    <div class="card">
+        <div class="card-title">Mining</div>
 
-      <div class="stat">
-        <div class="stat-label">Symbol</div>
-        <div class="stat-value">ELVION</div>
-      </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Mining Reward</div>
+                <div class="stat-value">1,000</div>
+            </div>
 
-      <div class="stat">
-        <div class="stat-label">Mining Reward</div>
-        <div class="stat-value">1,000 / 24h</div>
-      </div>
+            <div class="stat">
+                <div class="stat-label">Cycle</div>
+                <div class="stat-value" id="cycle">0</div>
+            </div>
+        </div>
 
-      <div class="stat">
-        <div class="stat-label">Boost</div>
-        <div class="stat-value">2×</div>
-      </div>
+        <button class="green-btn" onclick="showPage('mining')">
+            ⛏️ Open Mining
+        </button>
     </div>
 
-    <br>
+    <div class="card">
+        <div class="card-title">Total Supply</div>
+        <div class="balance-number" style="font-size:30px">100,000,000</div>
+        <div class="coin-name">ELVION</div>
 
-    <button id="tokenomicsBtn" class="secondary">
-      VIEW TOKENOMICS
-    </button>
+        <button class="green-btn" onclick="showPage('tokenomics')">
+            View Tokenomics
+        </button>
+    </div>
 
-  </section>
+</section>
 
-  <!-- MINING -->
-  <section id="mining" class="page">
-
-    <div class="section-title">Mining</div>
+<!-- MINING -->
+<section id="mining" class="page">
 
     <div class="card mining-box">
-      <div class="mining-title">MINING CYCLE</div>
-      <div id="miningTimer" class="timer">24:00:00</div>
 
-      <button id="miningClaim" class="primary">
-        CLAIM 1,000 ELVION
-      </button>
-    </div>
+        <div class="card-title">24-Hour Mining</div>
 
-    <div class="grid">
-      <div class="stat">
-        <div class="stat-label">Balance</div>
-        <div class="stat-value" id="miningBalance">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">Cycles</div>
-        <div class="stat-value" id="miningCycles">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">Mining Speed</div>
-        <div class="stat-value" id="miningSpeed">1×</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">Reward</div>
-        <div class="stat-value" id="miningReward">1,000</div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- TASKS -->
-  <section id="tasks" class="page">
-
-    <div class="section-title">Tasks</div>
-
-    <div class="card">
-      <div class="item">
-        <div class="item-info">
-          <div class="item-title">Join ELVION Telegram Channel</div>
-          <div class="item-sub">Reward: 5,000 ELVION</div>
+        <div class="mining-status" id="miningStatus">
+            MINING ACTIVE
         </div>
-        <button class="small-btn task-btn"
-                data-task="telegram_channel"
-                data-url="https://t.me/ELVIONOfficial">
-          OPEN
+
+        <div class="countdown" id="miningCountdown">
+            24:00:00
+        </div>
+
+        <div class="small">
+            Your next claim becomes available when the cycle ends.
+        </div>
+
+        <button
+            id="claimBtn"
+            class="claim-btn"
+            onclick="claimMining()"
+            disabled>
+            CLAIM 1,000 ELVION
         </button>
-      </div>
 
-      <div class="item">
-        <div class="item-info">
-          <div class="item-title">Join ELVION Telegram Group</div>
-          <div class="item-sub">Reward: 5,000 ELVION</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Mining Information</div>
+
+        <div class="profile-row">
+            <div class="profile-label">Reward</div>
+            <div class="profile-value">1,000 ELVION</div>
         </div>
-        <button class="small-btn task-btn"
-                data-task="telegram_group"
-                data-url="https://t.me/ELVIONOFFICIALGROUP">
-          OPEN
+
+        <div class="profile-row">
+            <div class="profile-label">Standard Cycle</div>
+            <div class="profile-value">24 Hours</div>
+        </div>
+
+        <div class="profile-row">
+            <div class="profile-label">With Boost</div>
+            <div class="profile-value">12 Hours</div>
+        </div>
+
+        <div class="profile-row">
+            <div class="profile-label">Auto Mining</div>
+            <div class="profile-value">Enabled</div>
+        </div>
+    </div>
+
+</section>
+
+<!-- TASKS -->
+<section id="tasks" class="page">
+
+    <div class="card">
+        <div class="card-title">Daily Tasks</div>
+        <div class="small">
+            Complete tasks and claim your ELVION rewards.
+            Tasks reset every 24 hours.
+        </div>
+    </div>
+
+    <div id="tasksList">
+        <div class="loading">Loading tasks...</div>
+    </div>
+
+</section>
+
+<!-- BOOST -->
+<section id="boost" class="page">
+
+    <div class="card boost-box">
+
+        <div class="boost-icon">⚡</div>
+
+        <div class="boost-title">2× Mining Boost</div>
+
+        <div class="boost-description">
+            Upgrade your mining speed permanently.
+            Your mining cycle changes from 24 hours to 12 hours.
+        </div>
+
+        <div class="card">
+            <div class="profile-row">
+                <div class="profile-label">Cost</div>
+                <div class="profile-value">500,000 ELVION</div>
+            </div>
+
+            <div class="profile-row">
+                <div class="profile-label">Mining Speed</div>
+                <div class="profile-value">2×</div>
+            </div>
+
+            <div class="profile-row">
+                <div class="profile-label">Cycle</div>
+                <div class="profile-value">12 Hours</div>
+            </div>
+
+            <div class="profile-row">
+                <div class="profile-label">Duration</div>
+                <div class="profile-value">Permanent</div>
+            </div>
+        </div>
+
+        <button
+            id="boostBtn"
+            class="boost-btn"
+            onclick="buyBoost()">
+            BUY BOOST — 500,000 ELVION
         </button>
-      </div>
+
     </div>
 
-    <div class="card">
-      <div class="item-sub">
-        Tasks reset every 24 hours.
-      </div>
-    </div>
+</section>
 
-  </section>
-
-  <!-- BOOST -->
-  <section id="boost" class="page">
-
-    <div class="section-title">Boost</div>
+<!-- REFERRAL -->
+<section id="referral" class="page">
 
     <div class="card">
-      <div class="item">
-        <div class="item-info">
-          <div class="item-title">2× Mining Boost</div>
-          <div class="item-sub">
-            Cost: 500,000 ELVION
-          </div>
+
+        <div class="card-title">Referral Program</div>
+
+        <div style="font-size:25px;font-weight:900;margin:10px 0">
+            Earn 10,000 ELVION
         </div>
-        <div class="stat-value">2×</div>
-      </div>
 
-      <br>
+        <div class="small">
+            Invite a new Telegram user and receive
+            10,000 ELVION when the referral is registered.
+        </div>
 
-      <div class="item-sub">
-        Boost changes your mining cycle from 24 hours to 12 hours.
-      </div>
+        <div class="card-title" style="margin-top:25px">
+            Your Referral Link
+        </div>
 
-      <br>
+        <div class="ref-code" id="referralLink">
+            Loading...
+        </div>
 
-      <button id="boostBtn" class="primary">
-        BUY BOOST — 500,000 ELVION
-      </button>
-    </div>
-
-  </section>
-
-  <!-- REFERRAL -->
-  <section id="referral" class="page">
-
-    <div class="section-title">Referral</div>
-
-    <div class="card">
-
-      <div class="balance-label">Your Referral Link</div>
-
-      <div id="referralLink" class="ref-link">
-        Loading...
-      </div>
-
-      <button id="copyReferral" class="primary">
-        COPY REFERRAL LINK
-      </button>
-
-    </div>
-
-    <div class="grid">
-
-      <div class="stat">
-        <div class="stat-label">Referrals</div>
-        <div class="stat-value" id="refCount">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">Referral Earnings</div>
-        <div class="stat-value" id="refEarned">0</div>
-      </div>
-
-    </div>
-
-    <br>
-
-    <div class="card">
-      <div class="item-sub">
-        Earn 10,000 ELVION for each new Telegram user who joins through your referral link.
-      </div>
-    </div>
-
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profile" class="page">
-
-    <div class="section-title">Profile</div>
-
-    <div class="card">
-
-      <div class="profile-row">
-        <div class="profile-key">Name</div>
-        <div id="profileName" class="profile-value">Loading...</div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-key">Username</div>
-        <div id="profileUsername" class="profile-value">Loading...</div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-key">Telegram ID</div>
-        <div id="profileId" class="profile-value">Loading...</div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-key">Balance</div>
-        <div id="profileBalance" class="profile-value">0 ELVION</div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-key">Mining Cycles</div>
-        <div id="profileCycles" class="profile-value">0</div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-key">Boost</div>
-        <div id="profileBoost" class="profile-value">1×</div>
-      </div>
-
-      <div class="profile-row">
-        <div class="profile-key">Referrals</div>
-        <div id="profileReferrals" class="profile-value">0</div>
-      </div>
+        <button class="copy-btn" onclick="copyReferral()">
+            📋 COPY REFERRAL LINK
+        </button>
 
     </div>
 
     <div class="card">
-      <div class="item-title">Wallet</div>
-      <br>
-      <div class="item-sub">
-        Wallet connection is optional and will be available soon.
-      </div>
+
+        <div class="profile-row">
+            <div class="profile-label">Referrals</div>
+            <div class="profile-value" id="refCount">0</div>
+        </div>
+
+        <div class="profile-row">
+            <div class="profile-label">Referral Earnings</div>
+            <div class="profile-value" id="refEarned">0 ELVION</div>
+        </div>
+
     </div>
 
-  </section>
+</section>
 
-  <!-- TOKENOMICS -->
-  <section id="tokenomics" class="page">
-
-    <div class="section-title">Tokenomics</div>
+<!-- PROFILE -->
+<section id="profile" class="page">
 
     <div class="card">
 
-      <div class="token-row">
-        <span>Community & Mining</span>
-        <strong>60%</strong>
-      </div>
+        <div class="card-title">Profile</div>
 
-      <div class="token-row">
-        <span>Liquidity</span>
-        <strong>10%</strong>
-      </div>
+        <div class="profile-row">
+            <div class="profile-label">Name</div>
+            <div class="profile-value" id="profileName">Loading...</div>
+        </div>
 
-      <div class="token-row">
-        <span>Ecosystem</span>
-        <strong>10%</strong>
-      </div>
+        <div class="profile-row">
+            <div class="profile-label">Username</div>
+            <div class="profile-value" id="profileUsername">Loading...</div>
+        </div>
 
-      <div class="token-row">
-        <span>Treasury / Reserve</span>
-        <strong>8%</strong>
-      </div>
+        <div class="profile-row">
+            <div class="profile-label">Telegram ID</div>
+            <div class="profile-value" id="profileId">Loading...</div>
+        </div>
 
-      <div class="token-row">
-        <span>Team</span>
-        <strong>7%</strong>
-      </div>
+        <div class="profile-row">
+            <div class="profile-label">Balance</div>
+            <div class="profile-value" id="profileBalance">0 ELVION</div>
+        </div>
 
-      <div class="token-row">
-        <span>Marketing</span>
-        <strong>5%</strong>
-      </div>
+        <div class="profile-row">
+            <div class="profile-label">Mining Cycles</div>
+            <div class="profile-value" id="profileCycles">0</div>
+        </div>
+
+        <div class="profile-row">
+            <div class="profile-label">Boost</div>
+            <div class="profile-value" id="profileBoost">Inactive</div>
+        </div>
 
     </div>
 
     <div class="card">
-      <div class="balance-label">Total Supply</div>
-      <div class="balance">100,000,000</div>
-      <div class="coin">ELVION</div>
+
+        <div class="card-title">Wallet</div>
+
+        <div class="small">
+            Wallet connection is optional and will be available soon.
+        </div>
+
+        <button
+            class="copy-btn"
+            style="margin-top:15px"
+            onclick="showToast('Wallet connection will be available soon.')">
+            CONNECT WALLET
+        </button>
+
     </div>
 
-  </section>
+</section>
+
+<!-- TOKENOMICS -->
+<section id="tokenomics" class="page">
+
+    <div class="card">
+
+        <div class="card-title">ELVION Tokenomics</div>
+
+        <div style="font-size:30px;font-weight:900;text-align:center;margin:15px 0">
+            100,000,000
+        </div>
+
+        <div class="small" style="text-align:center">
+            TOTAL SUPPLY
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="token-row">
+            <div class="token-top">
+                <span>Community & Mining</span>
+                <b>60%</b>
+            </div>
+            <div class="token-bar">
+                <div class="token-fill" style="width:60%"></div>
+            </div>
+        </div>
+
+        <div class="token-row">
+            <div class="token-top">
+                <span>Liquidity</span>
+                <b>10%</b>
+            </div>
+            <div class="token-bar">
+                <div class="token-fill" style="width:10%"></div>
+            </div>
+        </div>
+
+        <div class="token-row">
+            <div class="token-top">
+                <span>Ecosystem</span>
+                <b>10%</b>
+            </div>
+            <div class="token-bar">
+                <div class="token-fill" style="width:10%"></div>
+            </div>
+        </div>
+
+        <div class="token-row">
+            <div class="token-top">
+                <span>Treasury / Reserve</span>
+                <b>8%</b>
+            </div>
+            <div class="token-bar">
+                <div class="token-fill" style="width:8%"></div>
+            </div>
+        </div>
+
+        <div class="token-row">
+            <div class="token-top">
+                <span>Team</span>
+                <b>7%</b>
+            </div>
+            <div class="token-bar">
+                <div class="token-fill" style="width:7%"></div>
+            </div>
+        </div>
+
+        <div class="token-row">
+            <div class="token-top">
+                <span>Marketing</span>
+                <b>5%</b>
+            </div>
+            <div class="token-bar">
+                <div class="token-fill" style="width:5%"></div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
 
 </div>
 
-<!-- NAVIGATION -->
+<!-- BOTTOM NAV -->
 <nav class="nav">
 
-  <button class="nav-btn active" data-page="home">
-    <span class="nav-icon">⌂</span>
-    Home
-  </button>
+    <button class="nav-btn active" id="nav-home"
+            onclick="showPage('home')">
+        <span class="icon">🏠</span>
+        Home
+    </button>
 
-  <button class="nav-btn" data-page="mining">
-    <span class="nav-icon">⛏</span>
-    Mining
-  </button>
+    <button class="nav-btn" id="nav-mining"
+            onclick="showPage('mining')">
+        <span class="icon">⛏️</span>
+        Mining
+    </button>
 
-  <button class="nav-btn" data-page="tasks">
-    <span class="nav-icon">✓</span>
-    Tasks
-  </button>
+    <button class="nav-btn" id="nav-tasks"
+            onclick="showPage('tasks')">
+        <span class="icon">🎯</span>
+        Tasks
+    </button>
 
-  <button class="nav-btn" data-page="boost">
-    <span class="nav-icon">⚡</span>
-    Boost
-  </button>
+    <button class="nav-btn" id="nav-boost"
+            onclick="showPage('boost')">
+        <span class="icon">⚡</span>
+        Boost
+    </button>
 
-  <button class="nav-btn" data-page="referral">
-    <span class="nav-icon">♧</span>
-    Referral
-  </button>
+    <button class="nav-btn" id="nav-referral"
+            onclick="showPage('referral')">
+        <span class="icon">👥</span>
+        Referral
+    </button>
 
-  <button class="nav-btn" data-page="profile">
-    <span class="nav-icon">●</span>
-    Profile
-  </button>
+    <button class="nav-btn" id="nav-profile"
+            onclick="showPage('profile')">
+        <span class="icon">👤</span>
+        Profile
+    </button>
 
 </nav>
 
-<div id="toast" class="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
-(function(){
 
-  "use strict";
+/* =========================================
+   ELVION APP
+========================================= */
 
-  const tg = window.Telegram && window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
+var tg = null;
 
-  if(tg){
-    tg.ready();
-    tg.expand();
-  }
+try{
+    if(window.Telegram && window.Telegram.WebApp){
+        tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+    }
+}catch(e){
+    console.log("Telegram WebApp unavailable");
+}
 
-  const initData = tg ? (tg.initData || "") : "";
+var API = "";
+var initData = "";
 
-  let userData = null;
-  let miningData = null;
-  let referralData = null;
+if(tg){
+    initData = tg.initData || "";
+}
 
-  const $ = id => document.getElementById(id);
+var userData = null;
+var referralData = null;
+var miningEnd = 0;
 
-  function toast(message){
-    const box = $("toast");
-    box.textContent = message;
-    box.style.display = "block";
+var PHASE_END = 1798761600;
 
-    clearTimeout(window.__toastTimer);
 
-    window.__toastTimer = setTimeout(function(){
-      box.style.display = "none";
-    }, 2500);
-  }
+/* =========================================
+   BASIC HELPERS
+========================================= */
 
-  function formatNumber(value){
-    const n = Number(value || 0);
+function showToast(message){
+
+    var toast = document.getElementById("toast");
+
+    if(!toast) return;
+
+    toast.innerText = message;
+    toast.classList.add("show");
+
+    setTimeout(function(){
+        toast.classList.remove("show");
+    },2500);
+}
+
+
+function formatNumber(value){
+
+    var n = Number(value || 0);
+
     return n.toLocaleString("en-US");
-  }
+}
 
-  function apiUrl(path){
-    const separator = path.includes("?") ? "&" : "?";
-    return path + separator + "initData=" + encodeURIComponent(initData);
-  }
 
-  async function api(path, options = {}){
+function apiUrl(path){
 
     if(!initData){
-      throw new Error("Telegram authentication data is missing.");
+        return API + path;
     }
 
-    const response = await fetch(apiUrl(path), {
-      method: options.method || "GET",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: options.body
-        ? JSON.stringify(options.body)
-        : undefined
-    });
+    return API + path +
+        (path.indexOf("?") >= 0 ? "&" : "?") +
+        "initData=" + encodeURIComponent(initData);
+}
 
-    const text = await response.text();
 
-    let data;
+/* =========================================
+   PAGE NAVIGATION
+========================================= */
 
-    try{
-      data = JSON.parse(text);
-    }catch(e){
-      throw new Error("Server returned invalid data.");
+function showPage(page){
+
+    var pages = document.querySelectorAll(".page");
+
+    for(var i=0;i<pages.length;i++){
+        pages[i].classList.remove("active");
     }
 
-    if(!response.ok){
-      throw new Error(data.error || "Request failed.");
-    }
-
-    if(data.success === false){
-      throw new Error(data.error || "Request failed.");
-    }
-
-    return data;
-  }
-
-  function showPage(page){
-
-    document.querySelectorAll(".page").forEach(function(el){
-      el.classList.remove("active");
-    });
-
-    const target = $(page);
+    var target = document.getElementById(page);
 
     if(target){
-      target.classList.add("active");
+        target.classList.add("active");
     }
 
-    document.querySelectorAll(".nav-btn").forEach(function(btn){
-      btn.classList.toggle(
-        "active",
-        btn.dataset.page === page
-      );
-    });
+    var navs = document.querySelectorAll(".nav-btn");
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
-    if(page === "tasks") loadTasks();
-    if(page === "referral") loadReferral();
-    if(page === "profile") loadProfile();
-  }
-
-  // NAVIGATION
-  document.querySelectorAll(".nav-btn").forEach(function(btn){
-
-    btn.addEventListener("click", function(){
-
-      const page = this.dataset.page;
-
-      if(page){
-        showPage(page);
-      }
-
-    });
-
-  });
-
-  // TOKENOMICS BUTTON
-  $("tokenomicsBtn").addEventListener("click", function(){
-    showPage("tokenomics");
-  });
-
-  // CLAIM BUTTONS
-  $("homeClaim").addEventListener("click", claimMining);
-  $("miningClaim").addEventListener("click", claimMining);
-
-  async function claimMining(){
-
-    const buttons = [
-      $("homeClaim"),
-      $("miningClaim")
-    ];
-
-    buttons.forEach(btn => {
-      btn.disabled = true;
-      btn.textContent = "CLAIMING...";
-    });
-
-    try{
-
-      const data = await api("/api/claim", {
-        method:"POST"
-      });
-
-      toast(
-        data.message ||
-        "Mining reward claimed successfully."
-      );
-
-      await loadUser();
-      await loadMining();
-
-    }catch(error){
-
-      toast(error.message);
-
-    }finally{
-
-      buttons.forEach(btn => {
-        btn.disabled = false;
-      });
-
-      updateClaimButtons();
-
+    for(var j=0;j<navs.length;j++){
+        navs[j].classList.remove("active");
     }
-  }
 
-  function updateClaimButtons(){
+    var nav = document.getElementById("nav-" + page);
 
-    if(!miningData) return;
+    if(nav){
+        nav.classList.add("active");
+    }
 
-    const ready = Boolean(
-      miningData.ready ||
-      miningData.can_claim ||
-      miningData.claimable
-    );
+    if(page === "tasks"){
+        loadTasks();
+    }
 
-    const buttons = [
-      $("homeClaim"),
-      $("miningClaim")
-    ];
+    if(page === "profile"){
+        loadUser();
+    }
 
-    buttons.forEach(function(btn){
+    if(page === "referral"){
+        loadReferral();
+    }
 
-      if(ready){
-        btn.disabled = false;
-        btn.textContent = "CLAIM 1,000 ELVION";
-      }else{
-        btn.disabled = true;
-        btn.textContent = "MINING...";
-      }
+    if(tg){
+        try{
+            tg.HapticFeedback.impactOccurred("light");
+        }catch(e){}
+    }
 
+    window.scrollTo(0,0);
+}
+
+
+/* =========================================
+   LOAD USER
+========================================= */
+
+function loadUser(){
+
+    if(!initData){
+
+        document.getElementById("profileName").innerText =
+            "Open inside Telegram";
+
+        document.getElementById("profileUsername").innerText =
+            "Telegram Mini App";
+
+        document.getElementById("profileId").innerText =
+            "Unavailable";
+
+        return;
+    }
+
+    fetch(apiUrl("/api/user"),{
+        method:"GET",
+        headers:{
+            "Accept":"application/json"
+        }
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+
+        if(!data || data.success === false){
+
+            showToast(data && data.error ?
+                data.error :
+                "Unable to load profile");
+
+            return;
+        }
+
+        userData = data;
+
+        updateUserUI(data);
+    })
+    .catch(function(error){
+
+        console.log(error);
+
+        showToast("Connection error");
     });
-  }
+}
 
-  async function loadUser(){
 
-    try{
+/* =========================================
+   UPDATE USER UI
+========================================= */
 
-      const data = await api("/api/user");
+function updateUserUI(data){
 
-      userData = data.user || data;
+    var user = data.user || data;
 
-      const balance =
-        userData.balance ??
-        data.balance ??
-        0;
+    var balance =
+        user.balance !== undefined ?
+        user.balance :
+        data.balance || 0;
 
-      $("homeBalance").textContent =
+    var cycles =
+        user.mining_cycles !== undefined ?
+        user.mining_cycles :
+        data.mining_cycles || 0;
+
+    var boost =
+        user.boost !== undefined ?
+        user.boost :
+        data.boost || 0;
+
+    document.getElementById("balance").innerText =
         formatNumber(balance);
 
-      $("miningBalance").textContent =
-        formatNumber(balance);
+    document.getElementById("cycle").innerText =
+        formatNumber(cycles);
 
-      $("profileBalance").textContent =
+    document.getElementById("profileBalance").innerText =
         formatNumber(balance) + " ELVION";
 
-      $("profileName").textContent =
-        userData.first_name ||
-        userData.name ||
-        "Telegram User";
+    document.getElementById("profileCycles").innerText =
+        formatNumber(cycles);
 
-      $("profileUsername").textContent =
-        userData.username
-          ? "@" + String(userData.username).replace(/^@/,"")
-          : "Not set";
+    document.getElementById("profileBoost").innerText =
+        Number(boost) === 1 ?
+        "Active — 2×" :
+        "Inactive";
 
-      $("profileId").textContent =
-        userData.telegram_id ||
-        userData.id ||
-        "Not available";
+    var firstName =
+        user.first_name ||
+        data.first_name ||
+        "";
 
-      $("profileCycles").textContent =
-        formatNumber(
-          userData.mining_cycles ??
-          data.mining_cycles ??
-          0
-        );
+    var username =
+        user.username ||
+        data.username ||
+        "";
 
-      $("profileBoost").textContent =
-        userData.boost ? "2×" : "1×";
+    var telegramId =
+        user.telegram_id ||
+        user.id ||
+        data.telegram_id ||
+        data.id ||
+        "";
 
-      $("miningCycles").textContent =
-        formatNumber(
-          userData.mining_cycles ??
-          data.mining_cycles ??
-          0
-        );
+    document.getElementById("profileName").innerText =
+        firstName || "Telegram User";
 
-      $("miningSpeed").textContent =
-        userData.boost ? "2×" : "1×";
+    document.getElementById("profileUsername").innerText =
+        username ? "@" + username : "No username";
 
-    }catch(error){
+    document.getElementById("profileId").innerText =
+        telegramId || "Unavailable";
 
-      console.error(error);
-      toast("Unable to load Telegram profile.");
-
+    if(data.mining_end){
+        miningEnd = Number(data.mining_end);
     }
-  }
 
-  async function loadMining(){
-
-    try{
-
-      const data = await api("/api/energy");
-
-      miningData = data;
-
-      const seconds =
-        Number(
-          data.remaining ??
-          data.remaining_seconds ??
-          data.seconds ??
-          data.time_remaining ??
-          0
-        );
-
-      startMiningCountdown(seconds);
-
-      updateClaimButtons();
-
-    }catch(error){
-
-      console.error(error);
-      startMiningCountdown(0);
-
+    if(user.mining_end){
+        miningEnd = Number(user.mining_end);
     }
-  }
 
-  let miningSeconds = 0;
-
-  function startMiningCountdown(seconds){
-
-    miningSeconds = Math.max(
-      0,
-      Math.floor(Number(seconds) || 0)
-    );
-
-    updateMiningTimer();
-
-    clearInterval(window.__miningTimer);
-
-    window.__miningTimer = setInterval(function(){
-
-      if(miningSeconds > 0){
-        miningSeconds--;
-      }
-
-      updateMiningTimer();
-
-    },1000);
-  }
-
-  function updateMiningTimer(){
-
-    const h = Math.floor(miningSeconds / 3600);
-    const m = Math.floor((miningSeconds % 3600) / 60);
-    const s = miningSeconds % 60;
-
-    const text =
-      String(h).padStart(2,"0") + ":" +
-      String(m).padStart(2,"0") + ":" +
-      String(s).padStart(2,"0");
-
-    $("homeTimer").textContent = text;
-    $("miningTimer").textContent = text;
-
-    if(miningSeconds <= 0){
-
-      $("homeClaim").disabled = false;
-      $("miningClaim").disabled = false;
-
-      $("homeClaim").textContent =
-        "CLAIM 1,000 ELVION";
-
-      $("miningClaim").textContent =
-        "CLAIM 1,000 ELVION";
-
+    if(data.next_claim){
+        miningEnd = Number(data.next_claim);
     }
-  }
 
-  // TASKS
-  async function loadTasks(){
+    if(user.next_claim){
+        miningEnd = Number(user.next_claim);
+    }
 
-    try{
+    updateMiningButton();
+}
 
-      const data = await api("/api/tasks");
 
-      const tasks = data.tasks || [];
+/* =========================================
+   MINING
+========================================= */
 
-      document.querySelectorAll(".task-btn")
-        .forEach(function(btn){
+function updateMiningButton(){
 
-          const taskId = btn.dataset.task;
+    var btn = document.getElementById("claimBtn");
 
-          const task = tasks.find(
-            t => String(t.id) === String(taskId)
-          );
+    if(!btn) return;
 
-          if(task && task.claimed){
-            btn.textContent = "CLAIMED";
-            btn.disabled = true;
-          }
+    var now = Math.floor(Date.now()/1000);
+
+    if(miningEnd > 0 && now >= miningEnd){
+
+        btn.disabled = false;
+        btn.innerText = "CLAIM 1,000 ELVION";
+
+        document.getElementById("miningStatus").innerText =
+            "MINING COMPLETE";
+
+    }else{
+
+        btn.disabled = true;
+
+        document.getElementById("miningStatus").innerText =
+            "MINING ACTIVE";
+    }
+}
+
+
+function claimMining(){
+
+    if(!initData){
+
+        showToast("Open ELVION inside Telegram");
+
+        return;
+    }
+
+    var btn = document.getElementById("claimBtn");
+
+    btn.disabled = true;
+    btn.innerText = "CLAIMING...";
+
+    fetch(apiUrl("/api/claim"),{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            initData:initData
+        })
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+
+        if(data.success){
+
+            showToast(
+                "Claimed " +
+                formatNumber(data.reward || 1000) +
+                " ELVION"
+            );
+
+            if(data.balance !== undefined){
+
+                document.getElementById("balance").innerText =
+                    formatNumber(data.balance);
+
+                document.getElementById("profileBalance").innerText =
+                    formatNumber(data.balance) + " ELVION";
+            }
+
+            if(data.mining_end){
+                miningEnd = Number(data.mining_end);
+            }
+
+            if(data.next_claim){
+                miningEnd = Number(data.next_claim);
+            }
+
+            loadUser();
+
+        }else{
+
+            showToast(
+                data.error ||
+                "Claim failed"
+            );
+
+            updateMiningButton();
+        }
+    })
+    .catch(function(error){
+
+        console.log(error);
+
+        showToast("Connection error");
+
+        updateMiningButton();
+    });
+}
+
+
+/* =========================================
+   MINING COUNTDOWN
+========================================= */
+
+function updateMiningCountdown(){
+
+    var element =
+        document.getElementById("miningCountdown");
+
+    if(!element) return;
+
+    if(!miningEnd){
+
+        element.innerText = "24:00:00";
+
+        return;
+    }
+
+    var now =
+        Math.floor(Date.now()/1000);
+
+    var diff =
+        Math.max(0,miningEnd-now);
+
+    var hours =
+        Math.floor(diff/3600);
+
+    var minutes =
+        Math.floor((diff%3600)/60);
+
+    var seconds =
+        diff%60;
+
+    element.innerText =
+        String(hours).padStart(2,"0") +
+        ":" +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+    updateMiningButton();
+}
+
+
+/* =========================================
+   PHASE COUNTDOWN
+========================================= */
+
+function updatePhaseCountdown(){
+
+    var element =
+        document.getElementById("phaseCountdown");
+
+    if(!element) return;
+
+    var now =
+        Math.floor(Date.now()/1000);
+
+    var diff =
+        Math.max(0,PHASE_END-now);
+
+    var days =
+        Math.floor(diff/86400);
+
+    var hours =
+        Math.floor((diff%86400)/3600);
+
+    var minutes =
+        Math.floor((diff%3600)/60);
+
+    var seconds =
+        diff%60;
+
+    element.innerText =
+        days + "D " +
+        String(hours).padStart(2,"0") + "H " +
+        String(minutes).padStart(2,"0") + "M " +
+        String(seconds).padStart(2,"0") + "S";
+}
+
+
+/* =========================================
+   TASKS
+========================================= */
+
+function loadTasks(){
+
+    var container =
+        document.getElementById("tasksList");
+
+    if(!initData){
+
+        container.innerHTML =
+            '<div class="error">Open ELVION inside Telegram to load tasks.</div>';
+
+        return;
+    }
+
+    container.innerHTML =
+        '<div class="loading">Loading tasks...</div>';
+
+    fetch(apiUrl("/api/tasks"))
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+
+        var tasks =
+            data.tasks ||
+            [];
+
+        if(!tasks.length){
+
+            container.innerHTML =
+                '<div class="card"><div class="loading">No tasks available.</div></div>';
+
+            return;
+        }
+
+        container.innerHTML = "";
+
+        tasks.forEach(function(task){
+
+            var wrapper =
+                document.createElement("div");
+
+            wrapper.className = "task";
+
+            var info =
+                document.createElement("div");
+
+            info.className = "task-info";
+
+            var name =
+                document.createElement("div");
+
+            name.className = "task-name";
+
+            name.innerText =
+                task.name ||
+                task.title ||
+                "ELVION Task";
+
+            var reward =
+                document.createElement("div");
+
+            reward.className = "task-reward";
+
+            reward.innerText =
+                "+" +
+                formatNumber(task.reward || 5000) +
+                " ELVION";
+
+            info.appendChild(name);
+            info.appendChild(reward);
+
+            var button =
+                document.createElement("button");
+
+            button.className = "task-btn";
+
+            if(task.completed || task.claimed){
+
+                button.classList.add("done");
+
+                button.innerText = "CLAIMED";
+
+                button.disabled = true;
+
+            }else{
+
+                button.innerText = "OPEN";
+
+                button.onclick = function(){
+
+                    openTask(task);
+                };
+            }
+
+            wrapper.appendChild(info);
+            wrapper.appendChild(button);
+
+            container.appendChild(wrapper);
 
         });
 
-    }catch(
+    })
+    .catch(function(error){
+
+        console.log(error);
+
+        container.innerHTML =
+            '<div class="error">Unable to load tasks.</div>';
+    });
+}
+
+
+function openTask(task){
+
+    var url =
+        task.url ||
+        task.link ||
+        "";
+
+    if(url){
+
+        if(tg){
+
+            try{
+                tg.openTelegramLink(url);
+            }catch(e){
+                window.open(url,"_blank");
+            }
+
+        }else{
+
+            window.open(url,"_blank");
+        }
+
+    }
+
+    setTimeout(function(){
+
+        claimTask(
+            task.id ||
+            task.task_id ||
+            task.key
+        );
+
+    },1200);
+}
+
+
+function claimTask(taskId){
+
+    if(!initData || !taskId) return;
+
+    fetch(apiUrl("/api/task/claim"),{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            initData:initData,
+            task_id:taskId
+        })
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+
+        if(data.success){
+
+            showToast(
+                "+" +
+                formatNumber(data.reward || 5000) +
+                " ELVION"
+            );
+
+            loadUser();
+            loadTasks();
+
+        }else{
+
+            showToast(
+                data.error ||
+                "Task could not be claimed"
+            );
+        }
+
+    })
+    .catch(function(error){
+
+        console.log(error);
+
+    });
+}
+
+
+/* =========================================
+   BOOST
+========================================= */
+
+function buyBoost(){
+
+    if(!initData){
+
+        showToast("Open ELVION inside Telegram");
+
+        return;
+    }
+
+    var btn =
+        document.getElementById("boostBtn");
+
+    btn.disabled = true;
+    btn.innerText = "PROCESSING...";
+
+    fetch(apiUrl("/api/boost"),{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            initData:initData
+        })
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+
+        if(data.success){
+
+            showToast(
+                "2× Boost activated permanently!"
+            );
+
+            btn.innerText =
+                "BOOST ACTIVE — 2×";
+
+            loadUser();
+
+        }else{
+
+            showToast(
+                data.error ||
+                "Unable to activate boost"
+            );
+
+            btn.disabled = false;
+
+            btn.innerText =
+                "BUY BOOST — 500,000 ELVION";
+        }
+
+    })
+    .catch(function(error){
+
+        console.log(error);
+
+        showToast("Connection error");
+
+        btn.disabled = false;
+
+        btn.innerText =
+            "BUY BOOST — 500,000 ELVION";
+    });
+}
+
+
+/* =========================================
+   REFERRAL
+========================================= */
+
+function loadReferral(){
+
+    if(!initData){
+
+        document.getElementById("referralLink").innerText =
+            "Open inside Telegram";
+
+        return;
+    }
+
+    fetch(apiUrl("/api/referrals"))
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+
+        referralData = data;
+
+        var link =
+            data.referral_link ||
+            data.link ||
+            "";
+
+        document.getElementById("referralLink").innerText =
+            link || "Referral link unavailable";
+
+        document.getElementById("refCount").innerText =
+            formatNumber(
+                data.referral_count ||
+                data.count ||
+                0
+            );
+
+        document.getElementById("refEarned").innerText =
+            formatNumber(
+                data.referral_earned ||
+                data.earned ||
+                0
+            ) +
+            " ELVION";
+
+    })
+    .catch(function(error){
+
+        console.log(error);
+
+        document.getElementById("referralLink").innerText =
+            "Unable to load referral link";
+    });
+}
+
+
+function copyReferral(){
+
+    var link =
+        document.getElementById("referralLink").innerText;
+
+    if(!link || link === "Loading..." ||
+       link === "Referral link unavailable"){
+
+        showToast("Referral link is not ready");
+
+        return;
+    }
+
+    if(navigator.clipboard){
+
+        navigator.clipboard.writeText(link)
+        .then(function(){
+
+            showToast("Referral link copied!");
+
+        })
+        .catch(function(){
+
+            showToast("Copy failed");
+
+        });
+
+    }else{
+
+        var textarea =
+            document.createElement("textarea");
+
+        textarea.value = link;
+
+        document.body.appendChild(textarea);
+
+        textarea.select();
+
+        try{
+            document.execCommand("copy");
+
+            showToast("Referral link copied!");
+
+        }catch(e){
+
+            showToast("Copy failed");
+
+        }
+
+        document.body.removeChild(textarea);
+    }
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+function startApp(){
+
+    loadUser();
+
+    loadReferral();
+
+    updatePhaseCountdown();
+
+    updateMiningCountdown();
+}
+
+
+setInterval(function(){
+
+    updatePhaseCountdown();
+    updateMiningCountdown();
+
+},1000);
+
+
+/* Start without blocking the buttons */
+setTimeout(function(){
+
+    startApp();
+
+},300);
+
+</script>
+
+</body>
+</html>
