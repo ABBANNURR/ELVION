@@ -1,565 +1,992 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELVION</title>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>ELVION</title>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-body {
-    margin: 0;
-    background: #050505;
-    color: white;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0f;
+            --panel-2: #111114;
+            --border: rgba(255,255,255,.08);
+            --text: #ffffff;
+            --muted: #85858d;
+            --accent: #ffffff;
+            --green: #58f7a8;
+            --gold: #f5d76e;
+        }
 
-.container {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-.logo {
-    font-size: 32px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    margin-top: 15px;
-}
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-.user {
-    margin-top: 8px;
-    color: #aaa;
-    font-size: 14px;
-}
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(255,255,255,.10),
+                    transparent 38%
+                ),
+                #050505;
 
-.balance {
-    margin-top: 35px;
-    font-size: 42px;
-    font-weight: 900;
-}
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-.coin {
-    color: #aaa;
-    font-size: 15px;
-    letter-spacing: 2px;
-}
+        button {
+            font: inherit;
+        }
 
-.rate {
-    margin-top: 8px;
-    font-size: 15px;
-    color: #aaa;
-}
+        .app {
+            width: 100%;
+            max-width: 520px;
+            min-height: 100vh;
+            margin: auto;
+            padding: 18px 16px 100px;
+        }
 
-.energy-box {
-    margin-top: 25px;
-    background: #111;
-    border-radius: 15px;
-    padding: 15px;
-}
+        /* TOP BAR */
 
-.energy-text {
-    display: flex;
-    justify-content: space-between;
-    color: #aaa;
-    margin-bottom: 8px;
-}
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
 
-.energy-bar {
-    width: 100%;
-    height: 8px;
-    background: #222;
-    border-radius: 10px;
-    overflow: hidden;
-}
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.energy-fill {
-    height: 100%;
-    width: 100%;
-    background: white;
-    transition: width .2s;
-}
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 13px;
 
-.tap {
-    width: 210px;
-    height: 210px;
-    margin: 30px auto;
-    border-radius: 50%;
-    border: 2px solid #333;
-    background: #101010;
-    color: white;
-    font-size: 32px;
-    font-weight: 900;
-    box-shadow: 0 0 35px rgba(255,255,255,.08);
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-.tap:active {
-    transform: scale(.94);
-}
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #777777
+                );
 
-.section {
-    margin-top: 20px;
-    background: #101010;
-    border-radius: 18px;
-    padding: 18px;
-    text-align: left;
-}
+            color: #050505;
+            font-weight: 900;
+            font-size: 17px;
 
-.section h3 {
-    margin-top: 0;
-}
+            box-shadow:
+                0 0 30px rgba(255,255,255,.16);
+        }
 
-button.action {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: 0;
-    border-radius: 12px;
-    background: white;
-    color: black;
-    font-weight: bold;
-}
+        .brand-name {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
 
-button.action:disabled {
-    opacity: .35;
-}
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
 
-.task {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #181818;
-    padding: 12px;
-    border-radius: 12px;
-    margin-top: 10px;
-}
+            padding: 8px 11px;
 
-.task button {
-    border: 0;
-    background: white;
-    color: black;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: bold;
-}
+            border: 1px solid var(--border);
+            border-radius: 20px;
 
-.status {
-    margin-top: 15px;
-    font-size: 13px;
-    color: #777;
-}
-</style>
+            background: rgba(255,255,255,.035);
+
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 12px var(--green);
+        }
+
+        /* PAGES */
+
+        .page {
+            display: none;
+            animation: fade .25s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(7px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* HOME */
+
+        .hero {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .coin-wrap {
+            width: 178px;
+            height: 178px;
+            margin: 10px auto 28px;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coin-glow {
+            position: absolute;
+            inset: 12px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,255,255,.25),
+                    transparent 65%
+                );
+
+            filter: blur(20px);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% {
+                transform: scale(.92);
+                opacity: .55;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: .9;
+            }
+        }
+
+        .coin {
+            width: 140px;
+            height: 140px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+            z-index: 2;
+
+            background:
+                radial-gradient(
+                    circle at 32% 25%,
+                    #ffffff,
+                    #cfcfcf 18%,
+                    #777 52%,
+                    #222 100%
+                );
+
+            color: #080808;
+
+            font-size: 36px;
+            font-weight: 950;
+            letter-spacing: -2px;
+
+            border: 3px solid rgba(255,255,255,.7);
+
+            box-shadow:
+                inset -15px -18px 35px rgba(0,0,0,.55),
+                inset 12px 10px 20px rgba(255,255,255,.7),
+                0 0 45px rgba(255,255,255,.16);
+        }
+
+        .coin::after {
+            content: "";
+            position: absolute;
+            inset: 9px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(0,0,0,.22);
+        }
+
+        .balance-label {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .balance {
+            margin-top: 7px;
+
+            font-size: 38px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+        }
+
+        .currency {
+            color: var(--muted);
+            font-size: 14px;
+            margin-left: 4px;
+        }
+
+        /* MINING CARD */
+
+        .mining-card {
+            margin-top: 28px;
+
+            padding: 20px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.075),
+                    rgba(255,255,255,.025)
+                );
+
+            border: 1px solid var(--border);
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,.25);
+
+            backdrop-filter: blur(20px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .live {
+            color: var(--green);
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .progress {
+            height: 7px;
+            background: rgba(255,255,255,.06);
+            border-radius: 10px;
+            margin: 18px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #777777
+                );
+
+            transition: width 1s linear;
+        }
+
+        .countdown {
+            text-align: center;
+
+            font-size: 31px;
+            font-weight: 850;
+            letter-spacing: 2px;
+
+            margin: 6px 0;
+        }
+
+        .countdown-label {
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .claim-btn {
+            width: 100%;
+            height: 54px;
+
+            margin-top: 18px;
+
+            border: 0;
+            border-radius: 17px;
+
+            background: #ffffff;
+            color: #050505;
+
+            font-weight: 850;
+            font-size: 14px;
+
+            cursor: pointer;
+
+            transition:
+                transform .15s ease,
+                opacity .15s ease;
+        }
+
+        .claim-btn:active {
+            transform: scale(.98);
+        }
+
+        .claim-btn:disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+
+        /* QUICK STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 12px;
+            margin-top: 13px;
+        }
+
+        .stat {
+            padding: 16px;
+
+            border-radius: 19px;
+
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .stat-value {
+            margin-top: 7px;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        /* SECTION */
+
+        .section-title {
+            font-size: 25px;
+            font-weight: 900;
+            margin: 8px 0 6px;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        /* TASKS */
+
+        .task {
+            padding: 17px;
+
+            margin-bottom: 12px;
+
+            border-radius: 20px;
+
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .task-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 14px;
+
+            background: rgba(255,255,255,.07);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .task-reward {
+            color: var(--green);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .task-btn {
+            border: 1px solid rgba(255,255,255,.12);
+            background: #ffffff;
+            color: #050505;
+
+            padding: 10px 13px;
+
+            border-radius: 12px;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* BOOST */
+
+        .boost-card {
+            padding: 25px;
+
+            border-radius: 25px;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(245,215,110,.13),
+                    transparent 40%
+                ),
+                var(--panel);
+
+            border: 1px solid var(--border);
+
+            text-align: center;
+        }
+
+        .boost-icon {
+            font-size: 50px;
+            margin-bottom: 12px;
+        }
+
+        .boost-title {
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .boost-desc {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 9px 0 20px;
+        }
+
+        .boost-price {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 18px;
+        }
+
+        .boost-btn {
+            width: 100%;
+            height: 52px;
+
+            border: 0;
+            border-radius: 16px;
+
+            background: #ffffff;
+            color: #050505;
+
+            font-weight: 850;
+        }
+
+        /* TOKENOMICS */
+
+        .total-card {
+            padding: 22px;
+
+            border-radius: 23px;
+
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            margin-bottom: 13px;
+        }
+
+        .total-label {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .total-value {
+            font-size: 30px;
+            font-weight: 900;
+            margin-top: 7px;
+        }
+
+        .allocation {
+            padding: 16px;
+
+            border-radius: 17px;
+
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            margin-bottom: 9px;
+        }
+
+        .allocation-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .allocation-name {
+            font-weight: 700;
+        }
+
+        .allocation-percent {
+            color: var(--muted);
+        }
+
+        .allocation-bar {
+            height: 5px;
+
+            margin-top: 11px;
+
+            background: rgba(255,255,255,.06);
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .allocation-fill {
+            height: 100%;
+            background: #ffffff;
+        }
+
+        /* PROFILE */
+
+        .profile-card {
+            padding: 22px;
+
+            border-radius: 23px;
+
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+
+            margin-bottom: 15px;
+
+            border-radius: 23px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #555
+                );
+
+            color: #050505;
+
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .profile-username {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid var(--border);
+
+            font-size: 12px;
+        }
+
+        .profile-row:last-child {
+            border-bottom: 0;
+        }
+
+        .profile-row span:first-child {
+            color: var(--muted);
+        }
+
+        /* NAVIGATION */
+
+        .bottom-nav {
+            position: fixed;
+
+            left: 50%;
+            bottom: 10px;
+
+            transform: translateX(-50%);
+
+            width: min(490px, calc(100% - 20px));
+
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+
+            padding: 8px;
+
+            background: rgba(12,12,14,.92);
+
+            border: 1px solid rgba(255,255,255,.09);
+
+            border-radius: 22px;
+
+            backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,.55);
+
+            z-index: 100;
+        }
+
+        .nav-btn {
+            border: 0;
+            background: transparent;
+
+            color: #66666e;
+
+            padding: 9px 4px;
+
+            border-radius: 15px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-btn.active {
+            background: rgba(255,255,255,.09);
+            color: #ffffff;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+
+            left: 50%;
+            top: 18px;
+
+            transform:
+                translate(-50%, -20px);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            background: #ffffff;
+            color: #050505;
+
+            padding: 12px 17px;
+
+            border-radius: 13px;
+
+            font-size: 12px;
+            font-weight: 750;
+
+            z-index: 500;
+
+            transition: .25s ease;
+        }
+
+        .toast.show {
+            transform:
+                translate(-50%, 0);
+
+            opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--muted);
+            padding: 35px 10px;
+            font-size: 12px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-    <div class="logo">ELVION</div>
+    <!-- TOP BAR -->
 
-    <div class="user" id="userName">
-        Connecting Telegram...
-    </div>
+    <div class="topbar">
 
-    <div class="balance" id="balance">
-        0
-    </div>
-
-    <div class="coin">
-        ELVION
-    </div>
-
-    <div class="rate">
-        Mining rate: <span id="rate">1</span> ELVION / tap
-    </div>
-
-    <div class="energy-box">
-
-        <div class="energy-text">
-            <span>⚡ Energy</span>
-            <span id="energy">2000 / 2000</span>
+        <div class="brand">
+            <div class="brand-mark">E</div>
+            <div class="brand-name">ELVION</div>
         </div>
 
-        <div class="energy-bar">
-            <div class="energy-fill" id="energyFill"></div>
+        <div class="status">
+            <span class="status-dot"></span>
+            ONLINE
         </div>
 
     </div>
 
-    <button class="tap" id="tapButton">
-        TAP
-    </button>
 
-    <div class="section">
+    <!-- HOME -->
 
-        <h3>🎁 Daily Claim</h3>
+    <section id="home" class="page active">
 
-        <p id="claimText">
-            Claim your daily reward.
-        </p>
+        <div class="hero">
 
-        <button class="action" id="claimButton">
-            CLAIM
-        </button>
+            <div class="coin-wrap">
 
-    </div>
+                <div class="coin-glow"></div>
 
-    <div class="section">
+                <div class="coin">
+                    E
+                </div>
 
-        <h3>🚀 Boost</h3>
+            </div>
 
-        <p>
-            Double your mining rate permanently.
-        </p>
+            <div class="balance-label">
+                Total Balance
+            </div>
 
-        <p>
-            Cost: <b>500,000 ELVION</b>
-        </p>
+            <div class="balance">
+                <span id="balance">0</span>
+                <span class="currency">ELVION</span>
+            </div>
 
-        <button class="action" id="boostButton">
-            BUY BOOST
-        </button>
-
-    </div>
-
-    <div class="section">
-
-        <h3>📋 Tasks</h3>
-
-        <div class="task">
-            <span>Follow us on X<br>+5,000</span>
-            <button onclick="doTask('x')">OPEN</button>
         </div>
 
-        <div class="task">
-            <span>Join Telegram<br>+5,000</span>
-            <button onclick="doTask('telegram')">OPEN</button>
+
+        <div class="mining-card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Mining Status
+                </div>
+
+                <div class="live" id="miningStatus">
+                    ACTIVE
+                </div>
+
+            </div>
+
+            <div class="progress">
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                ></div>
+            </div>
+
+            <div
+                id="countdown"
+                class="countdown"
+            >
+                24:00:00
+            </div>
+
+            <div class="countdown-label">
+                Next claim
+            </div>
+
+            <button
+                id="claimBtn"
+                class="claim-btn"
+                disabled
+            >
+                CLAIM 1,000 ELVION
+            </button>
+
         </div>
 
-    </div>
 
-    <div class="status" id="status">
-        Connecting...
-    </div>
+        <div class="stats">
 
-</div>
+            <div class="stat">
 
-<script>
+                <div class="stat-label">
+                    Mining Reward
+                </div>
 
-const tg = window.Telegram.WebApp;
+                <div class="stat-value">
+                    1,000 ELVION
+                </div>
 
-tg.ready();
-tg.expand();
+            </div>
 
-const API = "";
+            <div class="stat">
 
-let balance = 0;
-let energy = 2000;
-let maxEnergy = 2000;
-let miningRate = 1;
-let boosted = false;
-let lastClaim = 0;
+                <div class="stat-label">
+                    Completed Cycles
+                </div>
 
-function initData() {
-    return tg.initData || "";
-}
+                <div
+                    id="cycles"
+                    class="stat-value"
+                >
+                    0
+                </div>
 
-async function api(url, method = "GET") {
+            </div>
 
-    const options = {
-        method: method,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    };
+        </div>
 
-    if (method !== "GET") {
-        options.body = JSON.stringify({
-            initData: initData()
-        });
-    }
+    </section>
 
-    const response = await fetch(API + url, options);
 
-    const data = await response.json();
+    <!-- MINING -->
 
-    if (!response.ok) {
-        throw new Error(data.error || "Request failed");
-    }
+    <section id="mining" class="page">
 
-    return data;
-}
+        <div class="section-title">
+            Mining
+        </div>
 
-function formatNumber(number) {
-    return Number(number).toLocaleString();
-}
+        <div class="section-subtitle">
+            Keep your mining cycle active while you are away.
+            Return when the countdown reaches zero and claim your ELVION.
+        </div>
 
-function updateUI() {
+        <div class="mining-card">
 
-    document.getElementById("balance").textContent =
-        formatNumber(balance);
+            <div class="card-header">
 
-    document.getElementById("energy").textContent =
-        `${energy} / ${maxEnergy}`;
+                <div class="card-title">
+                    24-Hour Mining Cycle
+                </div>
 
-    document.getElementById("rate").textContent =
-        miningRate;
+                <div class="live">
+                    RUNNING
+                </div>
 
-    const percentage =
-        Math.max(0, Math.min(100, (energy / maxEnergy) * 100));
+            </div>
 
-    document.getElementById("energyFill").style.width =
-        percentage + "%";
+            <div class="progress">
+                <div
+                    id="miningProgress"
+                    class="progress-bar"
+                ></div>
+            </div>
 
-    if (boosted) {
-        document.getElementById("boostButton").textContent =
-            "BOOST ACTIVE";
+            <div
+                id="miningCountdown"
+                class="countdown"
+            >
+                24:00:00
+            </div>
 
-        document.getElementById("boostButton").disabled =
-            true;
-    }
-}
+            <div class="countdown-label">
+                Time remaining
+            </div>
 
-async function loadUser() {
+            <button
+                id="miningClaimBtn"
+                class="claim-btn"
+                disabled
+            >
+                CLAIM REWARD
+            </button>
 
-    try {
+        </div>
 
-        if (!initData()) {
+    </section>
 
-            document.getElementById("status").textContent =
-                "Open ELVION inside Telegram.";
 
-            return;
-        }
+    <!-- TASKS -->
 
-        const data = await api(
-            "/api/user?initData=" +
-            encodeURIComponent(initData())
-        );
+    <section id="tasks" class="page">
 
-        balance = data.balance;
-        energy = data.energy;
-        maxEnergy = data.max_energy;
-        miningRate = data.mining_rate;
-        lastClaim = data.last_claim;
-        boosted = data.boosted;
+        <div class="section-title">
+            Tasks
+        </div>
 
-        const user = data.user;
-
-        document.getElementById("userName").textContent =
-            user.first_name || "ELVION User";
-
-        document.getElementById("status").textContent =
-            "ELVION is online.";
-
-        updateUI();
-        updateClaim();
-
-    } catch (error) {
-
-        document.getElementById("status").textContent =
-            error.message;
-    }
-}
-
-document.getElementById("tapButton").addEventListener(
-    "click",
-    async function () {
-
-        if (energy <= 0) {
-            return;
-        }
-
-        try {
-
-            const data = await api(
-                "/api/tap",
-                "POST"
-            );
-
-            balance = data.balance;
-            energy = data.energy;
-
-            updateUI();
-
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred("light");
-            }
-
-        } catch (error) {
-
-            document.getElementById("status").textContent =
-                error.message;
-        }
-    }
-);
-
-document.getElementById("claimButton").addEventListener(
-    "click",
-    async function () {
-
-        try {
-
-            const data = await api(
-                "/api/claim",
-                "POST"
-            );
-
-            balance = data.balance;
-            lastClaim = data.last_claim;
-
-            updateUI();
-            updateClaim();
-
-            alert(
-                "+" +
-                formatNumber(data.reward) +
-                " ELVION claimed!"
-            );
-
-        } catch (error) {
-
-            document.getElementById("status").textContent =
-                error.message;
-
-            updateClaim();
-        }
-    }
-);
-
-document.getElementById("boostButton").addEventListener(
-    "click",
-    async function () {
-
-        if (!confirm(
-            "Buy 2x mining boost for 500,000 ELVION?"
-        )) {
-            return;
-        }
-
-        try {
-
-            const data = await api(
-                "/api/boost",
-                "POST"
-            );
-
-            balance = data.balance;
-            miningRate = data.mining_rate;
-            boosted = data.boosted;
-
-            updateUI();
-
-            alert("Boost activated!");
-
-        } catch (error) {
-
-            alert(error.message);
-        }
-    }
-);
-
-function updateClaim() {
-
-    const button =
-        document.getElementById("claimButton");
-
-    const text =
-        document.getElementById("claimText");
-
-    if (!lastClaim) {
-
-        button.disabled = false;
-        text.textContent =
-            "Your 24-hour reward is ready.";
-
-        return;
-    }
-
-    const now =
-        Math.floor(Date.now() / 1000);
-
-    const remaining =
-        (24 * 60 * 60) -
-        (now - lastClaim);
-
-    if (remaining <= 0) {
-
-        button.disabled = false;
-        text.textContent =
-            "Your 24-hour reward is ready.";
-
-        return;
-    }
-
-    button.disabled = true;
-
-    const hours =
-        Math.floor(remaining / 3600);
-
-    const minutes =
-        Math.floor((remaining % 3600) / 60);
-
-    const seconds =
-        remaining % 60;
-
-    text.textContent =
-        `Next claim in ${hours}h ${minutes}m ${seconds}s`;
-}
-
-function doTask(type) {
-
-    if (type === "x") {
-
-        window.open(
-            "https://x.com/ABBANNURR4077",
-            "_blank"
-        );
-
-    }
-
-    if (type === "telegram") {
-
-        window.open(
-            "https://t.me/ABBANNURR1",
-            "_blank"
-        );
-    }
-}
-
-setInterval(updateClaim, 1000);
-
-setInterval(async function () {
-
-    if (energy < maxEnergy) {
-
-        try {
-
-            const data = await api(
-                "/api/user?initData=" +
-                encodeURIComponent(initData())
-            );
-
-            balance = data.balance;
-            energy = data.energy;
-
-            updateUI();
-
-        } catch (error) {}
-    }
-
-}, 5000);
-
-loadUser();
-
-</script>
-
-</body>
-</html>
+        <div class="section-subtitle">
+         
