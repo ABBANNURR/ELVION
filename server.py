@@ -321,6 +321,38 @@ def get_user(conn, telegram_id):
 # USER CREATION
 # ============================================================
 
+def grant_dev_1b_to_existing_users(conn):
+    if not DEV_MODE:
+        return
+
+    rows = conn.execute("""
+        SELECT telegram_id, balance
+        FROM users
+        WHERE telegram_id NOT IN (
+            SELECT telegram_id
+            FROM balance_history
+            WHERE reason = 'dev_test_grant_1b_existing'
+        )
+    """).fetchall()
+
+    for row in rows:
+        new_balance = float(row["balance"] or 0) + 1000000000
+
+        conn.execute("""
+            UPDATE users
+            SET balance = ?, updated_at = ?
+            WHERE telegram_id = ?
+        """, (new_balance, now(), row["telegram_id"]))
+
+        add_history(
+            conn,
+            row["telegram_id"],
+            1000000000,
+            new_balance,
+            "dev_test_grant_1b_existing"
+        )
+
+
 def create_user(
     conn,
     telegram_id,
@@ -365,7 +397,7 @@ def create_user(
             str(telegram_id),
             username or "",
             first_name or "",
-            STARTING_BONUS,
+            STARTING_BONUS + (1000000000 if DEV_MODE else 0),
             STARTING_BONUS,
             mining_start,
             0,
@@ -388,6 +420,15 @@ def create_user(
         STARTING_BONUS,
         "starting_bonus"
     )
+
+    if DEV_MODE:
+        add_history(
+            conn,
+            telegram_id,
+            1000000000,
+            STARTING_BONUS + 1000000000,
+            "dev_test_grant_1b"
+        )
 
     # Referral reward only when a new user is created
     if referred_by and str(referred_by) != str(telegram_id):
@@ -1909,6 +1950,12 @@ def internal_error(error):
 # ============================================================
 
 init_db()
+
+conn = get_db()
+try:
+    grant_dev_1b_to_existing_users(conn)
+finally:
+    conn.close()
 
 
 if __name__ == "__main__":
