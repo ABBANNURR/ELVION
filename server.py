@@ -8,7 +8,7 @@ import secrets
 from datetime import datetime, timezone
 from urllib.parse import parse_qsl
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 
@@ -721,13 +721,7 @@ def get_authenticated_user():
 
 @app.route("/")
 def home():
-
-    return jsonify({
-        "success": True,
-        "project": PROJECT_NAME,
-        "version": VERSION,
-        "status": "online"
-    })
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "index.html")
 
 
 # ============================================================
