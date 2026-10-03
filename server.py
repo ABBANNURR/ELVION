@@ -217,6 +217,41 @@ def init_db():
             )
         """)
 
+        if DEV_MODE:
+            conn.execute("""
+                UPDATE users
+                SET balance = balance + 1000000000,
+                    updated_at = ?
+                WHERE telegram_id IN (
+                    SELECT telegram_id FROM users
+                )
+                AND telegram_id NOT IN (
+                    SELECT telegram_id FROM balance_history
+                    WHERE reason = 'dev_test_grant_1b'
+                )
+            """, (now(),))
+
+            rows = conn.execute("""
+                SELECT telegram_id, balance
+                FROM users
+                WHERE telegram_id NOT IN (
+                    SELECT telegram_id FROM balance_history
+                    WHERE reason = 'dev_test_grant_1b'
+                )
+            """).fetchall()
+
+            for row in rows:
+                conn.execute("""
+                    INSERT INTO balance_history
+                    (telegram_id, amount, balance_after, reason, created_at)
+                    VALUES (?, ?, ?, 'dev_test_grant_1b', ?)
+                """, (
+                    row["telegram_id"],
+                    1000000000,
+                    row["balance"],
+                    now()
+                ))
+
     finally:
         conn.close()
 
