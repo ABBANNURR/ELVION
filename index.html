@@ -195,6 +195,13 @@ font-size:11px;
 margin-top:5px;
 }
 
+.task-description{
+color:#7f8b84;
+font-size:10px;
+margin-top:4px;
+line-height:1.4;
+}
+
 .task-btn{
 background:#00ff88;
 color:#00150b;
@@ -399,7 +406,7 @@ ELVION
 <div class="card phase">
 
 <div class="title">
-Mining Phase Ends In
+Mining Starts In
 </div>
 
 <div
@@ -409,7 +416,7 @@ Loading...
 </div>
 
 <div class="coin">
-October 1, 2026 — January 1, 2027
+November 1, 2026
 </div>
 
 </div>
@@ -428,7 +435,7 @@ Mining
 Reward
 </div>
 <div class="stat-value">
-1,000
+1,440
 </div>
 </div>
 
@@ -447,7 +454,7 @@ id="cycle">
 <button
 class="green"
 onclick="showPage('mining')">
-OPEN MINING
+VIEW MINING
 </button>
 
 </div>
@@ -511,7 +518,7 @@ id="claimBtn"
 class="green"
 onclick="claimMining()"
 disabled>
-CLAIM 1,000 ELVION
+MINING STARTS 1 NOVEMBER
 </button>
 
 </div>
@@ -525,7 +532,7 @@ Mining Information
 
 <div class="profile-row">
 <div class="label">Reward</div>
-<div class="value">1,000 ELVION</div>
+<div class="value">1,440 ELVION / 24h</div>
 </div>
 
 <div class="profile-row">
@@ -535,7 +542,7 @@ Mining Information
 
 <div class="profile-row">
 <div class="label">Boost Cycle</div>
-<div class="value">12 Hours</div>
+<div class="value">2× Rate — 24 Hours</div>
 </div>
 
 <div class="profile-row">
@@ -956,7 +963,7 @@ tg ? (tg.initData || "") : "";
 
 var miningEnd = 0;
 
-var PHASE_END = 1798761600;
+var PHASE_END = 1793491200;
 
 
 function toast(message){
@@ -1108,9 +1115,15 @@ document.getElementById("profileCycles")
 .innerText =
 number(u.mining_cycles);
 
+var boostUntil =
+Number(u.boost_until || 0);
+
+var serverNow =
+Number(data.server_time || Math.floor(Date.now()/1000));
+
 document.getElementById("profileBoost")
 .innerText =
-Number(u.boost) === 1
+boostUntil > serverNow
 ? "Active — 2×"
 : "Inactive";
 
@@ -1131,6 +1144,9 @@ function updateMining(){
 var now =
 Math.floor(Date.now()/1000);
 
+var launch =
+1793491200;
+
 var diff =
 Math.max(0,miningEnd-now);
 
@@ -1140,27 +1156,44 @@ Math.floor(diff/3600);
 var m =
 Math.floor((diff%3600)/60);
 
-var s =
+var sec =
 diff%60;
 
 document.getElementById(
 "miningCountdown"
 ).innerText =
 String(h).padStart(2,"0") +
-":" +
+"H " +
 String(m).padStart(2,"0") +
-":" +
-String(s).padStart(2,"0");
+"M " +
+String(sec).padStart(2,"0") +
+"S";
 
 var btn =
 document.getElementById("claimBtn");
+
+if(now < launch){
+
+btn.disabled = true;
+
+btn.innerText =
+"MINING STARTS 1 NOVEMBER";
+
+document.getElementById(
+"miningStatus"
+).innerText =
+"MINING NOT STARTED";
+
+return;
+
+}
 
 if(diff <= 0){
 
 btn.disabled = false;
 
 btn.innerText =
-"CLAIM 1,000 ELVION";
+"CLAIM ELVION";
 
 document.getElementById(
 "miningStatus"
@@ -1349,11 +1382,14 @@ document.createElement("div");
 
 left.innerHTML =
 "<div class='task-name'>" +
-task.name +
+task.title +
 "</div>" +
 "<div class='task-reward'>+" +
 number(task.reward) +
-" ELVION</div>";
+" ELVION</div>" +
+"<div class='task-description'>" +
+(task.description || "") +
+"</div>";
 
 var button =
 document.createElement("button");

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.db
+*_backup.py
+server_backup.py
+server_before_*.py
+server_FINAL_WORKING.py
+server_v1_backup.py
+index_FINAL_WORKING.html
+index_before_*.html
