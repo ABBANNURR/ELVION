@@ -837,7 +837,9 @@ def api_user():
             "referral_code":
                 user["referral_code"],
 
-            "referral_count":
+            "referral_link": "https://t.me/ELVIONO_BOT?start=" + user["referral_code"],
+
+        "referral_count":
                 int(
                     user["referral_count"]
                 ),
@@ -1448,6 +1450,8 @@ def referrals():
 
         "referral_code":
             user["referral_code"],
+
+        "referral_link": "https://t.me/ELVIONO_BOT?start=" + user["referral_code"],
 
         "referral_count":
             int(
