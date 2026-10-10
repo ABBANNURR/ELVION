@@ -87,96 +87,36 @@ button{font:inherit;cursor:pointer}
 </div>
 
 <!-- HOME -->
-
 <section id="home" class="page active">
-
-<div class="card balance">
-
-<div class="title">Your Balance</div>
-
-<div class="amount" id="balance">
-0
-</div>
-
-<div class="coin">
-ELVION
-</div>
-
-</div>
-
-
-<div class="card phase">
-
-<div class="title">
-Mining Starts In
-</div>
-
-<div
-class="phase-time"
-id="phaseCountdown">
-Loading...
-</div>
-
-<div class="coin">
-November 1, 2026
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="title">
-Mining
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<div class="stat-label">
-Reward
-</div>
-<div class="stat-value">
-1,440
-</div>
-</div>
-
-<div class="stat">
-<div class="stat-label">
-Cycle
-</div>
-<div class="stat-value"
-id="cycle">
-0
-</div>
-</div>
-
-</div>
-
-<button
-class="green"
-onclick="showPage('mining')">
-VIEW MINING
-</button>
-
-</div>
-
-
-
-
-
-<div class="coin">
-ELVION
-</div>
-
-
-
-</div>
-
+  <div class="card balance">
+    <div class="title">Your ELVION Balance</div>
+    <div class="amount" id="balance">0</div>
+    <div class="coin">ELVION</div>
+    <div class="balance-meta"><span class="pill">⛏ Mining + Claiming</span><span class="pill">🚀 Launch: 1 Nov 2026</span></div>
+  </div>
+  <div class="card phase">
+    <div class="title">Mining Launch Countdown</div>
+    <div class="phase-time" id="phaseCountdown">Loading...</div>
+    <div class="coin">NOVEMBER 1, 2026</div>
+  </div>
+  <div class="card mining">
+    <div class="section-head"><div class="title">Your Mining Session</div><span class="status" id="miningStatus">PRE-LAUNCH</span></div>
+    <div class="mining-time" id="miningCountdown">24H 00M 00S</div>
+    <div class="coin">TIME UNTIL YOUR NEXT CLAIM</div>
+    <button id="claimBtn" class="green" onclick="claimMining()" disabled>MINING STARTS 1 NOVEMBER</button>
+  </div>
+  <div class="card">
+    <div class="title">Mining Overview</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Reward / Cycle</div><div class="stat-value">1,440 ELV</div></div>
+      <div class="stat"><div class="stat-label">Completed Cycles</div><div class="stat-value" id="cycle">0</div></div>
+    </div>
+    <div class="description">Mining and claiming are together on this Home screen. Check your timer and claim when your cycle is ready.</div>
+  </div>
 </section>
 
-
 <!-- TASKS -->
+
 
 <section id="tasks" class="page">
 
@@ -327,190 +267,33 @@ id="refEarned">
 
 
 <!-- PROFILE -->
-
 <section id="profile" class="page">
-
-<div class="card">
-
-<div class="title">
-Profile
-</div>
-
-<div class="profile-row">
-<div class="label">Name</div>
-<div
-class="value"
-id="profileName">
-Loading...
-</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Username</div>
-<div
-class="value"
-id="profileUsername">
-Loading...
-</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Telegram ID</div>
-<div
-class="value"
-id="profileId">
-Loading...
-</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Balance</div>
-<div
-class="value"
-id="profileBalance">
-0 ELVION
-</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Mining Cycles</div>
-<div
-class="value"
-id="profileCycles">
-0
-</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Boost</div>
-<div
-class="value"
-id="profileBoost">
-Inactive
-</div>
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="title">
-Wallet
-</div>
-
-<div class="description">
-Connect your TON wallet. Wallet connection is optional.
-</div>
-
-<div
-id="ton-connect"
-class="wallet">
-</div>
-
-<div
-id="walletStatus"
-style="
-text-align:center;
-margin-top:12px;
-font-size:11px;
-color:#68736d;">
-Wallet not connected
-</div>
-
-</div>
-
-
-<div class="card">
-  <div class="section-head"><div class="title">ELVION tokenomics</div><span class="header-badge">100M SUPPLY</span></div>
-  <div class="amount" style="font-size:29px;text-align:center">100,000,000</div>
-  <div class="coin" style="text-align:center;margin-bottom:20px">TOTAL ELVION SUPPLY</div>
   <div class="card">
-
-<div class="title">
-ELVION Tokenomics
-</div>
-
-<div
-class="amount"
-style="
-font-size:30px;
-text-align:center;">
-100,000,000
-</div>
-
-<div
-class="coin"
-style="text-align:center;">
-TOTAL SUPPLY
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="token">
-<div class="token-top">
-<span>Community & Mining</span>
-<b>60%</b>
-</div>
-<div class="bar">
-<div class="fill" style="width:60%"></div>
-</div>
-</div>
-
-<div class="token">
-<div class="token-top">
-<span>Liquidity</span>
-<b>10%</b>
-</div>
-<div class="bar">
-<div class="fill" style="width:10%"></div>
-</div>
-</div>
-
-<div class="token">
-<div class="token-top">
-<span>Ecosystem</span>
-<b>10%</b>
-</div>
-<div class="bar">
-<div class="fill" style="width:10%"></div>
-</div>
-</div>
-
-<div class="token">
-<div class="token-top">
-<span>Treasury / Reserve</span>
-<b>8%</b>
-</div>
-<div class="bar">
-<div class="fill" style="width:8%"></div>
-</div>
-</div>
-
-<div class="token">
-<div class="token-top">
-<span>Team</span>
-<b>7%</b>
-</div>
-<div class="bar">
-<div class="fill" style="width:7%"></div>
-</div>
-</div>
-
-<div class="token">
-<div class="token-top">
-<span>Marketing</span>
-<b>5%</b>
-</div>
-<div class="bar">
-<div class="fill" style="width:5%"></div>
-</div>
-</div>
-
-</div>
+    <div class="title">Your Profile</div>
+    <div class="profile-row"><div class="label">Name</div><div class="value" id="profileName">Loading...</div></div>
+    <div class="profile-row"><div class="label">Username</div><div class="value" id="profileUsername">Loading...</div></div>
+    <div class="profile-row"><div class="label">Telegram ID</div><div class="value" id="profileId">Loading...</div></div>
+    <div class="profile-row"><div class="label">Balance</div><div class="value" id="profileBalance">0 ELVION</div></div>
+    <div class="profile-row"><div class="label">Mining Cycles</div><div class="value" id="profileCycles">0</div></div>
+    <div class="profile-row"><div class="label">Boost</div><div class="value" id="profileBoost">Inactive</div></div>
+  </div>
+  <div class="card">
+    <div class="title">TON Wallet</div>
+    <div class="description">Connect your TON wallet if you want. Wallet connection is optional.</div>
+    <div id="ton-connect" class="wallet"></div>
+    <div id="walletStatus" style="text-align:center;margin-top:12px;font-size:10px;color:#8c9bc0">Wallet not connected</div>
+  </div>
+  <div class="card">
+    <div class="section-head"><div class="title">ELVION Tokenomics</div><span class="header-badge">100M SUPPLY</span></div>
+    <div class="amount" style="font-size:29px;text-align:center">100,000,000</div>
+    <div class="coin" style="text-align:center;margin-bottom:20px">TOTAL ELVION SUPPLY</div>
+    <div class="token"><div class="token-top"><span>Community &amp; Mining</span><b>60%</b></div><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+    <div class="token"><div class="token-top"><span>Liquidity</span><b>10%</b></div><div class="bar"><div class="fill" style="width:10%"></div></div></div>
+    <div class="token"><div class="token-top"><span>Ecosystem</span><b>10%</b></div><div class="bar"><div class="fill" style="width:10%"></div></div></div>
+    <div class="token"><div class="token-top"><span>Treasury / Reserve</span><b>8%</b></div><div class="bar"><div class="fill" style="width:8%"></div></div></div>
+    <div class="token"><div class="token-top"><span>Team</span><b>7%</b></div><div class="bar"><div class="fill" style="width:7%"></div></div></div>
+    <div class="token"><div class="token-top"><span>Marketing</span><b>5%</b></div><div class="bar"><div class="fill" style="width:5%"></div></div></div>
+  </div>
 </section>
 
 
@@ -522,40 +305,12 @@ TOTAL SUPPLY
 <!-- NAV -->
 
 <nav class="nav">
-
-<button
-id="nav-home"
-class="active"
-onclick="showPage('home')">
-<span class="icon">🏠</span>
-Home
-</button>
-
+<button id="nav-home" class="active" onclick="showPage('home')"><span class="icon">⌂</span>Home</button>
+<button id="nav-tasks" onclick="showPage('tasks')"><span class="icon">◈</span>Tasks</button>
 <button id="nav-leaderboard" onclick="showPage('leaderboard')"><span class="icon">🏆</span>Ranks</button>
-
-<button id="nav-tasks" onclick="showPage('tasks')"><span class="icon">🎯</span>Tasks</button>
-
-<button
-id="nav-boost"
-onclick="showPage('boost')">
-<span class="icon">⚡</span>
-Boost
-</button>
-
-<button
-id="nav-referral"
-onclick="showPage('referral')">
-<span class="icon">👥</span>
-Referral
-</button>
-
-<button
-id="nav-profile"
-onclick="showPage('profile')">
-<span class="icon">👤</span>
-Profile
-</button>
-
+<button id="nav-boost" onclick="showPage('boost')"><span class="icon">ϟ</span>Boost</button>
+<button id="nav-referral" onclick="showPage('referral')"><span class="icon">♧</span>Referral</button>
+<button id="nav-profile" onclick="showPage('profile')"><span class="icon">◎</span>Profile</button>
 </nav>
 
 
@@ -627,42 +382,17 @@ encodeURIComponent(initData);
 
 
 function showPage(page){
-
-document
-.querySelectorAll(".page")
-.forEach(function(p){
-p.classList.remove("active");
-});
-
-var target =
-document.getElementById(page);
-
-if(target){
-target.classList.add("active");
-}
-
-document
-.querySelectorAll(".nav button")
-.forEach(function(b){
-b.classList.remove("active");
-});
-
-var nav =
-document.getElementById(
-"nav-" + page
-);
-
-if(nav){
-nav.classList.add("active");
-}
-
-if(page === "tasks"){ loadTasks(); }
-if(page === "profile"){ loadUser(); }
-if(page === "referral"){ loadReferral(); }
-if(page === "leaderboard"){ loadLeaderboard("global"); }
-
+document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
+var target = document.getElementById(page);
+if(target){target.classList.add("active");}
+document.querySelectorAll(".nav button").forEach(function(b){b.classList.remove("active");});
+var nav = document.getElementById("nav-" + page);
+if(nav){nav.classList.add("active");}
+if(page === "tasks"){loadTasks();}
+if(page === "profile"){loadUser();}
+if(page === "referral"){loadReferral();}
+if(page === "leaderboard"){loadLeaderboard("global");}
 window.scrollTo(0,0);
-
 }
 
 
