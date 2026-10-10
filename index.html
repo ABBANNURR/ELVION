@@ -177,7 +177,7 @@ body{background:radial-gradient(ellipse at 0% 0%,rgba(220,183,93,.11),transparen
 
 <div class="header">
   <div><div class="logo">ELVION</div><div class="subtitle">CLAIM • GROW • LEAD</div></div>
-  <div class="header-actions"><div id="ton-connect" class="header-wallet"></div><div id="walletStatus" class="header-wallet-status">TON wallet optional</div></div>
+  <div class="header-actions"><div id="ton-connect" class="header-wallet"><button id="walletConnectBtn" type="button">Connect TON Wallet</button></div><div id="walletStatus" class="header-wallet-status">Wallet optional</div></div>
 </div>
 
 <!-- HOME -->
@@ -981,8 +981,19 @@ return;
 try {
 tonUI = new TON_CONNECT_UI.TonConnectUI({
 manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json",
-buttonRootId: "ton-connect"
 });
+
+var connectButton = document.getElementById("walletConnectBtn");
+if (connectButton) {
+connectButton.addEventListener("click", function() {
+if (tonUI && typeof tonUI.openModal === "function") {
+tonUI.openModal().catch(function(e) { console.error("TON wallet modal failed:", e); if (status) status.innerText = "Could not open wallet — try again"; });
+} else if (status) {
+status.innerText = "Wallet service unavailable — reload app";
+status.style.color = "#ff9fba";
+}
+});
+}
 
 tonUI.onStatusChange(function(wallet) {
 if (!status) return;
