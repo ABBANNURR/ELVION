@@ -1775,6 +1775,68 @@ def internal_error(error):
 
 
 # ============================================================
+# TELEGRAM BOT WELCOME (/start)
+# ============================================================
+
+import urllib.request
+import urllib.error
+
+BOT_PUBLIC_URL = os.getenv(
+    "ELVION_PUBLIC_URL",
+    "https://elvion-tyb7.onrender.com"
+).strip().rstrip("/")
+
+
+def telegram_api(method, payload):
+    if not BOT_TOKEN:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN is not configured")
+
+    body = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{BOT_TOKEN}/{method}",
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+    )
+    with urllib.request.urlopen(req, timeout=12) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+@app.route("/telegram/webhook", methods=["POST"])
+def telegram_webhook():
+    update = request.get_json(silent=True) or {}
+    message = update.get("message") or update.get("edited_message") or {}
+    chat = message.get("chat") or {}
+    text_value = (message.get("text") or "").strip()
+
+    if not chat.get("id") or not text_value:
+        return jsonify({"ok": True})
+
+    if text_value.split()[0].split("@")[0].lower() == "/start":
+        first_name = (message.get("from") or {}).get("first_name") or "friend"
+        welcome = (
+            f"👋 Welcome to ELVION, {first_name}!\\n\\n"
+            "💎 You are now part of the ELVION community.\\n"
+            "⛏️ Explore the mining app, complete tasks, and invite friends to grow your ELV balance.\\n\\n"
+            "📢 Follow our official channel for updates and join the community group.\\n\\n"
+            "🚀 Tap below to open ELVION."
+        )
+        telegram_api("sendMessage", {
+            "chat_id": chat["id"],
+            "text": welcome,
+            "reply_markup": {
+                "inline_keyboard": [
+                    [{"text": "🚀 Open ELVION Mining", "web_app": {"url": BOT_PUBLIC_URL}}],
+                    [{"text": "📢 Official Channel", "url": CHANNEL_LINK},
+                     {"text": "👥 Community Group", "url": GROUP_LINK}]
+                ]
+            }
+        })
+
+    return jsonify({"ok": True})
+
+
+# ============================================================
 # STARTUP
 # ============================================================
 
