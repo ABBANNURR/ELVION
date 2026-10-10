@@ -97,6 +97,32 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 .nav{grid-template-columns:repeat(5,minmax(0,1fr));max-width:490px;bottom:max(9px,env(safe-area-inset-bottom));padding:6px;border-radius:21px;background:rgba(6,14,9,.96);border-color:rgba(231,189,112,.2)}.nav button{font-size:8px;padding:8px 2px;min-height:52px;color:#8b9b90}.nav button.active{color:#ffedbd;background:linear-gradient(180deg,rgba(231,189,112,.13),rgba(128,240,217,.045));box-shadow:inset 0 0 0 1px rgba(231,189,112,.12)}.icon{font-size:18px}
 .task{border-radius:17px;background:linear-gradient(130deg,#14251a,#0a130d);border-color:rgba(231,189,112,.13)}.task-btn{background:linear-gradient(110deg,#ffedbd,#e7bd70);border-radius:12px}.leader-tab{background:#0b150e;border-color:rgba(231,189,112,.15)}.leader-tab.active{background:linear-gradient(100deg,#ffedbd,#e7bd70);color:#20180a}.referral{color:#a5f2dc;background:rgba(128,240,217,.04);border-color:rgba(128,240,217,.18);border-radius:16px}.copy{background:linear-gradient(110deg,#172b1e,#101b14);border-color:rgba(231,189,112,.2);border-radius:14px}.profile-row{border-color:rgba(231,189,112,.1);padding:13px 0}.value{color:#f1ead7}.token-top{color:#dce7dc}.token-top b{color:#a5f2dc}.bar{background:#07100b}.toast{background:#11251a;border-color:rgba(231,189,112,.28)}
 @media(max-width:370px){.page{padding-left:12px;padding-right:12px}.welcome-title{font-size:21px}.card{padding:15px}.balance{padding:19px 15px}.mini-value{font-size:17px}.quick-tile{padding:12px 8px}.quick-tile b{font-size:9px}.nav button{font-size:7px}}
+
+/* Minimal ELVION claiming home: the claim ring is the visual focus */
+.claim-home{min-height:calc(100vh - 190px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 8px 12px;text-align:center}
+.claim-brand{display:flex;align-items:center;gap:10px;margin:7px 0 27px}
+.claim-brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:12px;border:1px solid rgba(231,189,112,.55);background:linear-gradient(145deg,#1b3424,#0a130d);color:#ffedbd;font-size:24px;font-weight:1000;font-style:italic;box-shadow:0 0 22px rgba(231,189,112,.12)}
+.claim-brand-name{font-size:16px;letter-spacing:4px;font-weight:950;color:#f8f1df}
+.claim-orbit{position:relative;width:min(78vw,310px);aspect-ratio:1;border-radius:50%;padding:8px;background:conic-gradient(from -35deg,#fff0bd 0deg,#e7bd70 85deg,#80f0d9 175deg,#315e43 245deg,#e7bd70 310deg,#fff0bd 360deg);box-shadow:0 0 0 1px rgba(231,189,112,.12),0 0 42px rgba(128,240,217,.09),0 20px 48px rgba(0,0,0,.3)}
+.claim-orbit:before{content:"";position:absolute;inset:3px;border:1px solid rgba(255,237,189,.45);border-radius:50%;pointer-events:none}
+.claim-orbit-glow{position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(128,240,217,.13);pointer-events:none}
+.claim-core{width:100%;height:100%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;background:radial-gradient(circle at 50% 28%,#1b3827 0%,#0d1b12 52%,#07100a 100%);border:5px solid #09130c;position:relative;overflow:hidden}
+.claim-core:after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 42%);pointer-events:none}
+.claim-logo{width:65px;height:65px;display:grid;place-items:center;border-radius:22px;background:linear-gradient(145deg,rgba(231,189,112,.14),rgba(128,240,217,.07));border:1px solid rgba(231,189,112,.32);box-shadow:0 0 25px rgba(231,189,112,.09);margin-bottom:15px}
+.claim-logo svg{width:48px;height:48px;filter:drop-shadow(0 0 9px rgba(231,189,112,.17))}
+.claim-label{font-size:9px;letter-spacing:2.3px;font-weight:900;color:#b9c9bb;margin-bottom:10px}
+.claim-time{font-size:clamp(23px,6.4vw,30px)!important;letter-spacing:.2px!important;color:#fff0bd!important;white-space:nowrap;margin:0!important}
+.claim-status{display:flex;align-items:center;gap:7px;margin-top:14px;color:#b8f0cb;font-size:8px;font-weight:950;letter-spacing:1.5px}
+.claim-dot{width:6px;height:6px;border-radius:50%;background:#a2f2bd;box-shadow:0 0 9px #a2f2bd}
+.cycle-panel{width:min(100%,310px);display:flex;align-items:center;gap:11px;margin:25px 0 2px;padding:14px 17px;border-radius:17px;border:1px solid rgba(231,189,112,.19);background:linear-gradient(110deg,rgba(21,40,27,.96),rgba(9,18,12,.98));text-align:left}
+.cycle-symbol{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:rgba(128,240,217,.09);color:#80f0d9;font-size:20px}
+.cycle-caption{font-size:9px;font-weight:900;letter-spacing:1.4px;color:#aab8aa;flex:1}
+.cycle-panel strong{font-size:23px;color:#ffedbd;font-weight:950;font-variant-numeric:tabular-nums}
+.claim-action{width:min(100%,310px);margin-top:14px}
+.claim-note{font-size:9px;letter-spacing:.4px;color:#7f9384;margin-top:15px}
+.hidden-data{display:none!important}
+@media(max-width:370px){.claim-home{padding-top:12px}.claim-brand{margin-bottom:21px}.claim-orbit{width:min(76vw,275px)}.claim-logo{width:56px;height:56px;margin-bottom:12px}.claim-logo svg{width:42px;height:42px}.claim-time{font-size:22px!important}.cycle-panel{margin-top:20px}}
+
 </style>
 </head>
 
@@ -111,31 +137,27 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 
 <!-- HOME -->
 <section id="home" class="page active">
-  <div class="welcome-line"><div><div class="welcome-kicker">YOUR WEB3 JOURNEY</div><h1 class="welcome-title">Welcome to <span>ELVION</span></h1><div class="welcome-copy">Claim rewards. Grow together.</div></div><div class="welcome-emblem">E</div></div>
-  <div class="card balance">
-    <div class="balance-top"><div class="title">TOTAL ASSETS</div><span class="live-chip"><i></i> YOUR BALANCE</span></div>
-    <div class="amount" id="balance">0</div>
-    <div class="coin">ELVION TOKENS</div>
-    <div class="balance-meta"><span class="pill">✦ Claim-based mining</span><span class="pill">◈ Launch · 01 NOV 2026</span></div>
-  </div>
-  <div class="home-stats">
-    <div class="mini-stat"><div class="mini-icon gold-icon">✧</div><div><div class="stat-label">PER CYCLE</div><div class="mini-value">1,440 <small>ELV</small></div></div></div>
-    <div class="mini-stat"><div class="mini-icon aqua-icon">↻</div><div><div class="stat-label">YOUR CYCLES</div><div class="mini-value" id="cycle">0</div></div></div>
-  </div>
-  <div class="card mining">
-    <div class="mining-heading"><div><div class="title">MINING CHAMBER</div><div class="mining-subtitle">Your next reward is getting ready</div></div><span class="status" id="miningStatus">PRE-LAUNCH</span></div>
-    <div class="timer-ring"><div class="timer-inner"><div class="mining-time" id="miningCountdown">24H 00M 00S</div><div class="timer-caption">NEXT CLAIM</div></div></div>
-    <button id="claimBtn" class="green" onclick="claimMining()" disabled>MINING STARTS 1 NOVEMBER</button>
-    <div class="secure-note"><span>✦</span> Claim once your mining cycle is complete</div>
-  </div>
-  <div class="card phase phase-layout">
-    <div class="phase-symbol">◷</div><div class="phase-content"><div class="title">ELVION GOES LIVE IN</div><div class="phase-time" id="phaseCountdown">Loading...</div><div class="phase-foot">The countdown to our first mining phase</div></div>
-  </div>
-  <div class="home-quick-title"><span>EXPLORE ELVION</span><small>Choose your next move</small></div>
-  <div class="quick-grid">
-    <button class="quick-tile quick-ranks" onclick="showPage('leaderboard')"><span class="quick-symbol">♛</span><span><b>Leaderboard</b><small>Rise through the ranks</small></span><span class="quick-arrow">↗</span></button>
-    <button class="quick-tile quick-referral" onclick="showPage('referral')"><span class="quick-symbol">♧</span><span><b>Invite friends</b><small>Earn 10,000 ELV</small></span><span class="quick-arrow">↗</span></button>
-  </div>
+  <div class="claim-home">
+    <div class="claim-brand"><span class="claim-brand-mark">E</span><span class="claim-brand-name">ELVION</span></div>
+    <div class="claim-orbit">
+      <div class="claim-orbit-glow"></div>
+      <div class="claim-core">
+        <div class="claim-logo" aria-label="ELVION E logo">
+          <svg viewBox="0 0 100 100" role="img" aria-label="Stylized E emblem">
+            <defs><linearGradient id="elvionGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0bd"/><stop offset=".48" stop-color="#e7bd70"/><stop offset="1" stop-color="#80f0d9"/></linearGradient></defs>
+            <path d="M69 22H37C25 22 19 30 19 42v16c0 12 7 20 19 20h31V64H41c-4 0-6-2-6-6v-2h31V44H35v-2c0-5 2-7 7-7h27z" fill="url(#elvionGold)"/>
+            <path d="M47 43h28v13H47z" fill="#f8f6ed" opacity=".92"/>
+          </svg>
+        </div>
+        <div class="claim-label">NEXT CLAIM IN</div>
+        <div class="mining-time claim-time" id="miningCountdown">24H 00M 00S</div>
+        <div class="claim-status"><span class="claim-dot"></span><span id="miningStatus">PRE-LAUNCH</span></div>
+      </div>
+    </div>
+    <div class="cycle-panel"><span class="cycle-symbol">↻</span><span class="cycle-caption">MINING CYCLE</span><strong id="cycle">0</strong></div>
+    <button id="claimBtn" class="green claim-action" onclick="claimMining()" disabled>MINING STARTS 1 NOVEMBER</button>
+    <div class="claim-note">Your reward. Your cycle. Your progress.</div>
+    <div class="hidden-data" aria-hidden="true"><span id="balance">0</span><span id="phaseCountdown">Loading...</span></div>
   </div>
 </section>
 
