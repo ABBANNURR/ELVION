@@ -1002,7 +1002,8 @@ console.error("ELVION wallet modal error:", e);
 if (status) { status.innerText = "Wallet did not open — try again"; status.style.color = "#ff9fba"; }
 }).finally(function() { button.disabled = false; });
 } else {
-if (status) { status.innerText = "TON Connect is still loading — reopen and try again"; status.style.color = "#ff9fba"; }
+if (status) { status.innerText = "Retrying wallet connection…"; status.style.color = "#e8bd68"; }
+window.elvionTonFallback();
 }
 });
 
