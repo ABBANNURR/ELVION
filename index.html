@@ -12,7 +12,8 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/tonconnect-ui.min.js" onerror="window.elvionTonFallback()"></script>
+<script>window.elvionTonFallback=function(){if(window.__elvionTonFallbackLoaded)return;window.__elvionTonFallbackLoaded=true;var x=document.createElement("script");x.src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";x.onload=function(){if(typeof window.initWallet==="function")window.initWallet(true)};x.onerror=function(){var s=document.getElementById("walletStatus");if(s){s.textContent="Wallet service unavailable";s.style.color="#ff9fba"}};document.head.appendChild(x)};</script>
 
 <style>
 :root{color-scheme:dark;--bg:#070d0c;--panel:#101d19;--panel2:#172821;--line:rgba(226,190,112,.2);--muted:#9eafa4;--white:#fffaf0;--cyan:#70eee0;--blue:#77b9ff;--violet:#c5a1ff;--green:#9af3bd;--gold:#e8bd68;--gold2:#ffebae;--rose:#ff9fba}
@@ -980,7 +981,7 @@ if (status) { status.innerText = "TON Connect is still loading — reopen and tr
 }
 });
 
-function initWallet(){
+function initWallet(forceRetry){
 
 var status = document.getElementById("walletStatus");
 if (status) {
@@ -989,9 +990,10 @@ status.style.color = "#e8bd68";
 }
 
 if (typeof TON_CONNECT_UI === "undefined") {
+if (!forceRetry && !window.__elvionTonFallbackLoaded) { window.elvionTonFallback(); }
 if (status) {
-status.innerText = "Wallet service unavailable — reload app";
-status.style.color = "#ff9fba";
+status.innerText = "Loading wallet service…";
+status.style.color = "#e8bd68";
 }
 return;
 }
