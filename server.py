@@ -1815,10 +1815,10 @@ def telegram_webhook():
     if text_value.split()[0].split("@")[0].lower() == "/start":
         first_name = (message.get("from") or {}).get("first_name") or "friend"
         welcome = (
-            f"👋 Welcome to ELVION, {first_name}!\\n\\n"
-            "💎 You are now part of the ELVION community.\\n"
-            "⛏️ Explore the mining app, complete tasks, and invite friends to grow your ELV balance.\\n\\n"
-            "📢 Follow our official channel for updates and join the community group.\\n\\n"
+            f"👋 Welcome to ELVION, {first_name}!\n\n"
+            "💎 You are now part of the ELVION community.\n"
+            "⛏️ Explore the mining app, complete tasks, and invite friends to grow your ELV balance.\n\n"
+            "📢 Follow our official channel for updates and join the community group.\n\n"
             "🚀 Tap below to open ELVION."
         )
         telegram_api("sendMessage", {
@@ -1841,6 +1841,18 @@ def telegram_webhook():
 # ============================================================
 
 init_db()
+
+# Register the Telegram webhook automatically when the bot token is configured.
+# Failures are logged without preventing the ELVION web app from starting.
+if BOT_TOKEN and BOT_PUBLIC_URL:
+    try:
+        webhook_result = telegram_api(
+            "setWebhook",
+            {"url": f"{BOT_PUBLIC_URL}/telegram/webhook"}
+        )
+        print("Telegram webhook setup:", webhook_result.get("ok", False))
+    except Exception as exc:
+        print("Telegram webhook setup failed:", str(exc))
 
 conn = get_db()
 try:
