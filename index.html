@@ -12,8 +12,33 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/tonconnect-ui.min.js" onerror="window.elvionTonFallback()"></script>
-<script>window.elvionTonFallback=function(){if(window.__elvionTonFallbackLoaded)return;window.__elvionTonFallbackLoaded=true;var x=document.createElement("script");x.src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";x.onload=function(){if(typeof window.initWallet==="function")window.initWallet(true)};x.onerror=function(){var s=document.getElementById("walletStatus");if(s){s.textContent="Wallet service unavailable";s.style.color="#ff9fba"}};document.head.appendChild(x)};</script>
+<script>
+window.__elvionTonLoadAttempt = 0;
+window.elvionTonFallback = function() {
+  if (window.TON_CONNECT_UI) { if (typeof window.initWallet === "function") window.initWallet(true); return; }
+  if (window.__elvionTonLoadAttempt >= 2) {
+    var status = document.getElementById("walletStatus");
+    if (status) { status.textContent = "Wallet library unavailable — tap to retry"; status.style.color = "#ff9fba"; }
+    return;
+  }
+  var urls = [
+    "https://cdn.jsdelivr.net/npm/@tonconnect/ui@2.3.0/dist/tonconnect-ui.min.js",
+    "https://unpkg.com/@tonconnect/ui@2.3.0/dist/tonconnect-ui.min.js"
+  ];
+  var url = urls[window.__elvionTonLoadAttempt++];
+  var script = document.createElement("script");
+  script.src = url;
+  script.onload = function() {
+    if (window.TON_CONNECT_UI) {
+      if (typeof window.initWallet === "function") window.initWallet(true);
+    } else {
+      window.elvionTonFallback();
+    }
+  };
+  script.onerror = function() { window.elvionTonFallback(); };
+  document.head.appendChild(script);
+};
+</script>
 
 <style>
 :root{color-scheme:dark;--bg:#070d0c;--panel:#101d19;--panel2:#172821;--line:rgba(226,190,112,.2);--muted:#9eafa4;--white:#fffaf0;--cyan:#70eee0;--blue:#77b9ff;--violet:#c5a1ff;--green:#9af3bd;--gold:#e8bd68;--gold2:#ffebae;--rose:#ff9fba}
@@ -990,18 +1015,16 @@ status.style.color = "#e8bd68";
 }
 
 if (typeof TON_CONNECT_UI === "undefined") {
-if (!forceRetry && !window.__elvionTonFallbackLoaded) { window.elvionTonFallback(); }
-if (status) {
-status.innerText = "Loading wallet service…";
-status.style.color = "#e8bd68";
-}
+if (status) { status.innerText = "Loading wallet service…"; status.style.color = "#e8bd68"; }
+window.elvionTonFallback();
 return;
 }
 
 try {
 tonUI = new TON_CONNECT_UI.TonConnectUI({
-manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json",
+manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json"
 });
+if (status) { status.innerText = "Connect TON wallet"; status.style.color = "#c2b4a0"; }
 
 tonUI.onStatusChange(function(wallet) {
 if (!status) return;
