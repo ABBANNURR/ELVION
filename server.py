@@ -8,7 +8,7 @@ import secrets
 from datetime import datetime, timezone
 from urllib.parse import parse_qsl
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, Response
 
 app = Flask(__name__)
 
@@ -1732,21 +1732,23 @@ def tokenomics():
 # TON CONNECT MANIFEST
 # ============================================================
 
-@app.route(
-    "/tonconnect-manifest.json"
-)
+@app.route("/icon.svg")
+def tonconnect_icon():
+    svg = """<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+    <rect width="512" height="512" rx="112" fill="#07110d"/>
+    <circle cx="256" cy="226" r="142" fill="none" stroke="#e8bd68" stroke-width="14"/>
+    <path d="M333 143H204c-49 0-78 29-78 78s29 78 78 78h80c21 0 33 12 33 28s-12 28-33 28H137" fill="none" stroke="#e8bd68" stroke-width="24" stroke-linecap="round"/>
+    <text x="256" y="433" text-anchor="middle" font-family="Arial,sans-serif" font-size="43" font-weight="700" letter-spacing="5" fill="#fff1c5">ELVION</text>
+    </svg>"""
+    return Response(svg, mimetype="image/svg+xml")
+
+
+@app.route("/tonconnect-manifest.json")
 def tonconnect_manifest():
-
     return jsonify({
-
-        "url":
-            "https://elvion-tyb7.onrender.com",
-
-        "name":
-            "ELVION",
-
-        "iconUrl":
-            "https://elvion-tyb7.onrender.com/"
+        "url": "https://elvion-tyb7.onrender.com",
+        "name": "ELVION",
+        "iconUrl": "https://elvion-tyb7.onrender.com/icon.svg"
     })
 
 
