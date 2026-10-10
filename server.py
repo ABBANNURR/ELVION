@@ -545,13 +545,9 @@ def calculate_mining(user):
         CLAIM_INTERVAL
     )
 
-    boost_active = boost_until > current
-
-    multiplier = (
-        BOOST_MULTIPLIER
-        if boost_active
-        else 1
-    )
+    # Boost has been removed; all users mine at the same base rate.
+    boost_active = False
+    multiplier = 1
 
     reward = (
         claim_elapsed
@@ -582,8 +578,8 @@ def calculate_mining(user):
             MINING_RATE * multiplier,
         "base_rate_per_minute":
             MINING_RATE,
-        "boost_active": boost_active,
-        "boost_until": boost_until,
+        "boost_active": False,
+        "boost_until": 0,
         "last_claim": last_claim,
         "mining_started": mining_started,
         "next_claim":
@@ -1335,173 +1331,15 @@ def task_claim():
 
 
 # ============================================================
-# BOOST
+# BOOST REMOVED
 # ============================================================
 
-@app.route(
-    "/api/boost",
-    methods=["POST"]
-)
+@app.route("/api/boost", methods=["POST"])
 def boost():
-
-    user = get_authenticated_user()
-
-    if not user:
-        return jsonify({
-            "success": False,
-            "error":
-                "Authentication required"
-        }), 401
-
-    conn = get_db()
-
-    try:
-
-        # One atomic write transaction
-        conn.execute(
-            "BEGIN IMMEDIATE"
-        )
-
-        current_user = get_user(
-            conn,
-            user["telegram_id"]
-        )
-
-        if not current_user:
-            conn.rollback()
-
-            return jsonify({
-                "success": False,
-                "error":
-                    "User not found"
-            }), 404
-
-        balance = float(
-            current_user["balance"]
-        )
-
-        current = now()
-
-        old_until = int(
-            current_user["boost_until"]
-            or 0
-        )
-
-        if balance < BOOST_COST:
-
-            conn.rollback()
-
-            return jsonify({
-                "success": False,
-                "error":
-                    "Insufficient ELV balance",
-                "required":
-                    BOOST_COST,
-                "balance":
-                    round(
-                        balance,
-                        6
-                    )
-            }), 400
-
-        # If an existing boost is active,
-        # extend from its expiry.
-        start_time = max(
-            current,
-            old_until
-        )
-
-        expires = (
-            start_time
-            + BOOST_DURATION
-        )
-
-        new_balance = (
-            balance
-            - BOOST_COST
-        )
-
-        conn.execute(
-            """
-            UPDATE users
-            SET balance = ?,
-                boost_until = ?,
-                updated_at = ?
-            WHERE telegram_id = ?
-            """,
-            (
-                new_balance,
-                expires,
-                current,
-                user["telegram_id"]
-            )
-        )
-
-        conn.execute(
-            """
-            INSERT INTO boost_history
-            (
-                telegram_id,
-                cost,
-                multiplier,
-                started_at,
-                expires_at
-            )
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (
-                user["telegram_id"],
-                BOOST_COST,
-                BOOST_MULTIPLIER,
-                start_time,
-                expires
-            )
-        )
-
-        add_history(
-            conn,
-            user["telegram_id"],
-            -BOOST_COST,
-            new_balance,
-            "boost_purchase"
-        )
-
-        conn.commit()
-
-        return jsonify({
-            "success": True,
-            "cost":
-                BOOST_COST,
-            "multiplier":
-                BOOST_MULTIPLIER,
-            "duration_hours":
-                24,
-            "boost_until":
-                expires,
-            "balance":
-                round(
-                    new_balance,
-                    6
-                )
-        })
-
-    except Exception as e:
-
-        try:
-            conn.rollback()
-        except Exception:
-            pass
-
-        return jsonify({
-            "success": False,
-            "error":
-                "Boost failed",
-            "details":
-                str(e)
-        }), 500
-
-    finally:
-        conn.close()
+    return jsonify({
+        "success": False,
+        "error": "Boost has been removed from ELVION"
+    }), 410
 
 
 # ============================================================
@@ -1882,15 +1720,6 @@ def tokenomics():
         "starting_bonus":
             STARTING_BONUS,
 
-        "boost_cost":
-            BOOST_COST,
-
-        "boost_multiplier":
-            BOOST_MULTIPLIER,
-
-        "boost_duration_hours":
-            24,
-
         "task_reward":
             TASK_REWARD,
 
@@ -1978,12 +1807,6 @@ if __name__ == "__main__":
     print("Claim:         Every 24 hours")
     print(
         f"Starting Bonus:{STARTING_BONUS:,} ELV"
-    )
-    print(
-        f"Boost:         {BOOST_COST:,} ELV"
-    )
-    print(
-        "Boost Multiplier: 2x / 24 hours"
     )
     print(
         "Launch:        1 November 2026"
