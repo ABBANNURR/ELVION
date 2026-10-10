@@ -1740,13 +1740,13 @@ def tonconnect_manifest():
     return jsonify({
 
         "url":
-            "https://elvion.app",
+            "https://elvion-tyb7.onrender.com",
 
         "name":
             "ELVION",
 
         "iconUrl":
-            "https://elvion.app/icon.png"
+            "https://elvion-tyb7.onrender.com/"
     })
 
 
