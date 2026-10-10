@@ -962,6 +962,24 @@ toast("Copy failed");
 
 var tonUI = null;
 
+/* Bind the visible button immediately, even if TON Connect loads late. */
+document.addEventListener("click", function(event) {
+var button = event.target && event.target.closest ? event.target.closest("#walletConnectBtn") : null;
+if (!button) return;
+event.preventDefault();
+var status = document.getElementById("walletStatus");
+if (tonUI && typeof tonUI.openModal === "function") {
+button.disabled = true;
+if (status) status.innerText = "Opening TON wallet…";
+Promise.resolve(tonUI.openModal()).catch(function(e) {
+console.error("ELVION wallet modal error:", e);
+if (status) { status.innerText = "Wallet did not open — try again"; status.style.color = "#ff9fba"; }
+}).finally(function() { button.disabled = false; });
+} else {
+if (status) { status.innerText = "TON Connect is still loading — reopen and try again"; status.style.color = "#ff9fba"; }
+}
+});
+
 function initWallet(){
 
 var status = document.getElementById("walletStatus");
@@ -982,18 +1000,6 @@ try {
 tonUI = new TON_CONNECT_UI.TonConnectUI({
 manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json",
 });
-
-var connectButton = document.getElementById("walletConnectBtn");
-if (connectButton) {
-connectButton.addEventListener("click", function() {
-if (tonUI && typeof tonUI.openModal === "function") {
-tonUI.openModal().catch(function(e) { console.error("TON wallet modal failed:", e); if (status) status.innerText = "Could not open wallet — try again"; });
-} else if (status) {
-status.innerText = "Wallet service unavailable — reload app";
-status.style.color = "#ff9fba";
-}
-});
-}
 
 tonUI.onStatusChange(function(wallet) {
 if (!status) return;
