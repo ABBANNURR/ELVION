@@ -204,6 +204,19 @@ a{color:#f0ce7d!important}
 .tc-modal button,.tc-root button,.tc-wallet-list button{background:initial!important;color:initial!important;border-color:initial!important;box-shadow:none!important;font-family:inherit!important}
 @media(min-width:600px){.app{padding:20px 20px 125px!important}.page{gap:16px!important}.claim-home{padding:24px!important}.card{padding:20px!important}}
 @media(max-width:390px){.app{padding:10px 10px 115px!important}.header{padding:12px!important;border-radius:18px!important}.header-wallet button,#walletConnectBtn{font-size:11px!important;padding:9px!important}.logo{font-size:20px!important}.nav{gap:3px!important}.nav button{font-size:10px!important}}
+
+/* ELVION v3 visual refresh: move wallet control exclusively to Profile */
+.header-live-mark{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid rgba(231,190,91,.28);border-radius:999px;background:rgba(231,190,91,.07);color:#e7c36e;font-size:10px;font-weight:900;letter-spacing:1.2px;white-space:nowrap}
+.header-live-mark:first-letter{color:#e7c36e}
+.wallet-profile-card{position:relative;overflow:hidden;padding:20px!important}
+.wallet-profile-card:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#e7c36e,#8c6226,transparent)}
+.wallet-profile-action{margin-top:18px;padding:16px;border:1px solid rgba(231,190,91,.18);border-radius:16px;background:linear-gradient(135deg,rgba(231,190,91,.08),rgba(0,0,0,.2));display:flex;flex-direction:column;gap:10px;align-items:stretch}
+.wallet-profile-action #ton-connect,.wallet-profile-action #walletConnectBtn{width:100%;max-width:none;box-sizing:border-box}
+.wallet-profile-action #walletConnectBtn{min-height:50px;font-size:14px!important;letter-spacing:.3px}
+.wallet-profile-action #walletStatus{text-align:center;font-size:12px;min-height:18px}
+.header-actions{display:flex;align-items:center;justify-content:flex-end;max-width:none!important}
+.header-live-mark{box-shadow:inset 0 1px rgba(255,231,170,.04)}
+@media(max-width:390px){.header-live-mark{font-size:9px;padding:8px 9px}.wallet-profile-action{padding:12px}}
 </style>
 </head>
 
@@ -213,7 +226,7 @@ a{color:#f0ce7d!important}
 
 <div class="header">
   <div><div class="logo">ELVION</div><div class="subtitle">CLAIM • GROW • LEAD</div></div>
-  <div class="header-actions"><div id="ton-connect" class="header-wallet"><button id="walletConnectBtn" type="button">Connect TON Wallet</button></div><div id="walletStatus" class="header-wallet-status">Wallet optional</div></div>
+  <div class="header-actions"><div class="header-live-mark">● LIVE MINING</div></div>
 </div>
 
 <!-- HOME -->
@@ -225,7 +238,7 @@ a{color:#f0ce7d!important}
       <div class="claim-core">
         <div class="claim-logo" aria-label="ELVION E logo">
           <svg viewBox="0 0 100 100" role="img" aria-label="Stylized E emblem">
-            <defs><linearGradient id="elvionGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0bd"/><stop offset=".48" stop-color="#e7bd70"/><stop offset="1" stop-color="#80f0d9"/></linearGradient></defs>
+            <defs><linearGradient id="elvionGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0bd"/><stop offset=".48" stop-color="#e7bd70"/><stop offset="1" stop-color="#9b6b24"/></linearGradient></defs>
             <path d="M69 22H37C25 22 19 30 19 42v16c0 12 7 20 19 20h31V64H41c-4 0-6-2-6-6v-2h31V44H35v-2c0-5 2-7 7-7h27z" fill="url(#elvionGold)"/>
             <path d="M47 43h28v13H47z" fill="#f8f6ed" opacity=".92"/>
           </svg>
@@ -360,9 +373,9 @@ id="refEarned">
     <div class="profile-row"><div class="label">Balance</div><div class="value" id="profileBalance">0 ELVION</div></div>
     <div class="profile-row"><div class="label">Mining Cycles</div><div class="value" id="profileCycles">0</div></div>
   </div>
-  <div class="card">
-    <div class="title">TON Wallet</div>
-    <div class="description">Your wallet connection is available at the top of the dashboard. Connecting is optional.</div>
+  <div class="card wallet-profile-card">
+    <div class="section-head"><div><div class="title">TON Wallet</div><div class="description">Connect your TON wallet securely. Connection is optional.</div></div><div class="wallet-symbol">◇</div></div>
+    <div class="wallet-profile-action"><div id="ton-connect" class="header-wallet"><button id="walletConnectBtn" type="button">Connect TON Wallet</button></div><div id="walletStatus" class="header-wallet-status">Wallet optional</div></div>
   </div>
 </section>
 
