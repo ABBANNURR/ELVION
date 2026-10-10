@@ -85,7 +85,7 @@ BOT_TOKEN = os.getenv(
 
 DEV_MODE = os.getenv(
     "ELVION_DEV_MODE",
-    "1"
+    "0"
 ).lower() in (
     "1",
     "true",
