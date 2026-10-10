@@ -15,65 +15,63 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
 <style>
-:root{color-scheme:dark;--bg:#070b16;--panel:#10182b;--panel2:#0c1323;--line:rgba(151,177,255,.15);--muted:#94a3c4;--white:#f4f7ff;--cyan:#59e1ff;--blue:#7c8dff;--violet:#ad7cff;--green:#8bffd2}
+:root{color-scheme:dark;--bg:#050711;--panel:#0d1428;--panel2:#101a33;--line:rgba(135,168,255,.16);--muted:#8c9bc0;--white:#f5f7ff;--cyan:#5ce6ff;--blue:#668dff;--violet:#b184ff;--green:#7fffd0}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg);scroll-behavior:smooth}
-body{background:radial-gradient(ellipse at 50% -8%,rgba(73,100,220,.25),transparent 42%),linear-gradient(180deg,#080d1c,#060914 70%);color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding-bottom:112px;min-height:100vh}
+body{min-height:100vh;color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 8% 0%,rgba(69,91,255,.19),transparent 34%),radial-gradient(ellipse at 100% 30%,rgba(22,210,255,.09),transparent 35%),linear-gradient(160deg,#070a17 0%,#050711 55%,#09091b 100%);padding-bottom:105px}
 button{font:inherit;cursor:pointer}
-.app{max-width:560px;margin:auto;min-height:100vh;padding-bottom:12px;overflow:hidden}
-.header{position:relative;text-align:left;padding:25px 20px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.header:after{content:"";position:absolute;bottom:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
-.logo{font-size:25px;font-weight:950;letter-spacing:4px;background:linear-gradient(100deg,#fff 5%,#9ceaff 48%,#a6a0ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(92,151,255,.12)}
-.subtitle{font-size:9px;color:#91a1c7;letter-spacing:2px;margin-top:5px}
-.header:before{content:"";display:block;position:absolute;right:24px;top:25px;width:40px;height:40px;border:1px solid rgba(104,224,255,.22);border-radius:14px;transform:rotate(45deg);box-shadow:inset 0 0 18px rgba(83,145,255,.08),0 0 24px rgba(83,145,255,.08);pointer-events:none}
-.page{display:none;padding:18px 16px 8px;animation:appear .22s ease}
-.page.active{display:block}
-@keyframes appear{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.card{position:relative;background:linear-gradient(145deg,rgba(20,30,53,.97),rgba(11,17,32,.98));border:1px solid var(--line);border-radius:23px;padding:19px;margin-bottom:14px;box-shadow:0 12px 30px rgba(0,0,0,.14);overflow:hidden}
-.card:before{content:"";position:absolute;left:18px;right:18px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(151,208,255,.3),transparent);pointer-events:none}
-.title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;font-weight:800}
-.balance{background:radial-gradient(ellipse at 50% 0%,rgba(73,116,255,.22),transparent 64%),linear-gradient(145deg,#172344,#0d1529);text-align:left;padding:22px 20px}
-.balance .title{color:#b8c9ef}
-.amount{font-size:clamp(34px,9vw,45px);font-weight:950;letter-spacing:-1.5px;color:#e7f8ff;text-shadow:0 0 24px rgba(83,221,255,.17);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.balance .amount{background:linear-gradient(90deg,#fff,#8fe9ff 65%,#b6a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.coin{color:#91a6d0;font-size:10px;letter-spacing:2.4px;margin-top:7px;font-weight:800}
-.phase{text-align:center;background:linear-gradient(140deg,rgba(28,36,67,.98),rgba(15,20,40,.98))}
-.phase-time{font-size:clamp(20px,5vw,27px);font-weight:900;letter-spacing:.5px;margin:9px 0;color:#d9ddff;font-variant-numeric:tabular-nums}
-.mining{text-align:center;background:radial-gradient(ellipse at 50% 20%,rgba(58,208,255,.13),transparent 58%),linear-gradient(145deg,#121e36,#0b1222)}
-.mining-time{font-size:clamp(28px,8vw,39px);font-weight:950;letter-spacing:1px;margin:15px 0;color:#dff8ff;font-variant-numeric:tabular-nums}
-.status{display:inline-flex;align-items:center;gap:7px;color:var(--green);font-weight:900;font-size:10px;letter-spacing:1.4px;background:rgba(96,255,198,.08);border:1px solid rgba(96,255,198,.18);border-radius:99px;padding:7px 10px}
+.app{max-width:560px;margin:auto;min-height:100vh;overflow:hidden}
+.header{position:relative;padding:25px 20px 19px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.header:after{content:"";position:absolute;bottom:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(105,225,255,.3),rgba(161,127,255,.24),transparent)}
+.logo{font-size:26px;font-weight:1000;letter-spacing:4px;background:linear-gradient(100deg,#fff 5%,#72e9ff 55%,#b59aff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{font-size:8px;color:#8294be;letter-spacing:2px;margin-top:5px;text-align:right}
+.header-badge{font-size:9px;letter-spacing:1px;font-weight:900;color:#8cf4ff;border:1px solid rgba(92,230,255,.22);background:rgba(92,230,255,.07);padding:8px 10px;border-radius:99px;white-space:nowrap}
+.page{display:none;padding:18px 15px 12px;animation:appear .2s ease}.page.active{display:block}
+@keyframes appear{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.card{position:relative;background:linear-gradient(145deg,rgba(17,26,49,.96),rgba(9,14,29,.98));border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:13px;box-shadow:0 14px 34px rgba(0,0,0,.2);overflow:hidden}
+.card:before{content:"";position:absolute;top:0;left:18px;right:18px;height:1px;background:linear-gradient(90deg,transparent,rgba(141,212,255,.28),transparent);pointer-events:none}
+.title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.7px;margin-bottom:12px;font-weight:900}
+.balance{padding:21px;background:radial-gradient(ellipse at 85% 0%,rgba(99,130,255,.22),transparent 55%),linear-gradient(135deg,#151f42,#0a1227);border-color:rgba(109,154,255,.24)}
+.balance .title{color:#aabbe2}.amount{font-size:clamp(32px,9vw,43px);font-weight:1000;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.balance .amount{background:linear-gradient(90deg,#fff,#8beaff 65%,#c1a6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.coin{font-size:9px;color:#91a5d2;letter-spacing:2.3px;margin-top:7px;font-weight:900}
+.balance-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.pill{font-size:9px;color:#b5c5e8;border:1px solid rgba(151,177,255,.16);background:rgba(5,10,23,.42);padding:8px 10px;border-radius:10px}
+.phase{text-align:center;background:linear-gradient(135deg,rgba(32,34,72,.96),rgba(12,18,37,.98))}
+.phase-time{font-size:clamp(19px,5vw,26px);font-weight:950;letter-spacing:.5px;margin:8px 0;color:#d9e5ff;font-variant-numeric:tabular-nums}
+.mining{background:radial-gradient(ellipse at 50% 0%,rgba(54,209,255,.15),transparent 60%),linear-gradient(145deg,#101e39,#0a1124);text-align:center;border-color:rgba(92,230,255,.2)}
+.mining-time{font-size:clamp(27px,8vw,38px);font-weight:1000;letter-spacing:1px;margin:14px 0;color:#e0faff;font-variant-numeric:tabular-nums}
+.status{display:inline-flex;align-items:center;gap:7px;color:var(--green);font-weight:900;font-size:9px;letter-spacing:1.2px;background:rgba(96,255,198,.07);border:1px solid rgba(96,255,198,.18);border-radius:99px;padding:7px 10px}
 .status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
-.green{width:100%;padding:15px 16px;border:1px solid rgba(130,222,255,.35);border-radius:14px;background:linear-gradient(100deg,#77eaff,#9da5ff);color:#071226;font-weight:950;font-size:12px;letter-spacing:1px;margin-top:15px;box-shadow:0 8px 20px rgba(90,170,255,.12);transition:transform .15s,filter .15s}
-.green:active{transform:scale(.985)}.green:disabled{opacity:.45;filter:saturate(.5);box-shadow:none}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:rgba(4,9,21,.42);border:1px solid rgba(151,177,255,.12);border-radius:15px;padding:14px}
-.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px}
-.stat-value{font-size:18px;font-weight:900;margin-top:7px;color:#e9f2ff}
-.task{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,#121d33,#0b1221);border:1px solid var(--line);padding:15px;border-radius:17px;margin-bottom:10px}
-.task-name{font-size:13px;font-weight:850}.task-reward{color:var(--green);font-size:11px;margin-top:6px;font-weight:800}.task-description{color:var(--muted);font-size:10px;margin-top:5px;line-height:1.5}
-.task-btn{background:linear-gradient(100deg,#77eaff,#a8a0ff);color:#071226;border:0;border-radius:11px;padding:10px 12px;font-size:10px;font-weight:900;white-space:nowrap}.task-btn.done{background:#18233a;color:#8595b8}
-.boost{text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(174,124,255,.19),transparent 60%),linear-gradient(145deg,#171b38,#0c1225)}
-.boost-icon{font-size:48px;margin:4px 0 12px;filter:drop-shadow(0 0 18px rgba(170,126,255,.3))}.boost h2{font-size:23px;letter-spacing:-.5px}
-.description{color:#a0aecf;font-size:12px;line-height:1.65;margin:12px 0}
-.profile-row{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid rgba(151,177,255,.11)}.profile-row:last-child{border-bottom:0}
-.label{font-size:11px;color:var(--muted)}.value{font-size:11px;font-weight:800;text-align:right;max-width:62%;word-break:break-word;color:#e6edff}
-.referral{background:rgba(4,9,21,.5);border:1px solid rgba(89,225,255,.2);border-radius:14px;padding:15px;margin:15px 0;text-align:center;color:var(--cyan);font-size:11px;word-break:break-all}
-.copy{width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:#17223a;color:#f4f7ff;font-weight:850;font-size:11px;letter-spacing:.7px}
-.token{margin-bottom:17px}.token:last-child{margin-bottom:0}.token-top{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:8px;color:#dce6ff}.token-top b{color:var(--cyan)}
+.green{width:100%;padding:15px;border:1px solid rgba(130,222,255,.32);border-radius:14px;background:linear-gradient(100deg,#73e9ff,#a59aff);color:#071226;font-weight:1000;font-size:11px;letter-spacing:1px;margin-top:14px;box-shadow:0 8px 22px rgba(90,170,255,.13);transition:transform .15s}
+.green:active{transform:scale(.985)}.green:disabled{opacity:.43;filter:saturate(.5);box-shadow:none}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stat{background:rgba(4,9,21,.45);border:1px solid rgba(151,177,255,.12);border-radius:14px;padding:13px;text-align:left}
+.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.stat-value{font-size:18px;font-weight:950;margin-top:7px;color:#e9f2ff}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-head .title{margin:0}.text-link{border:0;background:none;color:var(--cyan);font-size:10px;font-weight:900}
+.task{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,#121d36,#0a1122);border:1px solid var(--line);padding:14px;border-radius:16px;margin-bottom:9px}
+.task-name{font-size:12px;font-weight:900}.task-reward{color:var(--green);font-size:10px;margin-top:6px;font-weight:900}.task-description{color:var(--muted);font-size:10px;margin-top:5px;line-height:1.5}
+.task-btn{background:linear-gradient(100deg,#77eaff,#a8a0ff);color:#071226;border:0;border-radius:10px;padding:10px 12px;font-size:9px;font-weight:950;white-space:nowrap}.task-btn.done{background:#18233a;color:#8595b8}
+.boost{text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(174,124,255,.18),transparent 60%),linear-gradient(145deg,#171b38,#0b1124)}
+.boost-icon{font-size:44px;margin:4px 0 12px;filter:drop-shadow(0 0 16px rgba(170,126,255,.28))}.boost h2{font-size:23px;letter-spacing:-.5px}
+.description{color:#9eaccd;font-size:11px;line-height:1.7;margin:11px 0}
+.profile-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(151,177,255,.11)}.profile-row:last-child{border-bottom:0}
+.label{font-size:10px;color:var(--muted)}.value{font-size:10px;font-weight:850;text-align:right;max-width:65%;word-break:break-word;color:#e6edff}
+.referral{background:rgba(4,9,21,.5);border:1px solid rgba(89,225,255,.2);border-radius:14px;padding:15px;margin:14px 0;text-align:center;color:var(--cyan);font-size:11px;word-break:break-all}
+.copy{width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:#17223a;color:#f4f7ff;font-weight:900;font-size:10px;letter-spacing:.7px}
+.token{margin-bottom:16px}.token:last-child{margin-bottom:0}.token-top{display:flex;justify-content:space-between;gap:10px;font-size:11px;margin-bottom:8px;color:#dce6ff}.token-top b{color:var(--cyan)}
 .bar{height:7px;background:#080e1d;border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet))}
-.nav{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 18px);max-width:530px;background:rgba(10,16,31,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(151,177,255,.2);border-radius:20px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:7px 4px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.38)}
-.nav button{border:0;background:none;color:#8290b1;font-size:9px;font-weight:800;padding:7px 1px;border-radius:13px;min-width:0}
-.nav button.active{color:#a9efff;background:linear-gradient(180deg,rgba(88,183,255,.14),rgba(126,134,255,.08))}
-.icon{display:block;font-size:17px;margin-bottom:4px}
-.loading{text-align:center;padding:23px;color:var(--muted);font-size:12px}
-.toast{position:fixed;top:calc(15px + env(safe-area-inset-top));left:50%;transform:translateX(-50%) translateY(-100px);width:max-content;max-width:calc(100% - 30px);background:#131f38;border:1px solid rgba(89,225,255,.32);color:#f5f8ff;padding:13px 17px;border-radius:13px;font-size:12px;z-index:2000;transition:.3s;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+.nav{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 16px);max-width:530px;background:rgba(7,12,27,.94);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(139,171,255,.2);border-radius:19px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:6px 4px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.nav button{border:0;background:none;color:#7f8eaf;font-size:8px;font-weight:900;padding:7px 1px;border-radius:12px;min-width:0}
+.nav button.active{color:#a9efff;background:linear-gradient(180deg,rgba(88,183,255,.15),rgba(126,134,255,.08))}
+.icon{display:block;font-size:17px;margin-bottom:4px}.loading{text-align:center;padding:22px;color:var(--muted);font-size:11px}
+.toast{position:fixed;top:calc(15px + env(safe-area-inset-top));left:50%;transform:translateX(-50%) translateY(-100px);width:max-content;max-width:calc(100% - 30px);background:#131f38;border:1px solid rgba(89,225,255,.32);color:#f5f8ff;padding:13px 17px;border-radius:13px;font-size:11px;z-index:2000;transition:.3s;box-shadow:0 12px 35px rgba(0,0,0,.35)}
 .toast.show{transform:translateX(-50%) translateY(0)}.wallet{margin-top:15px}
-.leader-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}
-.leader-tab{padding:10px 4px;border-radius:11px;border:1px solid var(--line);background:#0a1121;color:var(--muted);font-size:9px;font-weight:900}
+.leader-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.leader-tab{padding:10px 3px;border-radius:10px;border:1px solid var(--line);background:#0a1121;color:var(--muted);font-size:8px;font-weight:950}
 .leader-tab.active{color:#061324;background:linear-gradient(100deg,#7be8ff,#aaa1ff);border-color:transparent}
-.leader-row{display:grid;grid-template-columns:31px minmax(0,1fr) auto;align-items:center;gap:9px;padding:12px 0;border-bottom:1px solid rgba(151,177,255,.1)}
-.leader-row:last-child{border-bottom:0}.leader-rank{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:#17223b;color:#c6d8ff;font-size:10px;font-weight:950}
-.leader-row:nth-child(1) .leader-rank{background:linear-gradient(140deg,#ffe5a0,#e8a74c);color:#291900}.leader-name{font-size:11px;font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.leader-sub{font-size:9px;color:var(--muted);margin-top:4px}.leader-score{font-size:10px;font-weight:900;color:var(--cyan);text-align:right;white-space:nowrap}
+.leader-row{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid rgba(151,177,255,.1)}
+.leader-row:last-child{border-bottom:0}.leader-rank{width:27px;height:27px;border-radius:9px;display:grid;place-items:center;background:#17223b;color:#c6d8ff;font-size:10px;font-weight:950}
+.leader-row:nth-child(1) .leader-rank{background:linear-gradient(140deg,#ffe5a0,#e8a74c);color:#291900}.leader-name{font-size:10px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.leader-sub{font-size:8px;color:var(--muted);margin-top:4px}.leader-score{font-size:9px;font-weight:950;color:var(--cyan);text-align:right;white-space:nowrap}
 @media(min-width:440px){.page{padding-left:20px;padding-right:20px}.header{padding-left:24px;padding-right:24px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
@@ -84,10 +82,9 @@ button{font:inherit;cursor:pointer}
 <div class="app">
 
 <div class="header">
-<div class="logo">ELVION</div>
-<div class="subtitle">MINING ECOSYSTEM</div>
+  <div><div class="logo">ELVION</div><div class="subtitle">CLAIM • GROW • LEAD</div></div>
+  <div class="header-badge">● PRE-LAUNCH</div>
 </div>
-
 
 <!-- HOME -->
 
@@ -166,106 +163,13 @@ VIEW MINING
 
 
 
-<div class="card">
-  <div class="title">Community Leaderboard</div>
-  <div class="description" style="margin-top:-4px">See the miners and community builders leading ELVION.</div>
-  <div class="leader-tabs">
-    <button class="leader-tab active" id="leader-global" onclick="loadLeaderboard('global')">TOP BALANCE</button>
-    <button class="leader-tab" id="leader-miners" onclick="loadLeaderboard('miners')">TOP MINERS</button>
-    <button class="leader-tab" id="leader-referrers" onclick="loadLeaderboard('referrers')">TOP REFERRERS</button>
-  </div>
-  <div id="leaderboardList"><div class="loading">Loading community rankings...</div></div>
-</div>
 
-<div class="card">
-
-<div class="title">
-Total Supply
-</div>
-
-<div
-class="amount"
-style="font-size:30px">
-100,000,000
-</div>
 
 <div class="coin">
 ELVION
 </div>
 
-<button
-class="green"
-onclick="showPage('tokenomics')">
-VIEW TOKENOMICS
-</button>
 
-</div>
-
-</section>
-
-
-<!-- MINING -->
-
-<section id="mining" class="page">
-
-<div class="card mining">
-
-<div class="title">
-24-Hour Mining
-</div>
-
-<div
-class="status"
-id="miningStatus">
-MINING ACTIVE
-</div>
-
-<div
-class="mining-time"
-id="miningCountdown">
-24:00:00
-</div>
-
-<div class="coin">
-Next claim countdown
-</div>
-
-<button
-id="claimBtn"
-class="green"
-onclick="claimMining()"
-disabled>
-MINING STARTS 1 NOVEMBER
-</button>
-
-</div>
-
-
-<div class="card">
-
-<div class="title">
-Mining Information
-</div>
-
-<div class="profile-row">
-<div class="label">Reward</div>
-<div class="value">1,440 ELVION / 24h</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Standard Cycle</div>
-<div class="value">24 Hours</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Boost Cycle</div>
-<div class="value">2× Rate — 24 Hours</div>
-</div>
-
-<div class="profile-row">
-<div class="label">Auto Mining</div>
-<div class="value">Enabled</div>
-</div>
 
 </div>
 
@@ -297,6 +201,19 @@ Loading tasks...
 
 </section>
 
+<!-- LEADERBOARD -->
+<section id="leaderboard" class="page">
+  <div class="card">
+    <div class="section-head"><div class="title">Community leaderboard</div><span class="header-badge">LIVE RANKS</span></div>
+    <div class="description" style="margin-top:-4px">Celebrate the top miners and community builders in ELVION.</div>
+    <div class="leader-tabs">
+      <button class="leader-tab active" id="leader-global" onclick="loadLeaderboard('global')">TOP BALANCE</button>
+      <button class="leader-tab" id="leader-miners" onclick="loadLeaderboard('miners')">TOP MINERS</button>
+      <button class="leader-tab" id="leader-referrers" onclick="loadLeaderboard('referrers')">TOP REFERRERS</button>
+    </div>
+    <div id="leaderboardList"><div class="loading">Loading community rankings...</div></div>
+  </div>
+</section>
 
 <!-- BOOST -->
 
@@ -313,9 +230,7 @@ Loading tasks...
 </h2>
 
 <div class="description">
-Pay 500,000 ELVION to activate
-a permanent 2× mining speed.
-Your cycle becomes 12 hours.
+Pay 500,000 ELVION to activate a 2× mining boost for 24 hours.
 </div>
 
 <div class="profile-row">
@@ -330,7 +245,7 @@ Your cycle becomes 12 hours.
 
 <div class="profile-row">
 <div class="label">Cycle</div>
-<div class="value">12 Hours</div>
+<div class="value">24 Hours</div>
 </div>
 
 <button
@@ -505,14 +420,12 @@ Wallet not connected
 
 </div>
 
-</section>
-
-
-<!-- TOKENOMICS -->
-
-<section id="tokenomics" class="page">
 
 <div class="card">
+  <div class="section-head"><div class="title">ELVION tokenomics</div><span class="header-badge">100M SUPPLY</span></div>
+  <div class="amount" style="font-size:29px;text-align:center">100,000,000</div>
+  <div class="coin" style="text-align:center;margin-bottom:20px">TOTAL ELVION SUPPLY</div>
+  <div class="card">
 
 <div class="title">
 ELVION Tokenomics
@@ -598,8 +511,10 @@ TOTAL SUPPLY
 </div>
 
 </div>
-
 </section>
+
+
+
 
 </div>
 
@@ -616,19 +531,9 @@ onclick="showPage('home')">
 Home
 </button>
 
-<button
-id="nav-mining"
-onclick="showPage('mining')">
-<span class="icon">⛏️</span>
-Mining
-</button>
+<button id="nav-leaderboard" onclick="showPage('leaderboard')"><span class="icon">🏆</span>Ranks</button>
 
-<button
-id="nav-tasks"
-onclick="showPage('tasks')">
-<span class="icon">🎯</span>
-Tasks
-</button>
+<button id="nav-tasks" onclick="showPage('tasks')"><span class="icon">🎯</span>Tasks</button>
 
 <button
 id="nav-boost"
@@ -751,17 +656,10 @@ if(nav){
 nav.classList.add("active");
 }
 
-if(page === "tasks"){
-loadTasks();
-}
-
-if(page === "profile"){
-loadUser();
-}
-
-if(page === "referral"){
-loadReferral();
-}
+if(page === "tasks"){ loadTasks(); }
+if(page === "profile"){ loadUser(); }
+if(page === "referral"){ loadReferral(); }
+if(page === "leaderboard"){ loadLeaderboard("global"); }
 
 window.scrollTo(0,0);
 
