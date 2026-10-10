@@ -44,7 +44,7 @@ TASK_REWARD = 5_000
 REFERRAL_REWARD = 10_000
 
 # Tokenomics
-TOTAL_SUPPLY = 100_000_000
+TOTAL_SUPPLY = 1_000_000_000
 
 # ============================================================
 # LAUNCH
