@@ -158,42 +158,23 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 </style>
 
 <style id="elvion-color-refresh">
-/* Color-only refresh: preserve all existing layout, text, controls, and behavior. */
-:root{color-scheme:dark;--bg:#050806;--panel:#0b120d;--panel2:#101b13;--line:rgba(222,184,92,.20);--muted:#9ba99d;--white:#f8f7ef;--cyan:#70e6bd;--blue:#73cda5;--violet:#b7d7a1;--green:#9bf0b6;--gold:#dcb75d;--gold2:#f7e5a4;--rose:#eaa2a8}
-html{background:#050806}
-body{background:radial-gradient(ellipse at 0% 0%,rgba(220,183,93,.11),transparent 32%),radial-gradient(ellipse at 100% 16%,rgba(64,190,129,.13),transparent 34%),radial-gradient(ellipse at 55% 100%,rgba(79,142,91,.08),transparent 43%),linear-gradient(160deg,#09110b 0%,#050806 54%,#08100a 100%);color:var(--white)}
-.header:after{background:linear-gradient(90deg,transparent,rgba(220,183,93,.4),rgba(112,230,189,.32),transparent)}
-.logo{background:linear-gradient(100deg,#fff7df 0%,#dcb75d 38%,#70e6bd 78%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.header-badge{color:var(--gold2);border-color:rgba(220,183,93,.32);background:linear-gradient(135deg,rgba(220,183,93,.12),rgba(112,230,189,.07))}
-.header-wallet button,.green,.task-btn{background:linear-gradient(110deg,#f7e5a4,#dcb75d 55%,#70e6bd)!important;color:#172014!important;border-color:rgba(247,229,164,.55)!important}
-.card{background:linear-gradient(145deg,rgba(17,34,22,.97),rgba(8,15,10,.99));border-color:var(--line)}
-.card:before{background:linear-gradient(90deg,transparent,rgba(220,183,93,.42),rgba(112,230,189,.24),transparent)}
-.balance{background:radial-gradient(ellipse at 100% 0%,rgba(220,183,93,.23),transparent 45%),radial-gradient(ellipse at 0% 100%,rgba(112,230,189,.13),transparent 48%),linear-gradient(135deg,#193522,#0b1b11 58%,#10170f);border-color:rgba(220,183,93,.36)}
-.balance .amount{background:linear-gradient(90deg,#fff9e9 0%,#dcb75d 45%,#70e6bd 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.mining{background:radial-gradient(ellipse at 50% 0%,rgba(112,230,189,.14),transparent 60%),radial-gradient(ellipse at 100% 100%,rgba(220,183,93,.08),transparent 55%),linear-gradient(145deg,#102719,#07110b);border-color:rgba(112,230,189,.22)}
-.status{color:var(--green);background:rgba(112,230,189,.08);border-color:rgba(112,230,189,.2)}
-.stat,.alloc,.supply{background-color:#0b120d;border-color:rgba(220,183,93,.15)}
-.task{background:linear-gradient(120deg,rgba(18,36,23,.98),rgba(8,16,11,.98));border-color:rgba(220,183,93,.15)}
-.task:before{background:linear-gradient(135deg,rgba(220,183,93,.17),rgba(112,230,189,.11));color:var(--gold2)}
-.task-reward,.leader-score{color:var(--gold2)}
-.copy{border-color:rgba(220,183,93,.2);background:linear-gradient(110deg,#14271a,#111a12);color:var(--white)}
-.bar{background:#101a12}.fill{background:linear-gradient(90deg,var(--gold),var(--cyan),var(--green))}
-.nav{background:rgba(5,12,7,.97);border-color:rgba(220,183,93,.24)}
-.nav button.active{color:var(--gold2);background:linear-gradient(180deg,rgba(220,183,93,.15),rgba(112,230,189,.07));box-shadow:inset 0 0 0 1px rgba(220,183,93,.1)}
-.leader-tab.active{color:#07140b;background:linear-gradient(100deg,#70e6bd,#dcb75d)}
-.leader-rank{background:#182b1c;color:#f7e5a4}.leader-row:nth-child(1) .leader-rank{background:linear-gradient(140deg,#f7e5a4,#dcb75d);color:#211908}
-.toast{background:#102117;border-color:rgba(220,183,93,.35)}
-.welcome-kicker{color:#dcb75d}.welcome-title span{background:linear-gradient(90deg,var(--gold2),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-.welcome-emblem{color:#172014;background:linear-gradient(145deg,#f7e5a4,#dcb75d 62%,#70e6bd);box-shadow:0 8px 25px rgba(220,183,93,.15)}
-.mini-stat,.quick-tile{border-color:rgba(220,183,93,.15);background:linear-gradient(130deg,rgba(17,34,22,.96),rgba(8,16,11,.98))}
-.gold-icon,.quick-symbol{color:var(--gold2);background:rgba(220,183,93,.12)}
-.aqua-icon,.quick-ranks .quick-symbol{color:var(--cyan);background:rgba(112,230,189,.1)}
-.timer-ring{background:conic-gradient(from 215deg,var(--gold),var(--cyan),var(--green),rgba(112,230,189,.13) 78%,var(--gold))}
-.timer-inner{background:radial-gradient(circle at 50% 30%,#183321,#07110b 70%);border-color:#0b160e}
-.timer-caption,.quick-arrow{color:var(--gold)}
-.phase-symbol{color:var(--violet);background:rgba(183,215,161,.1);border-color:rgba(183,215,161,.17)}
-.phase-content .phase-time{color:#e3f3d8}
-.quick-referral .quick-symbol{color:#eaa2a8;background:rgba(234,162,168,.1)}
+/* ELVION complete dark-gold theme */
+:root{color-scheme:dark;--bg:#050505;--panel:#101010;--panel2:#191610;--line:rgba(214,171,79,.28);--muted:#b8ad96;--white:#fff8e8;--cyan:#d8ad52;--blue:#c79b43;--violet:#e3c276;--green:#d6ad58;--gold:#d9ad4e;--gold2:#ffdf91;--rose:#d8ad65}
+html{background:#050505!important;color-scheme:dark}
+body{color:var(--white)!important;background:radial-gradient(ellipse at 0% 0%,rgba(190,139,39,.14),transparent 35%),radial-gradient(ellipse at 100% 12%,rgba(131,91,22,.12),transparent 34%),linear-gradient(180deg,#080807 0%,#050505 62%,#090805 100%)!important}
+.card,.panel,.stat-card,.task,.leader-row,.profile-card,.cycle-panel,.quick-tile,.phase-panel,.boost-card,.token-card{background:linear-gradient(145deg,rgba(25,23,17,.98),rgba(10,10,9,.98))!important;border-color:rgba(214,171,79,.24)!important}
+.title,.section-head .title,.logo,.balance,.stat-value,.claim-amount,.gold,.task-reward,.leader-rank,.header-badge{color:#e2bd68!important}
+button,.primary-btn,.claim-btn,.task-btn,.boost-btn,.leader-tab.active,.nav button.active{background:linear-gradient(135deg,#e0bd6b,#9b7026)!important;color:#100d06!important;border-color:#d9ad4e!important}
+button:disabled,.task-btn.done{background:#292319!important;color:#a89978!important}
+.leader-tab,.nav button,.secondary-btn,.wallet-button{background:#15130e!important;color:#d8c28f!important;border-color:rgba(214,171,79,.25)!important}
+input,textarea,select{background:#0d0c09!important;color:#fff5dc!important;border-color:rgba(214,171,79,.35)!important}
+a{color:#e5c477!important}
+.icon,.quick-symbol,.nav .icon{color:#d9ad4e!important}
+.progress,.progress-track,.bar-track{background:#292216!important}
+.progress-fill,.bar-fill{background:linear-gradient(90deg,#8f641d,#f0d184)!important}
+.header-wallet-status{color:#c9b98f!important}
+#leaderboardList .loading,.loading{color:#c9b98f!important}
+.toast{background:#19150d!important;color:#ffedc3!important;border:1px solid rgba(214,171,79,.35)!important}
 </style>
 </head>
 
@@ -740,6 +721,63 @@ String(h).padStart(2,"0") + "H " +
 String(m).padStart(2,"0") + "M " +
 String(s).padStart(2,"0") + "S";
 
+}
+
+
+function loadLeaderboard(category){
+  var box=document.getElementById("leaderboardList");
+  if(!box) return;
+  category=category||"global";
+  ["global","miners","referrers"].forEach(function(key){
+    var tab=document.getElementById("leader-"+key);
+    if(tab) tab.classList.toggle("active",key===category);
+  });
+  box.innerHTML='<div class="loading">Loading rankings…</div>';
+  var url=api("/api/leaderboard")+"?category="+encodeURIComponent(category);
+  fetch(url,{method:"GET",headers:{"Accept":"application/json"}})
+    .then(function(response){
+      if(!response.ok) throw new Error("Leaderboard request failed ("+response.status+")");
+      return response.json();
+    })
+    .then(function(data){
+      if(!data || !data.success || !Array.isArray(data.leaderboard)) throw new Error((data&&data.error)||"Invalid leaderboard response");
+      if(!data.leaderboard.length){
+        box.innerHTML='<div class="empty-state" style="padding:22px 12px;text-align:center;color:#b8ad96">No rankings yet. Be among the first ELVION miners!</div>';
+        return;
+      }
+      box.innerHTML="";
+      data.leaderboard.forEach(function(user,index){
+        var row=document.createElement("div");
+        row.className="leader-row";
+        row.style.cssText="display:flex;align-items:center;gap:12px;padding:13px 12px;margin-top:9px;border:1px solid rgba(214,171,79,.22);border-radius:15px;background:linear-gradient(145deg,#19170f,#0c0c0b)";
+        var rank=document.createElement("div");
+        rank.textContent="#"+(user.rank||index+1);
+        rank.style.cssText="min-width:38px;font-weight:900;color:"+(index<3?"#f0cc75":"#b8ad96")+";font-size:15px";
+        var info=document.createElement("div");
+        info.style.cssText="min-width:0;flex:1";
+        var name=document.createElement("div");
+        name.style.cssText="font-weight:800;color:#fff5dc;overflow-wrap:anywhere";
+        name.textContent=(user.first_name||user.username||"ELVION Miner");
+        if(user.username && user.first_name && user.username!==user.first_name){
+          var handle=document.createElement("div");
+          handle.style.cssText="font-size:11px;color:#b8ad96;margin-top:3px";
+          handle.textContent="@"+String(user.username).replace(/^@/,"");
+          info.appendChild(name);info.appendChild(handle);
+        }else{info.appendChild(name);}
+        var metric=document.createElement("div");
+        metric.style.cssText="text-align:right;font-size:12px;font-weight:800;color:#dfb85e;white-space:nowrap";
+        if(category==="referrers") metric.textContent=Number(user.referral_count||0).toLocaleString()+" referrals";
+        else if(category==="miners") metric.textContent=Number(user.mining_cycles||0).toLocaleString()+" cycles";
+        else metric.textContent=Number(user.balance||0).toLocaleString(undefined,{maximumFractionDigits:2})+" ELV";
+        row.appendChild(rank);row.appendChild(info);row.appendChild(metric);box.appendChild(row);
+      });
+    })
+    .catch(function(error){
+      console.error("ELVION leaderboard:",error);
+      box.innerHTML='<div style="padding:18px 12px;text-align:center;color:#d8ad65">Rankings could not load right now.<br><button type="button" id="leaderboardRetry" style="margin-top:12px;padding:10px 16px;border-radius:10px;border:1px solid #d9ad4e">Try again</button></div>';
+      var retry=document.getElementById("leaderboardRetry");
+      if(retry) retry.onclick=function(){loadLeaderboard(category);};
+    });
 }
 
 
