@@ -293,6 +293,11 @@ button:disabled,.task-btn.done{background:#281722!important;color:#9e7b90!import
 .wallet-profile-action #walletConnectBtn{background:linear-gradient(135deg,#ff5bac,#c52575)!important;color:#fff!important}
 .wallet-profile-action #walletStatus{color:#e7afcb!important}
 @media(max-width:390px){.header{padding:14px!important}.logo{font-size:23px!important}.claim-home{padding:18px 11px!important}.card{padding:15px!important}.nav{bottom:8px!important}}
+.wallet-connected-name{padding:10px 12px;border:1px solid #63314d;border-radius:12px;background:#1b1018;color:#ffabd4;text-align:center;font-size:13px;font-weight:800;overflow-wrap:anywhere}
+#walletDisconnectBtn{width:100%;min-height:44px;border-radius:13px;border:1px solid #b62b70;background:#25101c;color:#ff8bc4;font-weight:800;cursor:pointer}
+#walletDisconnectBtn[hidden],#walletConnectedName[hidden],#ton-connect[hidden]{display:none!important}
+#walletDisconnectBtn:disabled{opacity:.6}
+
 </style>
 </head>
 
@@ -451,7 +456,7 @@ id="refEarned">
   </div>
   <div class="card wallet-profile-card">
     <div class="section-head"><div><div class="title">TON Wallet</div><div class="description">Connect your TON wallet securely. Connection is optional.</div></div><div class="wallet-symbol">◇</div></div>
-    <div class="wallet-profile-action"><div id="ton-connect" class="header-wallet"><button id="walletConnectBtn" type="button">Connect TON Wallet</button></div><div id="walletStatus" class="header-wallet-status">Wallet optional</div></div>
+    <div class="wallet-profile-action"><div id="ton-connect" class="header-wallet"><button id="walletConnectBtn" type="button">Connect TON Wallet</button></div><div id="walletStatus" class="header-wallet-status">Wallet optional</div><div id="walletConnectedName" class="wallet-connected-name" hidden></div><button id="walletDisconnectBtn" type="button" hidden>Disconnect Wallet</button></div>
   </div>
 </section>
 
@@ -1129,6 +1134,53 @@ toast("Copy failed");
 }
 
 
+/* Wallet display: show connected wallet name and allow disconnect */
+function updateWalletDisplay(wallet) {
+  var status = document.getElementById("walletStatus");
+  var name = document.getElementById("walletConnectedName");
+  var disconnect = document.getElementById("walletDisconnectBtn");
+  var connectWrap = document.getElementById("ton-connect");
+  var connected = !!(wallet && wallet.account && wallet.account.address);
+  if (name) {
+    if (connected) {
+      var walletName = wallet.device && wallet.device.appName ? wallet.device.appName : "TON Wallet";
+      name.textContent = "Connected wallet: " + walletName;
+      name.hidden = false;
+    } else {
+      name.textContent = "";
+      name.hidden = true;
+    }
+  }
+  if (disconnect) disconnect.hidden = !connected;
+  if (connectWrap) connectWrap.hidden = connected;
+  if (status) {
+    if (connected) {
+      var address = wallet.account.address || "";
+      status.textContent = "Connected · " + (address.length > 16 ? address.slice(0,7) + "…" + address.slice(-6) : address);
+      status.style.color = "#ff8bc4";
+    } else {
+      status.textContent = "Wallet optional";
+      status.style.color = "";
+    }
+  }
+}
+document.addEventListener("click", function(event) {
+  var btn = event.target && event.target.closest ? event.target.closest("#walletDisconnectBtn") : null;
+  if (!btn) return;
+  event.preventDefault();
+  if (!tonUI || typeof tonUI.disconnect !== "function") {
+    var status = document.getElementById("walletStatus");
+    if (status) status.textContent = "Wallet service unavailable — reopen Profile";
+    return;
+  }
+  btn.disabled = true;
+  Promise.resolve(tonUI.disconnect()).catch(function(e) {
+    console.error("ELVION wallet disconnect failed:", e);
+    var status = document.getElementById("walletStatus");
+    if (status) status.textContent = "Could not disconnect — try again";
+  }).finally(function(){ btn.disabled = false; });
+}, true);
+
 /* WALLET — singleton initialization and reliable modal interaction */
 var tonUI = window.__elvionTonUI || null;
 var tonInitInProgress = false;
@@ -1179,16 +1231,12 @@ function initWallet(forceRetry) {
     window.__elvionTonUI = tonUI;
     if (status) { status.innerText = "Connect TON wallet"; status.style.color = "#c2b4a0"; }
     tonUI.onStatusChange(function(wallet) {
-      if (!status) return;
+      updateWalletDisplay(wallet);
       if (wallet && wallet.account && wallet.account.address) {
-        status.innerText = "Connected · " + wallet.account.address;
-        status.style.color = "#ffe2a0";
         saveWallet(wallet.account.address);
-      } else {
-        status.innerText = "Connect TON wallet";
-        status.style.color = "#c2b4a0";
       }
     });
+    updateWalletDisplay(tonUI.wallet || null);
   } catch (e) {
     console.error("ELVION TON Connect init failed:", e);
     if (status) { status.innerText = "Wallet failed to start — tap to retry"; status.style.color = "#d8b878"; }
