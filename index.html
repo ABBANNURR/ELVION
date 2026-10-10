@@ -1052,12 +1052,7 @@ document.addEventListener("click", function(event) {
   openElvionWallet(button);
 }, true);
 
-document.addEventListener("touchend", function(event) {
-  var button = event.target && event.target.closest ? event.target.closest("#walletConnectBtn") : null;
-  if (!button) return;
-  event.preventDefault();
-  openElvionWallet(button);
-}, {capture:true, passive:false});
+/* Use the click event only. A separate touchend handler can open the wallet modal twice on phones. */
 
 function openElvionWallet(button) {
   var status = document.getElementById("walletStatus");
