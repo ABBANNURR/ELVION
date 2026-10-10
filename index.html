@@ -15,362 +15,67 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
--webkit-tap-highlight-color:transparent;
-}
-
-body{
-background:#030504;
-color:white;
-font-family:Arial,sans-serif;
-padding-bottom:90px;
-}
-
-.app{
-max-width:520px;
-margin:auto;
-min-height:100vh;
-background:
-radial-gradient(circle at top,#102018,#030504 55%);
-}
-
-.header{
-text-align:center;
-padding:25px 15px 12px;
-}
-
-.logo{
-font-size:31px;
-font-weight:900;
-letter-spacing:5px;
-color:#fff;
-text-shadow:0 0 20px #00ff88;
-}
-
-.subtitle{
-font-size:11px;
-color:#708078;
-letter-spacing:2px;
-margin-top:5px;
-}
-
-.page{
-display:none;
-padding:15px;
-}
-
-.page.active{
-display:block;
-}
-
-.card{
-background:#0a0e0c;
-border:1px solid #1d3026;
-border-radius:20px;
-padding:20px;
-margin-bottom:14px;
-}
-
-.title{
-font-size:12px;
-color:#748078;
-text-transform:uppercase;
-letter-spacing:1.5px;
-margin-bottom:10px;
-}
-
-.balance{
-text-align:center;
-}
-
-.amount{
-font-size:42px;
-font-weight:900;
-color:#00ff88;
-text-shadow:0 0 20px rgba(0,255,136,.3);
-}
-
-.coin{
-color:#6f7b74;
-font-size:12px;
-letter-spacing:2px;
-margin-top:4px;
-}
-
-.phase{
-text-align:center;
-}
-
-.phase-time{
-font-size:25px;
-font-weight:900;
-margin:8px 0;
-}
-
-.mining{
-text-align:center;
-}
-
-.mining-time{
-font-size:36px;
-font-weight:900;
-margin:12px 0;
-}
-
-.status{
-color:#00ff88;
-font-weight:bold;
-font-size:12px;
-}
-
-button{
-font-family:Arial,sans-serif;
-cursor:pointer;
-}
-
-.green{
-width:100%;
-padding:15px;
-border:0;
-border-radius:14px;
-background:#00ff88;
-color:#00150b;
-font-weight:900;
-font-size:15px;
-margin-top:15px;
-}
-
-.green:disabled{
-opacity:.3;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.stat{
-background:#080c0a;
-border:1px solid #17251e;
-border-radius:14px;
-padding:14px;
-}
-
-.stat-label{
-font-size:10px;
-color:#68736d;
-}
-
-.stat-value{
-font-size:17px;
-font-weight:bold;
-margin-top:6px;
-}
-
-.task{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-background:#0a0f0c;
-border:1px solid #1a2c22;
-padding:15px;
-border-radius:15px;
-margin-bottom:10px;
-}
-
-.task-name{
-font-size:13px;
-font-weight:bold;
-}
-
-.task-reward{
-color:#00ff88;
-font-size:11px;
-margin-top:5px;
-}
-
-.task-description{
-color:#7f8b84;
-font-size:10px;
-margin-top:4px;
-line-height:1.4;
-}
-
-.task-btn{
-background:#00ff88;
-color:#00150b;
-border:0;
-border-radius:10px;
-padding:10px 13px;
-font-size:11px;
-font-weight:bold;
-}
-
-.task-btn.done{
-background:#17221d;
-color:#65716b;
-}
-
-.boost{
-text-align:center;
-}
-
-.boost-icon{
-font-size:55px;
-margin-bottom:10px;
-}
-
-.boost h2{
-font-size:23px;
-}
-
-.description{
-color:#78837d;
-font-size:13px;
-line-height:1.5;
-margin:12px 0;
-}
-
-.profile-row{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:13px 0;
-border-bottom:1px solid #17231d;
-}
-
-.profile-row:last-child{
-border-bottom:0;
-}
-
-.label{
-font-size:11px;
-color:#68736d;
-}
-
-.value{
-font-size:12px;
-font-weight:bold;
-text-align:right;
-max-width:60%;
-word-break:break-word;
-}
-
-.referral{
-background:#070b09;
-border:1px solid #1b3024;
-border-radius:12px;
-padding:15px;
-margin:15px 0;
-text-align:center;
-color:#00ff88;
-font-size:12px;
-word-break:break-all;
-}
-
-.copy{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:1px solid #26392f;
-background:#121914;
-color:white;
-font-weight:bold;
-}
-
-.token{
-margin-bottom:15px;
-}
-
-.token-top{
-display:flex;
-justify-content:space-between;
-font-size:13px;
-margin-bottom:7px;
-}
-
-.bar{
-height:7px;
-background:#101713;
-border-radius:10px;
-overflow:hidden;
-}
-
-.fill{
-height:100%;
-background:#00ff88;
-}
-
-.nav{
-position:fixed;
-bottom:9px;
-left:50%;
-transform:translateX(-50%);
-width:calc(100% - 18px);
-max-width:500px;
-background:rgba(8,12,10,.97);
-border:1px solid #20352a;
-border-radius:20px;
-display:grid;
-grid-template-columns:repeat(6,1fr);
-padding:7px 3px;
-z-index:999;
-}
-
-.nav button{
-border:0;
-background:none;
-color:#647069;
-font-size:9px;
-font-weight:bold;
-padding:6px 2px;
-}
-
-.nav button.active{
-color:#00ff88;
-}
-
-.icon{
-display:block;
-font-size:18px;
-margin-bottom:3px;
-}
-
-.loading{
-text-align:center;
-padding:25px;
-color:#65716b;
-font-size:13px;
-}
-
-.toast{
-position:fixed;
-top:20px;
-left:50%;
-transform:translateX(-50%) translateY(-100px);
-background:#111a15;
-border:1px solid #2b4636;
-padding:13px 18px;
-border-radius:12px;
-font-size:12px;
-z-index:2000;
-transition:.3s;
-}
-
-.toast.show{
-transform:translateX(-50%) translateY(0);
-}
-
-.wallet{
-margin-top:15px;
-}
-
+:root{color-scheme:dark;--bg:#070b16;--panel:#10182b;--panel2:#0c1323;--line:rgba(151,177,255,.15);--muted:#94a3c4;--white:#f4f7ff;--cyan:#59e1ff;--blue:#7c8dff;--violet:#ad7cff;--green:#8bffd2}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg);scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 50% -8%,rgba(73,100,220,.25),transparent 42%),linear-gradient(180deg,#080d1c,#060914 70%);color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding-bottom:112px;min-height:100vh}
+button{font:inherit;cursor:pointer}
+.app{max-width:560px;margin:auto;min-height:100vh;padding-bottom:12px;overflow:hidden}
+.header{position:relative;text-align:left;padding:25px 20px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header:after{content:"";position:absolute;bottom:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+.logo{font-size:25px;font-weight:950;letter-spacing:4px;background:linear-gradient(100deg,#fff 5%,#9ceaff 48%,#a6a0ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(92,151,255,.12)}
+.subtitle{font-size:9px;color:#91a1c7;letter-spacing:2px;margin-top:5px}
+.header:before{content:"";display:block;position:absolute;right:24px;top:25px;width:40px;height:40px;border:1px solid rgba(104,224,255,.22);border-radius:14px;transform:rotate(45deg);box-shadow:inset 0 0 18px rgba(83,145,255,.08),0 0 24px rgba(83,145,255,.08);pointer-events:none}
+.page{display:none;padding:18px 16px 8px;animation:appear .22s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.card{position:relative;background:linear-gradient(145deg,rgba(20,30,53,.97),rgba(11,17,32,.98));border:1px solid var(--line);border-radius:23px;padding:19px;margin-bottom:14px;box-shadow:0 12px 30px rgba(0,0,0,.14);overflow:hidden}
+.card:before{content:"";position:absolute;left:18px;right:18px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(151,208,255,.3),transparent);pointer-events:none}
+.title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;font-weight:800}
+.balance{background:radial-gradient(ellipse at 50% 0%,rgba(73,116,255,.22),transparent 64%),linear-gradient(145deg,#172344,#0d1529);text-align:left;padding:22px 20px}
+.balance .title{color:#b8c9ef}
+.amount{font-size:clamp(34px,9vw,45px);font-weight:950;letter-spacing:-1.5px;color:#e7f8ff;text-shadow:0 0 24px rgba(83,221,255,.17);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.balance .amount{background:linear-gradient(90deg,#fff,#8fe9ff 65%,#b6a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.coin{color:#91a6d0;font-size:10px;letter-spacing:2.4px;margin-top:7px;font-weight:800}
+.phase{text-align:center;background:linear-gradient(140deg,rgba(28,36,67,.98),rgba(15,20,40,.98))}
+.phase-time{font-size:clamp(20px,5vw,27px);font-weight:900;letter-spacing:.5px;margin:9px 0;color:#d9ddff;font-variant-numeric:tabular-nums}
+.mining{text-align:center;background:radial-gradient(ellipse at 50% 20%,rgba(58,208,255,.13),transparent 58%),linear-gradient(145deg,#121e36,#0b1222)}
+.mining-time{font-size:clamp(28px,8vw,39px);font-weight:950;letter-spacing:1px;margin:15px 0;color:#dff8ff;font-variant-numeric:tabular-nums}
+.status{display:inline-flex;align-items:center;gap:7px;color:var(--green);font-weight:900;font-size:10px;letter-spacing:1.4px;background:rgba(96,255,198,.08);border:1px solid rgba(96,255,198,.18);border-radius:99px;padding:7px 10px}
+.status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+.green{width:100%;padding:15px 16px;border:1px solid rgba(130,222,255,.35);border-radius:14px;background:linear-gradient(100deg,#77eaff,#9da5ff);color:#071226;font-weight:950;font-size:12px;letter-spacing:1px;margin-top:15px;box-shadow:0 8px 20px rgba(90,170,255,.12);transition:transform .15s,filter .15s}
+.green:active{transform:scale(.985)}.green:disabled{opacity:.45;filter:saturate(.5);box-shadow:none}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:rgba(4,9,21,.42);border:1px solid rgba(151,177,255,.12);border-radius:15px;padding:14px}
+.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px}
+.stat-value{font-size:18px;font-weight:900;margin-top:7px;color:#e9f2ff}
+.task{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,#121d33,#0b1221);border:1px solid var(--line);padding:15px;border-radius:17px;margin-bottom:10px}
+.task-name{font-size:13px;font-weight:850}.task-reward{color:var(--green);font-size:11px;margin-top:6px;font-weight:800}.task-description{color:var(--muted);font-size:10px;margin-top:5px;line-height:1.5}
+.task-btn{background:linear-gradient(100deg,#77eaff,#a8a0ff);color:#071226;border:0;border-radius:11px;padding:10px 12px;font-size:10px;font-weight:900;white-space:nowrap}.task-btn.done{background:#18233a;color:#8595b8}
+.boost{text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(174,124,255,.19),transparent 60%),linear-gradient(145deg,#171b38,#0c1225)}
+.boost-icon{font-size:48px;margin:4px 0 12px;filter:drop-shadow(0 0 18px rgba(170,126,255,.3))}.boost h2{font-size:23px;letter-spacing:-.5px}
+.description{color:#a0aecf;font-size:12px;line-height:1.65;margin:12px 0}
+.profile-row{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid rgba(151,177,255,.11)}.profile-row:last-child{border-bottom:0}
+.label{font-size:11px;color:var(--muted)}.value{font-size:11px;font-weight:800;text-align:right;max-width:62%;word-break:break-word;color:#e6edff}
+.referral{background:rgba(4,9,21,.5);border:1px solid rgba(89,225,255,.2);border-radius:14px;padding:15px;margin:15px 0;text-align:center;color:var(--cyan);font-size:11px;word-break:break-all}
+.copy{width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:#17223a;color:#f4f7ff;font-weight:850;font-size:11px;letter-spacing:.7px}
+.token{margin-bottom:17px}.token:last-child{margin-bottom:0}.token-top{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:8px;color:#dce6ff}.token-top b{color:var(--cyan)}
+.bar{height:7px;background:#080e1d;border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet))}
+.nav{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 18px);max-width:530px;background:rgba(10,16,31,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(151,177,255,.2);border-radius:20px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:7px 4px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.38)}
+.nav button{border:0;background:none;color:#8290b1;font-size:9px;font-weight:800;padding:7px 1px;border-radius:13px;min-width:0}
+.nav button.active{color:#a9efff;background:linear-gradient(180deg,rgba(88,183,255,.14),rgba(126,134,255,.08))}
+.icon{display:block;font-size:17px;margin-bottom:4px}
+.loading{text-align:center;padding:23px;color:var(--muted);font-size:12px}
+.toast{position:fixed;top:calc(15px + env(safe-area-inset-top));left:50%;transform:translateX(-50%) translateY(-100px);width:max-content;max-width:calc(100% - 30px);background:#131f38;border:1px solid rgba(89,225,255,.32);color:#f5f8ff;padding:13px 17px;border-radius:13px;font-size:12px;z-index:2000;transition:.3s;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+.toast.show{transform:translateX(-50%) translateY(0)}.wallet{margin-top:15px}
+.leader-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}
+.leader-tab{padding:10px 4px;border-radius:11px;border:1px solid var(--line);background:#0a1121;color:var(--muted);font-size:9px;font-weight:900}
+.leader-tab.active{color:#061324;background:linear-gradient(100deg,#7be8ff,#aaa1ff);border-color:transparent}
+.leader-row{display:grid;grid-template-columns:31px minmax(0,1fr) auto;align-items:center;gap:9px;padding:12px 0;border-bottom:1px solid rgba(151,177,255,.1)}
+.leader-row:last-child{border-bottom:0}.leader-rank{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:#17223b;color:#c6d8ff;font-size:10px;font-weight:950}
+.leader-row:nth-child(1) .leader-rank{background:linear-gradient(140deg,#ffe5a0,#e8a74c);color:#291900}.leader-name{font-size:11px;font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.leader-sub{font-size:9px;color:var(--muted);margin-top:4px}.leader-score{font-size:10px;font-weight:900;color:var(--cyan);text-align:right;white-space:nowrap}
+@media(min-width:440px){.page{padding-left:20px;padding-right:20px}.header{padding-left:24px;padding-right:24px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 
@@ -459,6 +164,18 @@ VIEW MINING
 
 </div>
 
+
+
+<div class="card">
+  <div class="title">Community Leaderboard</div>
+  <div class="description" style="margin-top:-4px">See the miners and community builders leading ELVION.</div>
+  <div class="leader-tabs">
+    <button class="leader-tab active" id="leader-global" onclick="loadLeaderboard('global')">TOP BALANCE</button>
+    <button class="leader-tab" id="leader-miners" onclick="loadLeaderboard('miners')">TOP MINERS</button>
+    <button class="leader-tab" id="leader-referrers" onclick="loadLeaderboard('referrers')">TOP REFERRERS</button>
+  </div>
+  <div id="leaderboardList"><div class="loading">Loading community rankings...</div></div>
+</div>
 
 <div class="card">
 
@@ -1574,6 +1291,36 @@ button.innerText =
 }
 
 
+
+function loadLeaderboard(category){
+  category = category || "global";
+  document.querySelectorAll(".leader-tab").forEach(function(b){b.classList.remove("active");});
+  var tab = document.getElementById("leader-" + category);
+  if(tab) tab.classList.add("active");
+  var box = document.getElementById("leaderboardList");
+  if(!box) return;
+  box.innerHTML = '<div class="loading">Loading rankings...</div>';
+  fetch("/api/leaderboard?category=" + encodeURIComponent(category))
+    .then(function(r){if(!r.ok) throw new Error("Leaderboard unavailable");return r.json();})
+    .then(function(data){
+      box.innerHTML = "";
+      var rows = data.leaderboard || [];
+      if(!data.success || !rows.length){box.innerHTML='<div class="loading">Rankings will appear as the community grows.</div>';return;}
+      rows.slice(0,5).forEach(function(user){
+        var row = document.createElement("div"); row.className="leader-row";
+        var rank = document.createElement("div"); rank.className="leader-rank"; rank.textContent = user.rank;
+        var details = document.createElement("div");
+        var name = document.createElement("div"); name.className="leader-name"; name.textContent = user.first_name || (user.username ? "@"+user.username : "ELVION Miner");
+        var sub = document.createElement("div"); sub.className="leader-sub";
+        sub.textContent = category === "referrers" ? number(user.referral_count) + " referrals" : category === "miners" ? number(user.mining_cycles) + " mining cycles" : "Community member";
+        details.appendChild(name); details.appendChild(sub);
+        var score = document.createElement("div"); score.className="leader-score";
+        score.textContent = category === "referrers" ? number(user.referral_earned) + " ELV" : category === "miners" ? number(user.mining_cycles) + " cycles" : number(user.balance) + " ELV";
+        row.appendChild(rank); row.appendChild(details); row.appendChild(score); box.appendChild(row);
+      });
+    }).catch(function(){box.innerHTML='<div class="loading">Leaderboard is temporarily unavailable.</div>';});
+}
+
 function loadReferral(){
 
 if(!initData){
@@ -1759,6 +1506,7 @@ setTimeout(function(){
 
 loadUser();
 loadReferral();
+loadLeaderboard("global");
 initWallet();
 
 },500);
