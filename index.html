@@ -98,6 +98,12 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 .task{border-radius:17px;background:linear-gradient(130deg,#14251a,#0a130d);border-color:rgba(231,189,112,.13)}.task-btn{background:linear-gradient(110deg,#ffedbd,#e7bd70);border-radius:12px}.leader-tab{background:#0b150e;border-color:rgba(231,189,112,.15)}.leader-tab.active{background:linear-gradient(100deg,#ffedbd,#e7bd70);color:#20180a}.referral{color:#a5f2dc;background:rgba(128,240,217,.04);border-color:rgba(128,240,217,.18);border-radius:16px}.copy{background:linear-gradient(110deg,#172b1e,#101b14);border-color:rgba(231,189,112,.2);border-radius:14px}.profile-row{border-color:rgba(231,189,112,.1);padding:13px 0}.value{color:#f1ead7}.token-top{color:#dce7dc}.token-top b{color:#a5f2dc}.bar{background:#07100b}.toast{background:#11251a;border-color:rgba(231,189,112,.28)}
 @media(max-width:370px){.page{padding-left:12px;padding-right:12px}.welcome-title{font-size:21px}.card{padding:15px}.balance{padding:19px 15px}.mini-value{font-size:17px}.quick-tile{padding:12px 8px}.quick-tile b{font-size:9px}.nav button{font-size:7px}}
 
+
+.claim-balance{width:min(100%,310px);display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:14px 17px;border-radius:17px;border:1px solid rgba(231,189,112,.2);background:linear-gradient(110deg,rgba(21,40,27,.88),rgba(9,18,12,.95));text-align:left}
+.claim-balance-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:#aab8aa}
+.claim-balance strong{font-size:20px;font-weight:950;color:#ffedbd;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;text-align:right}
+.claim-balance small{font-size:9px;letter-spacing:1px;color:#80f0d9}
+
 /* Minimal ELVION claiming home: the claim ring is the visual focus */
 .claim-home{min-height:calc(100vh - 190px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 8px 12px;text-align:center}
 .claim-brand{display:flex;align-items:center;gap:10px;margin:7px 0 27px}
@@ -157,7 +163,8 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
     <div class="cycle-panel"><span class="cycle-symbol">↻</span><span class="cycle-caption">MINING CYCLE</span><strong id="cycle">0</strong></div>
     <button id="claimBtn" class="green claim-action" onclick="claimMining()" disabled>MINING STARTS 1 NOVEMBER</button>
     <div class="claim-note">Your reward. Your cycle. Your progress.</div>
-    <div class="hidden-data" aria-hidden="true"><span id="balance">0</span><span id="phaseCountdown">Loading...</span></div>
+    <div class="claim-balance"><span class="claim-balance-label">YOUR BALANCE</span><strong><span id="balance">0</span> <small>ELV</small></strong></div>
+    <div class="hidden-data" aria-hidden="true"><span id="phaseCountdown">Loading...</span></div>
   </div>
 </section>
 
