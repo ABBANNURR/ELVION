@@ -198,10 +198,11 @@ a{color:#f0ce7d!important}
 .section-head{gap:10px!important}
 #ton-connect{position:relative!important;z-index:5!important;pointer-events:auto!important}
 #walletConnectBtn{position:relative!important;z-index:6!important;pointer-events:auto!important;touch-action:manipulation!important}
-.tc-root,.tc-modal,.tc-modal__overlay,[data-tc-modal],.ton-connect-ui,.tc-wallet-list,.tc-wallet-item{z-index:2147483000!important;pointer-events:auto!important}
-.tc-modal,.tc-modal__overlay,[data-tc-modal]{position:fixed!important;inset:0!important}
-.tc-wallet-item,.tc-wallet-list button,.tc-modal button,.tc-root button{pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
-.tc-modal button,.tc-root button,.tc-wallet-list button{background:initial!important;color:initial!important;border-color:initial!important;box-shadow:none!important;font-family:inherit!important}
+/* Keep TON Connect's own modal geometry intact; only ensure it sits above the app. */
+.tc-root,.tc-modal,.tc-modal__overlay,[data-tc-modal],.ton-connect-ui{z-index:2147483000!important}
+.tc-root button,.tc-modal button,.tc-wallet-list button,.tc-wallet-item{pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
+body:has(.tc-modal),body:has(.tc-root){overflow:hidden!important}
+
 @media(min-width:600px){.app{padding:20px 20px 125px!important}.page{gap:16px!important}.claim-home{padding:24px!important}.card{padding:20px!important}}
 @media(max-width:390px){.app{padding:10px 10px 115px!important}.header{padding:12px!important;border-radius:18px!important}.header-wallet button,#walletConnectBtn{font-size:11px!important;padding:9px!important}.logo{font-size:20px!important}.nav{gap:3px!important}.nav button{font-size:10px!important}}
 
@@ -217,6 +218,34 @@ a{color:#f0ce7d!important}
 .header-actions{display:flex;align-items:center;justify-content:flex-end;max-width:none!important}
 .header-live-mark{box-shadow:inset 0 1px rgba(255,231,170,.04)}
 @media(max-width:390px){.header-live-mark{font-size:9px;padding:8px 9px}.wallet-profile-action{padding:12px}}
+
+/* ELVION: new premium dashboard layout, not just recoloring */
+:root{--bg:#050505;--panel:#11100d;--panel2:#19160f;--line:rgba(226,185,92,.24);--muted:#b4a88c;--white:#fff7e6;--gold:#edc76b;--gold2:#ffe9ae}
+html,body{background:#050505!important;color:#fff7e6!important}
+body{background:radial-gradient(ellipse at 50% -10%,rgba(214,166,57,.16),transparent 38%),linear-gradient(180deg,#090806 0%,#050505 62%,#0b0905 100%)!important}
+.app{max-width:690px!important;padding:12px 13px 118px!important}
+.header{border-radius:23px!important;padding:17px 16px!important;background:linear-gradient(125deg,#19150c 0%,#090908 68%,#161006 100%)!important;border:1px solid rgba(235,194,100,.26)!important;box-shadow:0 14px 38px rgba(0,0,0,.35),inset 0 1px rgba(255,231,170,.06)!important}
+.logo{font-size:25px!important;letter-spacing:3.4px!important;color:#ffe3a0!important;text-shadow:0 0 26px rgba(231,190,91,.24)!important}
+.subtitle{font-size:9px!important;letter-spacing:2.3px!important;color:#b6a174!important}
+.header-live-mark{background:#211a0c!important;border-color:#59451e!important;color:#f4d17f!important}
+.page{gap:15px!important;animation:elvionPageIn .22s ease-out}
+@keyframes elvionPageIn{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.claim-home{position:relative!important;overflow:hidden!important;min-height:340px!important;padding:24px 17px 25px!important;border-radius:28px!important;border:1px solid rgba(236,193,91,.28)!important;background:radial-gradient(ellipse at 50% 42%,rgba(190,139,39,.17),transparent 45%),linear-gradient(155deg,#19140a 0%,#090908 52%,#100d07 100%)!important;box-shadow:0 18px 42px rgba(0,0,0,.38),inset 0 1px rgba(255,230,160,.08)!important}
+.claim-brand{letter-spacing:3px!important;color:#ffe4a0!important}
+.claim-orbit{filter:drop-shadow(0 0 22px rgba(222,174,69,.16))!important}
+.claim-core{border-color:rgba(235,194,100,.6)!important;background:radial-gradient(circle at 35% 25%,#2b210e,#080807 68%)!important;box-shadow:0 0 0 9px rgba(226,185,92,.035),0 0 0 19px rgba(226,185,92,.025),inset 0 0 32px rgba(226,185,92,.11)!important}
+.card,.panel,.stat-card,.task,.leader-row,.profile-card,.cycle-panel,.quick-tile,.phase-panel,.boost-card,.token-card{border-radius:22px!important;border-color:rgba(226,185,92,.21)!important;background:linear-gradient(145deg,rgba(25,22,15,.99),rgba(8,8,7,.99))!important;box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px rgba(255,231,170,.035)!important}
+.section-head{margin-bottom:14px!important}
+.title,.section-head .title,.stat-value,.claim-amount,.gold,.task-reward,.leader-rank,.header-badge{color:#f0cf7c!important}
+.description,.label,.stat-label,.claim-note{color:#b9ad92!important}
+button,.primary-btn,.claim-btn,.task-btn,.boost-btn{border-radius:14px!important}
+.primary-btn,.claim-btn,.task-btn,.boost-btn,.copy{background:linear-gradient(135deg,#ffe7a0,#c18e30)!important;color:#211605!important;border:1px solid #f0cf7c!important;font-weight:900!important;box-shadow:0 7px 18px rgba(182,129,34,.12)!important}
+.nav{background:rgba(9,8,6,.96)!important;border:1px solid rgba(226,185,92,.22)!important;border-radius:22px!important;box-shadow:0 12px 32px rgba(0,0,0,.42)!important;backdrop-filter:blur(18px)!important}
+.nav button{color:#9f947b!important;border-radius:15px!important}
+.nav button.active{background:linear-gradient(145deg,rgba(231,190,91,.16),rgba(231,190,91,.04))!important;color:#ffe4a0!important;border:1px solid rgba(231,190,91,.19)!important}
+.wallet-profile-card{margin-top:2px!important}
+.wallet-profile-action{background:linear-gradient(135deg,rgba(231,190,91,.09),rgba(0,0,0,.42))!important}
+@media(max-width:390px){.app{padding:9px 9px 112px!important}.claim-home{min-height:310px!important;padding:20px 12px!important}.card{padding:15px!important}.nav{bottom:8px!important}}
 </style>
 </head>
 
