@@ -158,23 +158,52 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 </style>
 
 <style id="elvion-color-refresh">
-/* Complete ELVION dark-gold visual refresh */
-:root{color-scheme:dark;--bg:#030303;--panel:#0c0b09;--panel2:#17140e;--line:rgba(222,180,83,.30);--muted:#b7aa8d;--white:#fff9eb;--cyan:#d7ad55;--blue:#c49b4b;--violet:#e3c57d;--green:#d4ac56;--gold:#e0b756;--gold2:#ffe4a0;--rose:#d9b46b}
-html{background:#030303!important;color-scheme:dark}
-body{color:var(--white)!important;background:radial-gradient(ellipse at 12% 0%,rgba(188,135,35,.18),transparent 36%),radial-gradient(ellipse at 100% 18%,rgba(124,88,27,.13),transparent 34%),linear-gradient(180deg,#090806,#030303 58%,#090704)!important}
-.card,.panel,.stat-card,.task,.leader-row,.profile-card,.cycle-panel,.quick-tile,.phase-panel,.boost-card,.token-card{background:linear-gradient(145deg,#17140e,#0b0a08)!important;border-color:rgba(222,180,83,.26)!important;box-shadow:inset 0 1px 0 rgba(255,229,163,.035)}
-.title,.section-head .title,.logo,.balance,.stat-value,.claim-amount,.gold,.task-reward,.leader-rank,.header-badge{color:#e5c16f!important}
-button,.primary-btn,.claim-btn,.task-btn,.boost-btn,.leader-tab.active,.nav button.active{background:linear-gradient(135deg,#f0d38b,#b5842f)!important;color:#171006!important;border-color:#e0b756!important}
-button:disabled,.task-btn.done{background:#292319!important;color:#b6a47b!important}
-.leader-tab,.nav button,.secondary-btn,.wallet-button{background:#14110b!important;color:#e0c98e!important;border-color:rgba(222,180,83,.30)!important}
+/* ELVION full dashboard redesign: premium obsidian and gold */
+:root{color-scheme:dark;--bg:#050504;--panel:#11100d;--panel2:#1b1811;--line:rgba(231,190,91,.25);--muted:#b5aa91;--white:#fff8e8;--cyan:#e5bd62;--blue:#bd9140;--violet:#f2d68d;--green:#e1b954;--gold:#edc76b;--gold2:#ffe9ad;--rose:#d9b46b}
+html{background:#050504!important;color-scheme:dark}
+body{color:var(--white)!important;background:radial-gradient(ellipse at 15% -8%,rgba(218,167,55,.19),transparent 35%),radial-gradient(ellipse at 100% 18%,rgba(150,105,25,.13),transparent 32%),linear-gradient(180deg,#0b0905 0%,#050504 52%,#0b0804 100%)!important}
+.app{width:min(100%,760px)!important;margin:0 auto!important;padding:14px 14px 120px!important}
+.header{position:relative!important;top:auto!important;display:flex!important;align-items:center!important;gap:12px!important;padding:15px!important;margin:0 0 16px!important;border:1px solid rgba(231,190,91,.24)!important;border-radius:22px!important;background:linear-gradient(135deg,rgba(29,24,14,.98),rgba(10,9,7,.98))!important;box-shadow:0 12px 34px rgba(0,0,0,.26),inset 0 1px rgba(255,228,160,.06)!important}
+.logo{color:#f0ce79!important;letter-spacing:2.5px!important;font-weight:1000!important;text-shadow:0 0 24px rgba(237,199,107,.16)}
+.subtitle{color:#b8a77e!important;letter-spacing:2px!important}
+.header-actions{min-width:0!important;max-width:56%!important}
+.header-wallet button,#walletConnectBtn{min-height:42px!important;padding:10px 13px!important;border-radius:13px!important;background:linear-gradient(135deg,#ffe7a0,#c49337)!important;color:#211605!important;border:1px solid #f3d37e!important;font-weight:900!important;white-space:normal!important;line-height:1.2!important}
+.header-wallet-status{color:#d8c59a!important;overflow-wrap:anywhere!important}
+.page{gap:14px!important}
+.card,.panel,.stat-card,.task,.leader-row,.profile-card,.cycle-panel,.quick-tile,.phase-panel,.boost-card,.token-card{background:linear-gradient(145deg,rgba(27,23,15,.98),rgba(10,9,7,.99))!important;border:1px solid rgba(231,190,91,.22)!important;border-radius:20px!important;box-shadow:0 10px 30px rgba(0,0,0,.22),inset 0 1px rgba(255,231,170,.035)!important}
+.title,.section-head .title,.stat-value,.claim-amount,.gold,.task-reward,.leader-rank,.header-badge{color:#e7c36e!important}
+.description,.label,.stat-label,.claim-note{color:#b7aa8f!important}
+button,.primary-btn,.claim-btn,.task-btn,.boost-btn{transition:filter .15s ease,transform .15s ease}
+button:active{filter:brightness(1.08)}
+button:not(:disabled),.primary-btn:not(:disabled),.claim-btn:not(:disabled),.task-btn:not(:disabled),.boost-btn:not(:disabled){cursor:pointer}
+.primary-btn,.claim-btn,.task-btn,.boost-btn,.leader-tab.active,.nav button.active,.green{background:linear-gradient(135deg,#f5d98f 0%,#d5a747 60%,#a97825 100%)!important;color:#1b1305!important;border:1px solid rgba(255,231,166,.62)!important;box-shadow:0 7px 20px rgba(191,139,39,.12)!important}
+button:disabled,.task-btn.done{background:#282116!important;color:#aa9a75!important;box-shadow:none!important}
+.leader-tab,.nav button,.secondary-btn,.wallet-button{background:#17130c!important;color:#e0c98e!important;border:1px solid rgba(231,190,91,.25)!important}
 input,textarea,select{background:#0b0906!important;color:#fff5dc!important;border-color:rgba(222,180,83,.38)!important}
 a{color:#f0ce7d!important}
 .icon,.quick-symbol,.nav .icon{color:#e0b756!important}
-.progress,.progress-track,.bar-track{background:#292216!important}
-.progress-fill,.bar-fill{background:linear-gradient(90deg,#91641c,#f7d987)!important}
-.header-wallet-status{color:#d0bd92!important}
-.loading{color:#d0bd92!important}
+.progress,.progress-track,.bar-track{background:#2a2316!important}
+.progress-fill,.bar-fill{background:linear-gradient(90deg,#8b5c17,#f7dc8c)!important}
 .toast{background:#19150d!important;color:#ffedc3!important;border:1px solid rgba(222,180,83,.4)!important}
+.nav{background:rgba(8,7,5,.96)!important;border:1px solid rgba(231,190,91,.24)!important;box-shadow:0 -8px 30px rgba(0,0,0,.35)!important;backdrop-filter:blur(16px)!important}
+.nav button{border-radius:14px!important}
+.claim-home{border:1px solid rgba(231,190,91,.24)!important;border-radius:26px!important;overflow:hidden!important;background:radial-gradient(ellipse at 50% 10%,rgba(226,177,65,.16),transparent 46%),linear-gradient(150deg,#19140b,#080706 70%)!important;box-shadow:0 16px 38px rgba(0,0,0,.25)!important}
+.claim-orbit{filter:drop-shadow(0 0 22px rgba(229,189,98,.12))}
+.claim-core{border-color:rgba(239,201,112,.4)!important;background:radial-gradient(circle at 35% 20%,#3a2a0e,#100d07 70%)!important}
+.claim-orbit-glow{background:radial-gradient(circle,rgba(231,190,91,.17),transparent 70%)!important}
+.claim-logo{color:#f5d68a!important}
+.stats{gap:10px!important}
+.stat{background:linear-gradient(145deg,#1b1710,#0c0a07)!important;border:1px solid rgba(231,190,91,.19)!important;border-radius:16px!important}
+.task{padding:15px!important}
+.section-head{gap:10px!important}
+#ton-connect{position:relative!important;z-index:5!important;pointer-events:auto!important}
+#walletConnectBtn{position:relative!important;z-index:6!important;pointer-events:auto!important;touch-action:manipulation!important}
+.tc-root,.tc-modal,.tc-modal__overlay,[data-tc-modal],.ton-connect-ui,.tc-wallet-list,.tc-wallet-item{z-index:2147483000!important;pointer-events:auto!important}
+.tc-modal,.tc-modal__overlay,[data-tc-modal]{position:fixed!important;inset:0!important}
+.tc-wallet-item,.tc-wallet-list button,.tc-modal button,.tc-root button{pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
+.tc-modal button,.tc-root button,.tc-wallet-list button{background:initial!important;color:initial!important;border-color:initial!important;box-shadow:none!important;font-family:inherit!important}
+@media(min-width:600px){.app{padding:20px 20px 125px!important}.page{gap:16px!important}.claim-home{padding:24px!important}.card{padding:20px!important}}
+@media(max-width:390px){.app{padding:10px 10px 115px!important}.header{padding:12px!important;border-radius:18px!important}.header-wallet button,#walletConnectBtn{font-size:11px!important;padding:9px!important}.logo{font-size:20px!important}.nav{gap:3px!important}.nav button{font-size:10px!important}}
 </style>
 </head>
 
@@ -1011,71 +1040,78 @@ toast("Copy failed");
 }
 
 
-/* WALLET */
+/* WALLET — singleton initialization and reliable modal interaction */
+var tonUI = window.__elvionTonUI || null;
+var tonInitInProgress = false;
 
-var tonUI = null;
-
-/* Bind the visible button immediately, even if TON Connect loads late. */
 document.addEventListener("click", function(event) {
-var button = event.target && event.target.closest ? event.target.closest("#walletConnectBtn") : null;
-if (!button) return;
-event.preventDefault();
-var status = document.getElementById("walletStatus");
-if (tonUI && typeof tonUI.openModal === "function") {
-button.disabled = true;
-if (status) status.innerText = "Opening TON wallet…";
-Promise.resolve(tonUI.openModal()).catch(function(e) {
-console.error("ELVION wallet modal error:", e);
-if (status) { status.innerText = "Wallet did not open — try again"; status.style.color = "#d8b878"; }
-}).finally(function() { button.disabled = false; });
-} else {
-if (status) { status.innerText = "Retrying wallet connection…"; status.style.color = "#e8bd68"; }
-window.elvionTonFallback();
-}
-});
+  var button = event.target && event.target.closest ? event.target.closest("#walletConnectBtn") : null;
+  if (!button) return;
+  event.preventDefault();
+  event.stopPropagation();
+  openElvionWallet(button);
+}, true);
 
-function initWallet(forceRetry){
+document.addEventListener("touchend", function(event) {
+  var button = event.target && event.target.closest ? event.target.closest("#walletConnectBtn") : null;
+  if (!button) return;
+  event.preventDefault();
+  openElvionWallet(button);
+}, {capture:true, passive:false});
 
-var status = document.getElementById("walletStatus");
-if (status) {
-status.innerText = "Loading TON wallet…";
-status.style.color = "#e8bd68";
-}
-
-if (typeof TON_CONNECT_UI === "undefined") {
-if (status) { status.innerText = "Loading wallet service…"; status.style.color = "#e8bd68"; }
-window.elvionTonFallback();
-return;
+function openElvionWallet(button) {
+  var status = document.getElementById("walletStatus");
+  if (tonUI && typeof tonUI.openModal === "function") {
+    if (status) status.innerText = "Opening TON wallet…";
+    Promise.resolve().then(function(){ return tonUI.openModal(); }).catch(function(e) {
+      console.error("ELVION wallet modal error:", e);
+      if (status) { status.innerText = "Wallet did not open — tap to retry"; status.style.color = "#d8b878"; }
+    });
+    return;
+  }
+  if (status) { status.innerText = "Connecting wallet service…"; status.style.color = "#e8bd68"; }
+  window.__elvionTonLoadAttempt = 0;
+  window.elvionTonFallback();
 }
 
-try {
-tonUI = new TON_CONNECT_UI.TonConnectUI({
-manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json"
-});
-if (status) { status.innerText = "Connect TON wallet"; status.style.color = "#c2b4a0"; }
-
-tonUI.onStatusChange(function(wallet) {
-if (!status) return;
-if (wallet && wallet.account && wallet.account.address) {
-var address = wallet.account.address;
-status.innerText = "Connected · " + address;
-status.style.color = "#ffe2a0";
-saveWallet(address);
-} else {
-status.innerText = "Connect TON wallet";
-status.style.color = "#c2b4a0";
+function initWallet(forceRetry) {
+  var status = document.getElementById("walletStatus");
+  if (tonUI && typeof tonUI.openModal === "function") {
+    if (status && !(tonUI.wallet && tonUI.wallet.account)) status.innerText = "Connect TON wallet";
+    return;
+  }
+  if (tonInitInProgress) return;
+  if (status) { status.innerText = "Loading TON wallet…"; status.style.color = "#e8bd68"; }
+  if (typeof TON_CONNECT_UI === "undefined") {
+    if (status) status.innerText = "Loading wallet service…";
+    window.elvionTonFallback();
+    return;
+  }
+  tonInitInProgress = true;
+  try {
+    tonUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json"
+    });
+    window.__elvionTonUI = tonUI;
+    if (status) { status.innerText = "Connect TON wallet"; status.style.color = "#c2b4a0"; }
+    tonUI.onStatusChange(function(wallet) {
+      if (!status) return;
+      if (wallet && wallet.account && wallet.account.address) {
+        status.innerText = "Connected · " + wallet.account.address;
+        status.style.color = "#ffe2a0";
+        saveWallet(wallet.account.address);
+      } else {
+        status.innerText = "Connect TON wallet";
+        status.style.color = "#c2b4a0";
+      }
+    });
+  } catch (e) {
+    console.error("ELVION TON Connect init failed:", e);
+    if (status) { status.innerText = "Wallet failed to start — tap to retry"; status.style.color = "#d8b878"; }
+  } finally {
+    tonInitInProgress = false;
+  }
 }
-});
-
-} catch (e) {
-console.error("ELVION TON Connect init failed:", e);
-if (status) {
-status.innerText = "Wallet failed to start — reload app";
-status.style.color = "#d8b878";
-}
-}
-}
-
 
 function saveWallet(address){
 
