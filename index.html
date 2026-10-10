@@ -12,7 +12,7 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
 <style>
 :root{color-scheme:dark;--bg:#070d0c;--panel:#101d19;--panel2:#172821;--line:rgba(226,190,112,.2);--muted:#9eafa4;--white:#fffaf0;--cyan:#70eee0;--blue:#77b9ff;--violet:#c5a1ff;--green:#9af3bd;--gold:#e8bd68;--gold2:#ffebae;--rose:#ff9fba}
@@ -964,65 +964,46 @@ var tonUI = null;
 
 function initWallet(){
 
-if(
-typeof TON_CONNECT_UI ===
-"undefined"
-){
+var status = document.getElementById("walletStatus");
+if (status) {
+status.innerText = "Loading TON wallet…";
+status.style.color = "#e8bd68";
+}
+
+if (typeof TON_CONNECT_UI === "undefined") {
+if (status) {
+status.innerText = "Wallet service unavailable — reload app";
+status.style.color = "#ff9fba";
+}
 return;
 }
 
-try{
-
-tonUI =
-new TON_CONNECT_UI.TonConnectUI({
-
-manifestUrl:
-"https://elvion-tyb7.onrender.com/tonconnect-manifest.json",
-
-buttonRootId:
-"ton-connect"
-
+try {
+tonUI = new TON_CONNECT_UI.TonConnectUI({
+manifestUrl: "https://elvion-tyb7.onrender.com/tonconnect-manifest.json",
+buttonRootId: "ton-connect"
 });
 
-tonUI.onStatusChange(
-function(wallet){
-
-var status =
-document.getElementById(
-"walletStatus"
-);
-
-if(wallet){
-
-var address =
-wallet.account.address;
-
-status.innerText =
-"Connected · " + address;
-
-status.style.color =
-"#ffe2a0";
-
+tonUI.onStatusChange(function(wallet) {
+if (!status) return;
+if (wallet && wallet.account && wallet.account.address) {
+var address = wallet.account.address;
+status.innerText = "Connected · " + address;
+status.style.color = "#ffe2a0";
 saveWallet(address);
-
-}else{
-
-status.innerText =
-"TON wallet optional";
-
-status.style.color =
-"#c2b4a0";
-
+} else {
+status.innerText = "Connect TON wallet";
+status.style.color = "#c2b4a0";
 }
-
 });
 
-}catch(e){
-
-console.log(e);
-
+} catch (e) {
+console.error("ELVION TON Connect init failed:", e);
+if (status) {
+status.innerText = "Wallet failed to start — reload app";
+status.style.color = "#ff9fba";
 }
-
+}
 }
 
 
