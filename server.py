@@ -1114,6 +1114,22 @@ TASKS = [
 
         "url":
             GROUP_LINK
+    },
+    {
+        "id":
+            "official_website",
+
+        "title":
+            "Visit ELVION Official Website",
+
+        "description":
+            "Explore ELVION tokenomics, roadmap and official project information.",
+
+        "reward":
+            TASK_REWARD,
+
+        "url":
+            "https://elvion-official-website.onrender.com"
     }
 ]
 
