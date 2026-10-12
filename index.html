@@ -159,13 +159,18 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 /* ELVION startup animation and Story promo */
 #elvionBoot{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#4a1734 0%,#1b0b19 48%,#07050a 100%);transition:opacity .45s ease,visibility .45s ease}
 #elvionBoot.is-done{opacity:0;visibility:hidden;pointer-events:none}
-.boot-inner{text-align:center}
-.boot-emblem{width:88px;height:88px;margin:0 auto 18px;border-radius:27px;display:grid;place-items:center;font-size:53px;font-weight:1000;color:#fff3c7;background:linear-gradient(135deg,#ffb7e0,#f34fa8 48%,#84235d);box-shadow:0 0 0 7px #f34fa818,0 0 42px #f34fa855;animation:elvionPulse 1.35s ease-in-out infinite}
-.boot-name{font-size:26px;font-weight:1000;letter-spacing:6px;color:#ff83c5}
-.boot-tag{font-size:10px;letter-spacing:3px;color:#b5c3b5;margin-top:8px}
-.boot-track{width:150px;height:4px;border-radius:9px;background:#ffffff18;margin:25px auto 0;overflow:hidden}
-.boot-track:after{content:"";display:block;width:45%;height:100%;border-radius:9px;background:linear-gradient(90deg,#f34fa8,#ffc4e5);animation:elvionLoad 1.1s ease-in-out infinite}
-@keyframes elvionPulse{50%{transform:scale(1.07);box-shadow:0 0 0 12px #d7ad5b0c,0 0 58px #e9b84b77}}
+.boot-inner{text-align:center;padding:28px 22px}
+.boot-orbit{width:126px;height:126px;margin:0 auto 24px;border-radius:50%;display:grid;place-items:center;position:relative;border:2px solid #ff77c6;box-shadow:0 0 0 8px #f34fa818,0 0 48px #f34fa855;animation:elvionOrbit 2s linear infinite}
+.boot-orbit:before,.boot-orbit:after{content:"";position:absolute;inset:9px;border-radius:50%;border:1px solid #ffc5e6;opacity:.75}
+.boot-orbit:after{inset:-8px;border-color:#f34fa855;animation:elvionPulse 1.5s ease-in-out infinite}
+.boot-emblem{width:78px;height:78px;border-radius:24px;display:grid;place-items:center;font-size:48px;font-weight:1000;color:#fff;background:linear-gradient(145deg,#ffb7e0,#f34fa8 52%,#84235d);box-shadow:0 8px 30px #f34fa855}
+.boot-name{font-size:31px;font-weight:1000;letter-spacing:7px;color:#ff83c5;text-shadow:0 0 24px #f34fa855}
+.boot-tag{font-size:10px;letter-spacing:3px;color:#f5c4df;margin-top:10px}
+.boot-caption{font-size:11px;letter-spacing:2px;color:#bda4b4;margin-top:26px}
+.boot-track{width:190px;height:4px;border-radius:9px;background:#ffffff18;margin:14px auto 0;overflow:hidden}
+.boot-track:after{content:"";display:block;width:40%;height:100%;border-radius:9px;background:linear-gradient(90deg,#f34fa8,#ffc4e5);animation:elvionLoad 1.1s ease-in-out infinite}
+@keyframes elvionOrbit{to{transform:rotate(360deg)}}
+@keyframes elvionPulse{50%{transform:scale(1.07);box-shadow:0 0 0 12px #f34fa80c,0 0 58px #f34fa877}}
 @keyframes elvionLoad{from{transform:translateX(-110%)}to{transform:translateX(340%)}}
 .story-card{margin:14px 0;padding:18px;border:1px solid #f34fa855;border-radius:20px;background:radial-gradient(circle at 85% 10%,#f34fa82b,transparent 40%),linear-gradient(145deg,#281324,#0c080e);box-shadow:0 12px 34px #0005}
 .story-card .story-kicker{font-size:10px;letter-spacing:2px;color:#ff83c5;font-weight:900}
@@ -328,7 +333,7 @@ button:disabled,.task-btn.done{background:#281722!important;color:#9e7b90!import
 
 <body>
 
-<div id="elvionBoot" role="status" aria-label="Loading ELVION"><div class="boot-inner"><div class="boot-emblem">E</div><div class="boot-name">ELVION</div><div class="boot-tag">CLAIM • GROW • LEAD</div><div class="boot-track"></div></div></div>
+<div id="elvionBoot" role="status" aria-label="Loading ELVION"><div class="boot-inner"><div class="boot-orbit"><div class="boot-emblem">E</div></div><div class="boot-name">ELVION</div><div class="boot-tag">CLAIM • GROW • LEAD</div><div class="boot-caption">YOUR JOURNEY. YOUR REWARDS.</div><div class="boot-track"></div></div></div>
 
 <div class="app">
 
@@ -1048,6 +1053,13 @@ function copyStoryLink(){
 function shareElvionStory(){
  var link=elvionStoryData.link;
  if(!link){toast("Referral link not ready");return;}
+ /* Telegram's native Story API requires a publicly reachable HTTPS media URL.
+    The locally rendered personalized image cannot be passed directly to shareToStory. */
+ if(tg && typeof tg.shareToStory === "function"){
+   var storyUrl=window.location.origin + "/story-promo.png";
+   tg.shareToStory(storyUrl,{text:"Join ELVION with my referral link: "+link,widget_link:{url:link,name:"Join ELVION"}});
+   return;
+ }
  var canvas=document.createElement("canvas"); canvas.width=1080;canvas.height=1920;
  var ctx=canvas.getContext("2d");
  var grad=ctx.createLinearGradient(0,0,1080,1920);grad.addColorStop(0,"#40112f");grad.addColorStop(.55,"#100914");grad.addColorStop(1,"#280d20");ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1920);
