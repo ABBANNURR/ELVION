@@ -516,6 +516,28 @@ id="toast"
 class="toast">
 </div>
 
+<div id="storyPreviewModal" class="story-preview-modal" hidden>
+  <div class="story-preview-sheet" role="dialog" aria-modal="true" aria-label="ELVION story image">
+    <div class="story-preview-head"><b>Your ELVION Story Image</b><button type="button" onclick="closeStoryPreview()" aria-label="Close">✕</button></div>
+    <p>Hoton ya ƙunshi rank, points, referrals da referral link ɗinka.</p>
+    <img id="storyPreviewImage" alt="Personalized ELVION story image preview">
+    <div class="story-preview-buttons">
+      <button type="button" onclick="downloadCurrentStory()">⬇ DOWNLOAD IMAGE</button>
+      <button type="button" class="story-share-button" onclick="sendCurrentStory()">↗ SHARE / TELEGRAM</button>
+    </div>
+    <small>Idan Telegram bai fito kai tsaye ba, zaɓi Telegram daga Share menu sannan ka zaɓi Story.</small>
+  </div>
+</div>
+<style>
+.story-preview-modal{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.story-preview-modal[hidden]{display:none!important}.story-preview-sheet{width:min(100%,430px);max-height:92dvh;overflow:auto;background:linear-gradient(145deg,#261326,#09080d);border:1px solid #f34fa877;border-radius:22px;padding:16px;box-shadow:0 20px 70px #000b}
+.story-preview-head{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#ffb4dc;font-size:15px}.story-preview-head button{border:1px solid #f34fa855;background:#ffffff10;color:#fff;border-radius:10px;padding:8px 11px}
+.story-preview-sheet p{font-size:12px;color:#d7c6d2;line-height:1.5;margin:10px 0}
+.story-preview-sheet img{display:block;width:min(100%,260px);max-height:52dvh;object-fit:contain;margin:10px auto;border-radius:12px;background:#100914}
+.story-preview-buttons{display:grid;grid-template-columns:1fr;gap:9px;margin-top:12px}.story-preview-buttons button{min-height:46px;border:1px solid #f34fa866;border-radius:12px;padding:12px;background:linear-gradient(110deg,#ffb4dc,#ed4fa4);color:#270b1c;font-weight:950;font-size:11px}.story-preview-buttons .story-share-button{background:linear-gradient(110deg,#ffe7a0,#d9b46b);border-color:#ffe7a0;color:#241606}
+.story-preview-sheet small{display:block;color:#bba9b8;font-size:10px;line-height:1.5;margin-top:11px}
+</style>
+
 
 <script>
 
@@ -1050,15 +1072,14 @@ function copyStoryLink(){
  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(function(){toast("Referral link copied");}).catch(function(){toast(link);});
  else toast(link);
 }
+var currentStoryBlob=null;
 function shareElvionStory(){
  var link=elvionStoryData.link;
  if(!link){toast("Referral link not ready");return;}
-
- var canvas=document.createElement("canvas"); canvas.width=1080;canvas.height=1920;
+ var canvas=document.createElement("canvas");canvas.width=1080;canvas.height=1920;
  var ctx=canvas.getContext("2d");
  var grad=ctx.createLinearGradient(0,0,1080,1920);grad.addColorStop(0,"#40112f");grad.addColorStop(.55,"#100914");grad.addColorStop(1,"#280d20");ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1920);
- ctx.strokeStyle="#f34fa8";ctx.lineWidth=5;ctx.beginPath();ctx.roundRect(58,70,964,1780,48);ctx.stroke();
- ctx.textAlign="center";
+ ctx.strokeStyle="#f34fa8";ctx.lineWidth=5;ctx.beginPath();ctx.roundRect(58,70,964,1780,48);ctx.stroke();ctx.textAlign="center";
  ctx.fillStyle="#ff83c5";ctx.font="900 34px Arial";ctx.fillText("CLAIM • GROW • LEAD",540,180);
  ctx.fillStyle="#ffe0f1";ctx.font="1000 112px Arial";ctx.fillText("ELVION",540,350);
  ctx.fillStyle="#ff83c5";ctx.beginPath();ctx.roundRect(438,420,204,204,48);ctx.fill();ctx.fillStyle="#fff7dc";ctx.font="1000 145px Arial";ctx.fillText("E",540,570);
@@ -1073,14 +1094,35 @@ function shareElvionStory(){
  var safeLink=link.length>58?link.slice(0,55)+"…":link;ctx.fillText(safeLink,540,1490);
  ctx.fillStyle="#d9b46b";ctx.font="bold 30px Arial";ctx.fillText("ELVION • MINE • CLAIM • GROW",540,1690);
  canvas.toBlob(function(blob){
-  if(!blob){shareStoryLinkFallback(link);return;}
-  var file=new File([blob],"elvion-story.png",{type:"image/png"});
-  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
-   navigator.share({files:[file],title:"My ELVION Story",text:"Join ELVION with my referral link: "+link}).catch(function(e){if(e&&e.name!=="AbortError")shareStoryLinkFallback(link);});
-   }else{
-   downloadStoryImage(blob);
-  }
+  if(!blob){toast("Could not create image. Please try again.");return;}
+  currentStoryBlob=blob;
+  var image=document.getElementById("storyPreviewImage");
+  image.src=URL.createObjectURL(blob);
+  document.getElementById("storyPreviewModal").hidden=false;
  },"image/png");
+}
+function closeStoryPreview(){
+ var modal=document.getElementById("storyPreviewModal");
+ modal.hidden=true;
+ var image=document.getElementById("storyPreviewImage");
+ if(image.src && image.src.indexOf("blob:")===0)URL.revokeObjectURL(image.src);
+ image.removeAttribute("src");
+}
+function downloadCurrentStory(){
+ if(!currentStoryBlob){toast("Create the story image first");return;}
+ downloadStoryImage(currentStoryBlob);
+}
+function sendCurrentStory(){
+ if(!currentStoryBlob){toast("Create the story image first");return;}
+ var file=new File([currentStoryBlob],"elvion-story.png",{type:"image/png"});
+ if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+  navigator.share({files:[file],title:"My ELVION Story",text:"Join ELVION with my referral link: "+elvionStoryData.link})
+   .then(function(){})
+   .catch(function(e){if(e&&e.name!=="AbortError")toast("Use DOWNLOAD IMAGE, then upload it to Telegram Story.");});
+ }else{
+  downloadStoryImage(currentStoryBlob);
+  toast("Image downloaded. Open Telegram Story and upload it.");
+ }
 }
 function downloadStoryImage(blob){
  var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="elvion-story.png";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1500);toast("Promo image saved. Open Telegram Story and upload it.");
