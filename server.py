@@ -79,6 +79,7 @@ SQLITE_TIMEOUT = 30
 class PostgreSQLConnection:
     def __init__(self, url):
         self.raw = psycopg2.connect(url, cursor_factory=RealDictCursor, connect_timeout=15)
+        self.raw.autocommit = True
 
     def execute(self, sql, params=()):
         statement = sql.strip()
@@ -498,7 +499,6 @@ def create_user(
                 new_balance,
                 "referral_reward"
             )
-
     return get_user(
         conn,
         telegram_id
@@ -997,8 +997,7 @@ def claim():
         )
 
         mining = calculate_mining(
-            current_user
-        )
+            current_user        )
 
         if not mining["can_claim"]:
 
@@ -1497,8 +1496,7 @@ def leaderboard():
 
         for index, row in enumerate(
             rows,
-            start=1
-        ):
+            start=1        ):
 
             results.append({
 
