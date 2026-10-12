@@ -892,167 +892,86 @@ function loadLeaderboard(category){
 
 
 function loadTasks(){
-
-if(!initData){
-
-document.getElementById(
-"tasksList"
-).innerHTML =
-'<div class="loading">Open inside Telegram.</div>';
-
-return;
-
+  var box = document.getElementById("tasksList");
+  if (!initData) {
+    box.innerHTML = '<div class="loading">Open inside Telegram.</div>';
+    return;
+  }
+  box.innerHTML = '<div class="loading">Loading tasks…</div>';
+  fetch(api("/api/tasks"), {headers: {"Accept":"application/json"}})
+    .then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Could not load tasks"); return d; }); })
+    .then(function(data){
+      box.innerHTML = "";
+      (data.tasks || []).forEach(function(task){
+        var item = document.createElement("div");
+        item.className = "task";
+        var left = document.createElement("div");
+        var title = document.createElement("div");
+        title.className = "task-name";
+        title.textContent = task.title || "ELVION Task";
+        var reward = document.createElement("div");
+        reward.className = "task-reward";
+        reward.textContent = "+" + number(task.reward) + " ELVION";
+        var desc = document.createElement("div");
+        desc.className = "task-description";
+        desc.textContent = task.description || "";
+        left.appendChild(title); left.appendChild(reward); left.appendChild(desc);
+        var button = document.createElement("button");
+        button.className = "task-btn";
+        if (task.claimed) {
+          button.textContent = "CLAIMED";
+          button.classList.add("done");
+          button.disabled = true;
+        } else {
+          button.textContent = "OPEN TASK";
+          button.onclick = function(){
+            if (tg && typeof tg.openTelegramLink === "function" && /^https:\/\/t\.me\//i.test(task.url || "")) {
+              tg.openTelegramLink(task.url);
+            } else if (tg && typeof tg.openLink === "function") {
+              tg.openLink(task.url);
+            } else {
+              window.open(task.url, "_blank", "noopener");
+            }
+            button.textContent = "CLAIM REWARD";
+            button.onclick = function(){ claimTask(task.id, button); };
+          };
+        }
+        item.appendChild(left); item.appendChild(button); box.appendChild(item);
+      });
+    })
+    .catch(function(error){
+      console.error("ELVION tasks load:", error);
+      box.innerHTML = '<div class="loading">Tasks could not load. <button type="button" id="tasksRetry">Try again</button></div>';
+      var retry = document.getElementById("tasksRetry");
+      if (retry) retry.onclick = loadTasks;
+    });
 }
 
-fetch(api("/api/tasks"))
-
-.then(function(r){
-return r.json();
-})
-
-.then(function(data){
-
-var box =
-document.getElementById(
-"tasksList"
-);
-
-box.innerHTML = "";
-
-(data.tasks || [])
-.forEach(function(task){
-
-var item =
-document.createElement("div");
-
-item.className =
-"task";
-
-var left =
-document.createElement("div");
-
-left.innerHTML =
-"<div class='task-name'>" +
-task.title +
-"</div>" +
-"<div class='task-reward'>+" +
-number(task.reward) +
-" ELVION</div>" +
-"<div class='task-description'>" +
-(task.description || "") +
-"</div>";
-
-var button =
-document.createElement("button");
-
-button.className =
-"task-btn";
-
-if(task.claimed){
-
-button.innerText =
-"CLAIMED";
-
-button.classList.add("done");
-
-button.disabled = true;
-
-}else{
-
-button.innerText =
-"OPEN";
-
-button.onclick =
-function(){
-
-if(tg){
-
-try{
-tg.openTelegramLink(
-task.url
-);
-}catch(e){
-window.open(
-task.url,
-"_blank"
-);
-}
-
-}else{
-window.open(
-task.url,
-"_blank"
-);
-}
-
-setTimeout(function(){
-
-claimTask(task.id);
-
-},1500);
-
-};
-
-}
-
-item.appendChild(left);
-item.appendChild(button);
-
-box.appendChild(item);
-
-});
-
-});
-
-}
-
-
-function claimTask(id){
-
-fetch(api("/api/task/claim"),{
-
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:JSON.stringify({
-initData:initData,
-task_id:id
-})
-
-})
-
-.then(function(r){
-return r.json();
-})
-
-.then(function(data){
-
-if(data.success){
-
-toast(
-"+" +
-number(data.reward) +
-" ELVION"
-);
-
-loadUser();
-loadTasks();
-
-}else{
-
-toast(
-data.error ||
-"Task not claimed"
-);
-
-}
-
-});
-
+function claimTask(id, button){
+  if (!initData) { toast("Open ELVION inside Telegram"); return; }
+  if (button) { button.disabled = true; button.textContent = "CLAIMING…"; }
+  fetch(api("/api/task/claim"), {
+    method: "POST",
+    headers: {"Content-Type":"application/json", "Accept":"application/json"},
+    body: JSON.stringify({initData:initData, task_id:id})
+  })
+  .then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Task not claimed"); return d; }); })
+  .then(function(data){
+    toast("+" + number(data.reward) + " ELVION ADDED");
+    if (typeof data.balance !== "undefined") {
+      document.getElementById("balance").innerText = number(data.balance);
+      document.getElementById("profileBalance").innerText = number(data.balance) + " ELVION";
+    }
+    loadUser();
+    loadTasks();
+    loadReferral();
+  })
+  .catch(function(error){
+    toast(error.message || "Task claim failed");
+    if (button) { button.disabled = false; button.textContent = "CLAIM REWARD"; }
+    loadTasks();
+    loadUser();
+  });
 }
 
 
