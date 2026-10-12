@@ -756,12 +756,12 @@ if(data.success){
 
 toast(
 "+" +
-number(data.reward) +
+number(data.claimed) +
 " ELVION CLAIMED"
 );
 
 miningEnd =
-Number(data.next_claim);
+Number(data.mining && data.mining.next_claim || 0);
 
 document.getElementById(
 "balance"
@@ -774,11 +774,7 @@ document.getElementById(
 number(data.balance) +
 " ELVION";
 
-document.getElementById(
-"cycle"
-).innerText =
-number(data.mining_cycles);
-
+loadUser();
 updateMining();
 
 }else{
