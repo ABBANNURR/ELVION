@@ -330,44 +330,52 @@ button:disabled,.task-btn.done{background:#281722!important;color:#9e7b90!import
 
 
 <style id="elvion-city-glass-redesign">
-/* ELVION: futuristic rose-glass city edition */
-:root{--bg:#090511;--panel:#151020;--panel2:#21142b;--line:rgba(255,118,205,.28);--muted:#c2a8c8;--white:#fff4ff;--cyan:#ff8bd4;--blue:#d36aff;--violet:#ffb0e6;--green:#ff8bd4;--gold:#ffc2e9;--gold2:#ffe6f7;--rose:#ff70c8}
-html{background:#090511!important}
-body{background:radial-gradient(ellipse at 15% 0%,rgba(255,65,174,.25),transparent 36%),radial-gradient(ellipse at 90% 15%,rgba(157,74,255,.23),transparent 35%),radial-gradient(ellipse at 55% 100%,rgba(255,126,211,.13),transparent 45%),linear-gradient(145deg,#0b0713 0%,#13091b 48%,#080610 100%)!important}
-.app{isolation:isolate}
-.header,.card,.claim-home,.claim-balance,.phase,.mining,.cycle-panel,.story-card,.task,.nav,.wallet-profile-action,.boost-card,.token-card,.stat,.quick-tile{backdrop-filter:blur(22px) saturate(150%)!important;-webkit-backdrop-filter:blur(22px) saturate(150%)!important;background-color:rgba(29,15,39,.68)!important;border:1px solid rgba(255,128,214,.24)!important;box-shadow:0 18px 42px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.09),0 0 26px rgba(255,64,177,.055)!important}
-.header{background:linear-gradient(130deg,rgba(55,24,69,.78),rgba(15,10,25,.76))!important;border-color:rgba(255,142,220,.38)!important}
-.logo{font-size:29px!important;letter-spacing:3px!important;background:linear-gradient(110deg,#fff7ff 0%,#ff9cdb 28%,#e879ff 55%,#ffc7ed 78%,#fff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;filter:drop-shadow(0 0 14px rgba(255,84,192,.5))}
-.subtitle{color:#e9a8dc!important}
-.header-live-mark{background:rgba(255,91,194,.13)!important;border-color:rgba(255,134,215,.45)!important;color:#ffb6e5!important}
-.claim-home{background:linear-gradient(145deg,rgba(41,20,56,.82),rgba(14,10,24,.78))!important;border-radius:28px!important;border-color:rgba(255,131,218,.35)!important}
-.claim-brand-mark,.boot-emblem{position:relative!important;background:linear-gradient(145deg,#fff1ff 0%,#ff7bc8 25%,#b83dff 58%,#4e176e 100%)!important;border:1px solid rgba(255,255,255,.78)!important;color:#fff!important;box-shadow:0 0 0 5px rgba(255,102,203,.10),0 0 32px rgba(255,72,194,.45),inset 0 2px 8px rgba(255,255,255,.75)!important}
-.claim-brand-mark:after,.boot-emblem:after{content:"";position:absolute;inset:5px;border:1px solid rgba(255,255,255,.48);border-radius:inherit;pointer-events:none}
-.claim-brand-name{color:#ff9cdb!important;text-shadow:0 0 20px #ff54bf55!important}
-.claim-orbit{filter:drop-shadow(0 0 26px rgba(255,67,190,.35))!important}
-.claim-orbit-glow{background:radial-gradient(circle,rgba(255,65,184,.32),rgba(176,61,255,.12) 40%,transparent 72%)!important}
-.claim-core{background:radial-gradient(circle at 25% 15%,rgba(255,210,244,.16),transparent 36%),linear-gradient(145deg,rgba(56,25,71,.94),rgba(12,8,22,.94))!important;border:1px solid rgba(255,165,226,.78)!important;box-shadow:0 0 0 7px rgba(255,76,191,.09),0 0 0 16px rgba(181,74,255,.06),0 0 46px rgba(255,58,190,.23),inset 0 0 32px rgba(255,107,210,.13)!important}
-.claim-logo svg path{fill:#ff79cc!important}.claim-logo svg path:last-child{fill:#fff!important}
-.claim-balance,.balance{background:linear-gradient(135deg,rgba(55,25,68,.9),rgba(21,12,32,.88))!important;border-color:rgba(255,131,216,.35)!important}
-.claim-balance strong,.claim-balance strong span,#balance,.amount,.stat-value,.claim-amount{color:#ff9cda!important;-webkit-text-fill-color:#ff9cda!important}
-.card,.panel,.stat-card,.leader-row,.profile-card,.cycle-panel,.quick-tile,.phase-panel,.boost-card,.token-card{background:linear-gradient(145deg,rgba(37,20,49,.83),rgba(15,10,24,.83))!important;border-color:rgba(255,130,214,.2)!important}
-.title,.section-head .title,.gold,.task-reward,.leader-rank,.header-badge{color:#ff9cda!important}
-.description,.label,.stat-label,.claim-note{color:#c8b2cf!important}
-input,textarea,select{background:rgba(16,8,25,.88)!important;color:#fff!important;border-color:#8d3a82!important}
-.primary-btn,.claim-btn,.task-btn,.boost-btn,.copy,.green,.claim-action,.story-actions button{background:linear-gradient(115deg,#ffb1e2 0%,#ff5dbd 40%,#bd58ff 100%)!important;color:#260b2d!important;border:1px solid rgba(255,222,248,.75)!important;box-shadow:0 8px 24px rgba(255,65,185,.22),inset 0 1px rgba(255,255,255,.45)!important}
-button:disabled,.task-btn.done{background:rgba(48,27,55,.85)!important;color:#a98ab0!important;border-color:#57375f!important}
-.nav{background:rgba(15,8,24,.87)!important;border-color:rgba(255,132,217,.33)!important}
-.nav button{color:#bfa2c9!important}.nav button.active{background:linear-gradient(135deg,rgba(255,85,190,.23),rgba(163,77,255,.18))!important;color:#ffb2e3!important;border:1px solid rgba(255,132,217,.35)!important}
-.story-card{background:radial-gradient(circle at 90% 5%,rgba(255,80,195,.25),transparent 38%),linear-gradient(145deg,rgba(47,20,62,.92),rgba(12,7,20,.95))!important;border-color:rgba(255,126,213,.45)!important}
-.story-card h3{color:#ffe8fa!important}.story-stat{background:rgba(255,255,255,.045)!important;border-color:rgba(255,130,214,.25)!important;backdrop-filter:blur(12px)}
-.story-stat b{color:#ffb2e3!important}.story-link{background:rgba(8,4,15,.58)!important;color:#ffe4f6!important;border:1px solid rgba(255,130,214,.17)}
-#elvionBoot{background:radial-gradient(ellipse at 50% 38%,#45204f 0%,#1a0b25 42%,#07040d 100%)!important}
-.boot-orbit{border-color:#ff9cdd!important;box-shadow:0 0 0 8px #f34fa818,0 0 48px #f34fa866!important}
-.boot-orbit:before{border-color:#ffe0f5!important}.boot-orbit:after{border-color:#f34fa866!important}
-.boot-name{background:linear-gradient(100deg,#fff,#ff91d6,#d985ff,#fff)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;text-shadow:0 0 28px #f34fa855!important}
-.boot-tag{color:#ffc2e8!important}.boot-track:after{background:linear-gradient(90deg,#ff63bd,#d985ff,#fff)!important}
-.story-preview-sheet{background:linear-gradient(145deg,rgba(46,21,61,.97),rgba(9,5,16,.98))!important;border-color:rgba(255,132,217,.55)!important;backdrop-filter:blur(25px)}
-@media(max-width:390px){.logo{font-size:24px!important;letter-spacing:2px!important}}
+/* ELVION 3D NEON CITY — dimensional glass, polished metal and cinematic depth */
+:root{--bg:#07040f;--panel:#160d22;--panel2:#24112f;--line:rgba(255,130,220,.32);--muted:#c5b0d1;--white:#fff7ff;--cyan:#ff8de0;--blue:#bd76ff;--violet:#f7a7ff;--green:#ff91dc;--gold:#ffd1f1;--gold2:#fff0fc;--rose:#ff65c9}
+html{background:#07040f!important}
+body{background:radial-gradient(ellipse at 50% -8%,rgba(255,73,190,.25),transparent 34%),radial-gradient(ellipse at 0% 34%,rgba(120,50,255,.18),transparent 38%),radial-gradient(ellipse at 100% 55%,rgba(255,80,195,.14),transparent 35%),linear-gradient(155deg,#0a0613 0%,#16091f 42%,#080611 100%)!important}
+.app{isolation:isolate;perspective:1200px}
+.header{background:linear-gradient(145deg,rgba(54,24,68,.9),rgba(16,8,27,.88))!important;border:1px solid rgba(255,163,231,.42)!important;box-shadow:0 12px 32px #0008,inset 0 1px 0 #fff3,inset 0 -1px 0 #ff61cf22!important}
+.header:after{background:linear-gradient(90deg,transparent,#ffb6e8,#c17aff,#fff2ff,transparent)!important;box-shadow:0 0 12px #ff5ccf77}
+.logo{font-size:29px!important;letter-spacing:3px!important;background:linear-gradient(160deg,#fff 0%,#ffd5f1 17%,#ff83d7 34%,#bd67ff 53%,#ffe9fb 69%,#d44fb9 82%,#fff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;filter:drop-shadow(0 2px 0 #7b277d) drop-shadow(0 5px 0 #35103e) drop-shadow(0 0 16px #ff4bcf99)}
+.subtitle{color:#f4b9e9!important;text-shadow:0 0 12px #ff5acb66}
+.header-badge,.header-live-mark{background:linear-gradient(135deg,#ff8edb35,#9d64ff24)!important;border:1px solid #ffb4e477!important;color:#ffd7f3!important;box-shadow:inset 0 1px 0 #fff4,0 4px 16px #f54fcf16!important}
+.card,.claim-home,.claim-balance,.phase,.mining,.cycle-panel,.story-card,.task,.nav,.wallet-profile-action,.boost-card,.token-card,.stat,.quick-tile,.panel,.profile-card,.leader-row,.stat-card{background:linear-gradient(145deg,rgba(46,25,61,.88),rgba(15,8,25,.92))!important;border:1px solid rgba(255,137,219,.27)!important;backdrop-filter:blur(22px) saturate(160%)!important;-webkit-backdrop-filter:blur(22px) saturate(160%)!important;box-shadow:0 18px 36px #0006,inset 0 1px 0 #fff2,inset 0 -1px 0 #ff7bd01c,0 0 22px #fa53c90a!important}
+.card:before{height:2px!important;background:linear-gradient(90deg,transparent,#ffe7fa,#ff73d7,#b980ff,transparent)!important;opacity:.7}
+.balance,.claim-balance{background:radial-gradient(ellipse at 16% 0%,#ff9fe533,transparent 45%),radial-gradient(ellipse at 100% 100%,#8c4dff30,transparent 45%),linear-gradient(145deg,#3d1b50,#21102f 48%,#10091e)!important;border:1px solid #ffb5e96b!important;box-shadow:0 22px 48px #0007,inset 0 2px 0 #fff3,inset 0 -8px 22px #06020a66,0 0 35px #fa50ca19!important}
+.amount,.claim-amount,.claim-balance strong,.claim-balance strong span,#balance{background:linear-gradient(180deg,#fff 0%,#ffd6f3 25%,#ff83d8 52%,#c765ff 78%,#fff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;-webkit-text-fill-color:transparent!important;filter:drop-shadow(0 3px 0 #55185b) drop-shadow(0 0 15px #ff57ce55)}
+.claim-brand-mark,.boot-emblem{position:relative!important;isolation:isolate;background:radial-gradient(circle at 28% 16%,#fff 0%,#ffd5f3 9%,#ff7cd5 26%,#bd50ff 55%,#45105f 82%,#160820 100%)!important;border:1px solid #fff!important;color:#fff!important;box-shadow:0 0 0 4px #ff69d322,0 0 0 9px #a04cff13,0 15px 22px #0009,0 0 42px #ff54ce88,inset 0 3px 5px #fff9,inset 0 -9px 15px #22072c!important;transform:translateY(-2px)}
+.claim-brand-mark:before,.boot-emblem:before{content:"";position:absolute;inset:3px;border-radius:inherit;border:1px solid #fff8;box-shadow:inset 0 0 12px #fff4;pointer-events:none}
+.claim-brand-mark:after,.boot-emblem:after{content:"";position:absolute;inset:-7px;border:1px solid #ff8de088;border-radius:inherit;box-shadow:0 0 16px #ff51ca66;pointer-events:none}
+.claim-brand-name{color:#ffb1e7!important;text-shadow:0 2px 0 #50174f,0 0 20px #ff55ce88!important;letter-spacing:3px!important}
+.claim-orbit{filter:drop-shadow(0 0 22px #ff58cf88) drop-shadow(0 10px 14px #0008)!important}
+.claim-orbit-glow{background:radial-gradient(circle,#ff55d455,#b04dff28 36%,transparent 72%)!important}
+.claim-core{background:radial-gradient(circle at 25% 12%,#fff2 0%,transparent 28%),linear-gradient(145deg,rgba(75,33,91,.96),rgba(17,7,29,.98))!important;border:1px solid #ffd5f2!important;box-shadow:0 0 0 6px #ff62d21b,0 0 0 14px #b85bff12,0 22px 45px #0009,0 0 52px #ff48c944,inset 0 2px 0 #fff5,inset 0 -16px 24px #05020b99!important}
+.claim-logo svg path{fill:#ff8edc!important}.claim-logo svg path:last-child{fill:#fff!important}
+.title,.section-head .title,.gold,.task-reward,.leader-rank,.header-badge{color:#ffb1e7!important;text-shadow:0 0 12px #ff58cf1c}
+.description,.label,.stat-label,.claim-note{color:#cfb9d8!important}
+.stat{background:linear-gradient(145deg,#ffffff0c,#0b061b75)!important;border:1px solid #ff9be32d!important;box-shadow:inset 0 1px 0 #fff2,0 8px 20px #0003!important}
+.stat-value{color:#fff0fc!important;text-shadow:0 0 14px #ff69d72b}
+.task{border-radius:19px!important;background:linear-gradient(125deg,#44214fbb,#170b25ee)!important;box-shadow:0 12px 26px #0005,inset 0 1px 0 #fff2!important}
+.task:before{background:linear-gradient(145deg,#ffdafa,#ff63cb 45%,#8f43ed)!important;color:#fff!important;box-shadow:0 5px 12px #f94dc955,inset 0 1px 0 #fff9!important}
+input,textarea,select{background:linear-gradient(145deg,#1c1028,#10091b)!important;color:#fff!important;border:1px solid #b455a0!important;box-shadow:inset 0 2px 8px #0005,inset 0 1px 0 #fff1!important}
+.primary-btn,.claim-btn,.task-btn,.boost-btn,.copy,.green,.claim-action,.story-actions button{background:linear-gradient(150deg,#fff0fc 0%,#ffb4e5 16%,#ff69c8 43%,#d44eff 73%,#8b35d9 100%)!important;color:#270a31!important;border:1px solid #ffe6f8!important;box-shadow:0 9px 0 #652078,0 13px 23px #0006,0 0 25px #ff51c944,inset 0 2px 0 #fff!important;text-shadow:0 1px 0 #fff7!important;transform:translateY(0);transition:transform .15s,box-shadow .15s}
+.primary-btn:active,.claim-btn:active,.task-btn:active,.boost-btn:active,.copy:active,.green:active,.claim-action:active,.story-actions button:active{transform:translateY(4px)!important;box-shadow:0 4px 0 #652078,0 7px 12px #0006,inset 0 1px 0 #fff!important}
+button:disabled,.task-btn.done{background:linear-gradient(145deg,#302139,#1b1126)!important;color:#ad91b7!important;border-color:#67416d!important;box-shadow:none!important}
+.nav{background:linear-gradient(180deg,#24112fdc,#0d0717f2)!important;border-color:#ff9cdd50!important;box-shadow:0 -8px 28px #0007,inset 0 1px 0 #fff2!important}
+.nav button{color:#c6a7d2!important}.nav button.active{background:linear-gradient(145deg,#ff9edc36,#a45bff32)!important;color:#ffd4f2!important;border:1px solid #ff9cdd6b!important;box-shadow:inset 0 1px 0 #fff3,0 0 18px #ff56cb22!important;text-shadow:0 0 12px #ff64d955}
+.story-card{background:radial-gradient(circle at 90% 5%,#ff50c944,transparent 38%),linear-gradient(145deg,#3d1a50f2,#10081ef5)!important;border-color:#ff9bdf80!important;box-shadow:0 22px 45px #0008,inset 0 1px 0 #fff3!important}
+.story-card h3{color:#fff0fc!important}.story-stat{background:#fff1!important;border-color:#ff8bd84a!important;backdrop-filter:blur(14px)}
+.story-stat b{color:#ffb2e3!important}.story-link{background:#090410b8!important;color:#ffe4f6!important;border:1px solid #ff82d42c!important}
+#elvionBoot{background:radial-gradient(ellipse at 50% 35%,#5c236a 0%,#24102f 35%,#0d0615 70%,#05030a 100%)!important}
+.boot-orbit{border-color:#ffb3e7!important;box-shadow:0 0 0 8px #f34fa822,0 0 0 16px #b34fff12,0 0 48px #f34fa888!important}
+.boot-orbit:before{border-color:#ffe0f5!important}.boot-orbit:after{border-color:#f34fa888!important}
+.boot-name{background:linear-gradient(100deg,#fff,#ff91d6,#d985ff,#fff)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;text-shadow:0 0 28px #f34fa877!important}
+.boot-tag{color:#ffc2e8!important}.boot-track:after{background:linear-gradient(90deg,#fff,#ff63bd,#d985ff,#fff)!important;box-shadow:0 0 12px #ff63bd!important}
+.story-preview-sheet{background:linear-gradient(145deg,#351641fa,#090510fc)!important;border:1px solid #ff9cdd88!important;backdrop-filter:blur(28px);box-shadow:0 24px 60px #000b,inset 0 1px 0 #fff3!important}
+@media(hover:hover){.card,.task,.stat,.quick-tile,.boost-card,.token-card{transition:transform .2s ease,box-shadow .2s ease}.card:hover,.task:hover,.stat:hover,.quick-tile:hover,.boost-card:hover,.token-card:hover{transform:translateY(-2px);box-shadow:0 22px 44px #0007,inset 0 1px 0 #fff3,0 0 25px #ff50c918!important}}
+@media(max-width:390px){.logo{font-size:24px!important;letter-spacing:2px!important}.card{border-radius:20px!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 
 </style>
