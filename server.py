@@ -34,8 +34,8 @@ STARTING_BONUS = 10_000
 MINING_RATE = 1
 MINING_RATE_PER_SECOND = MINING_RATE / 60
 
-# Claim every 24 hours
-CLAIM_INTERVAL = 24 * 60 * 60
+# Claim every 5 minutes (temporary testing setting)
+CLAIM_INTERVAL = 5 * 60
 
 # Boost
 BOOST_COST = 500_000
@@ -1751,7 +1751,10 @@ def tokenomics():
             MINING_RATE,
 
         "claim_interval_hours":
-            24,
+            CLAIM_INTERVAL / 3600,
+
+        "claim_interval_minutes":
+            CLAIM_INTERVAL / 60,
 
         "starting_bonus":
             STARTING_BONUS,
