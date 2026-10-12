@@ -1037,12 +1037,16 @@ function loadTasks(){
               tg.openTelegramLink(task.url);
             } else if (tg && typeof tg.openLink === "function") {
               tg.openLink(task.url);
-            } else {
+            } else if (task.url) {
               window.open(task.url, "_blank", "noopener");
             }
-            button.textContent = "CLAIM REWARD";
-            button.onclick = function(){ claimTask(task.id, button); };
           };
+          var claimButton = document.createElement("button");
+          claimButton.className = "task-btn";
+          claimButton.textContent = "I COMPLETED IT — CLAIM";
+          claimButton.style.marginTop = "8px";
+          claimButton.onclick = function(){ claimTask(task.id, claimButton); };
+          left.appendChild(claimButton);
         }
         item.appendChild(left); item.appendChild(button); box.appendChild(item);
       });
