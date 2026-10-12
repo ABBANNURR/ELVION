@@ -5,6 +5,11 @@ import hashlib
 import json
 import sqlite3
 import secrets
+
+DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
+if DATABASE_URL:
+    import psycopg2
+    from psycopg2.extras import RealDictCursor
 from datetime import datetime, timezone
 from urllib.parse import parse_qsl
 
@@ -67,11 +72,41 @@ LAUNCH_TIMESTAMP = int(LAUNCH_DATETIME.timestamp())
 # ============================================================
 
 DB_PATH = os.getenv("DATABASE_PATH", "elvion.db")
-
-# SQLite development/testing only.
-# Production will later move to PostgreSQL.
-
 SQLITE_TIMEOUT = 30
+
+# PostgreSQL is used when DATABASE_URL is configured; SQLite remains a local fallback.
+# The adapter keeps existing query code compatible while preserving the existing schema.
+class PostgreSQLConnection:
+    def __init__(self, url):
+        self.raw = psycopg2.connect(url, cursor_factory=RealDictCursor, connect_timeout=15)
+
+    def execute(self, sql, params=()):
+        statement = sql.strip()
+        if statement.upper().startswith("PRAGMA "):
+            return EmptyCursor()
+        statement = statement.replace("BEGIN IMMEDIATE", "BEGIN")
+        statement = statement.replace("?", "%s")
+        statement = statement.replace("INTEGER PRIMARY KEY AUTOINCREMENT", "BIGSERIAL PRIMARY KEY")
+        cur = self.raw.cursor()
+        cur.execute(statement, params or ())
+        return cur
+
+    def commit(self):
+        self.raw.commit()
+
+    def rollback(self):
+        self.raw.rollback()
+
+    def close(self):
+        self.raw.close()
+
+class EmptyCursor:
+    def fetchone(self):
+        return None
+    def fetchall(self):
+        return []
+
+
 
 
 # ============================================================
@@ -131,26 +166,15 @@ def launch_active():
 # ============================================================
 
 def get_db():
-    conn = sqlite3.connect(
-        DB_PATH,
-        timeout=30,
-        isolation_level=None
-    )
+    if DATABASE_URL:
+        return PostgreSQLConnection(DATABASE_URL)
 
+    conn = sqlite3.connect(DB_PATH, timeout=30, isolation_level=None)
     conn.row_factory = sqlite3.Row
-
-    # Foreign keys
     conn.execute("PRAGMA foreign_keys = ON")
-
-    # Wait instead of immediately returning "database is locked"
     conn.execute("PRAGMA busy_timeout = 30000")
-
-    # WAL greatly reduces read/write locking problems
     conn.execute("PRAGMA journal_mode = WAL")
-
-    # Safer durability
     conn.execute("PRAGMA synchronous = NORMAL")
-
     return conn
 
 
@@ -497,8 +521,7 @@ def calculate_mining(user):
             "can_claim": False,
             "seconds_left": LAUNCH_TIMESTAMP - current,
             "rate_per_minute": MINING_RATE,
-            "base_rate_per_minute": MINING_RATE,
-            "boost_active": False,
+            "base_rate_per_minute": MINING_RATE,            "boost_active": False,
             "boost_until": int(
                 user["boost_until"] or 0
             ),
@@ -829,7 +852,7 @@ def health():
             "online"
             if database_ok
             else "database_error",
-        "database": "sqlite-testing",
+        "database": "postgresql" if DATABASE_URL else "sqlite-local",
         "telegram_auth":
             bool(BOT_TOKEN)
             and not DEV_MODE,
@@ -997,7 +1020,6 @@ def claim():
                 "error":
                     "No mining reward available"
             }), 400
-
         new_balance = (
             float(current_user["balance"])
             + reward
@@ -1497,8 +1519,7 @@ def leaderboard():
                     ),
 
                 "referral_count":
-                    int(
-                        row["referral_count"]
+                    int(                        row["referral_count"]
                     ),
 
                 "referral_earned":
@@ -1894,7 +1915,7 @@ if __name__ == "__main__":
     print("======================================")
     print(f"Project:       {PROJECT_NAME}")
     print(f"Version:       {VERSION}")
-    print(f"Database:      {DB_PATH}")
+    print(f"Database:      {'postgresql' if DATABASE_URL else DB_PATH}")
     print("Mining:        1 ELV / minute")
     print("Claim:         Every 24 hours")
     print(
@@ -1907,7 +1928,7 @@ if __name__ == "__main__":
         f"Dev Mode:      {DEV_MODE}"
     )
     print(
-        "SQLite:        WAL + 30s timeout"
+        print("Database:      PostgreSQL" if DATABASE_URL else "SQLite:        WAL + 30s timeout")
     )
     print("======================================")
     print("")
