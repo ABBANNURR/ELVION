@@ -1128,12 +1128,25 @@ function shareElvionStory(){
  if(!link){toast("Referral link not ready");return;}
  var canvas=document.createElement("canvas");canvas.width=1080;canvas.height=1920;
  var ctx=canvas.getContext("2d");
- var grad=ctx.createLinearGradient(0,0,1080,1920);grad.addColorStop(0,"#40112f");grad.addColorStop(.55,"#100914");grad.addColorStop(1,"#280d20");ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1920);
- ctx.strokeStyle="#f34fa8";ctx.lineWidth=5;ctx.beginPath();ctx.roundRect(58,70,964,1780,48);ctx.stroke();ctx.textAlign="center";
- ctx.fillStyle="#ff83c5";ctx.font="900 34px Arial";ctx.fillText("CLAIM • GROW • LEAD",540,180);
- ctx.fillStyle="#ffe0f1";ctx.font="1000 112px Arial";ctx.fillText("ELVION",540,350);
- ctx.fillStyle="#ff83c5";ctx.beginPath();ctx.roundRect(438,420,204,204,48);ctx.fill();ctx.fillStyle="#fff7dc";ctx.font="1000 145px Arial";ctx.fillText("E",540,570);
- ctx.fillStyle="#ffe0f1";ctx.font="bold 44px Arial";ctx.fillText("MY ELVION JOURNEY",540,730);
+ /* Premium 3D neon city artwork: layered skyline, glowing horizon, metallic logo and glass panels */
+ var bg=ctx.createLinearGradient(0,0,1080,1920);bg.addColorStop(0,"#180a2b");bg.addColorStop(.34,"#351044");bg.addColorStop(.62,"#13091f");bg.addColorStop(1,"#070510");ctx.fillStyle=bg;ctx.fillRect(0,0,1080,1920);
+ var glow=ctx.createRadialGradient(540,570,20,540,570,760);glow.addColorStop(0,"rgba(255,91,206,.36)");glow.addColorStop(.45,"rgba(168,70,255,.17)");glow.addColorStop(1,"rgba(8,4,18,0)");ctx.fillStyle=glow;ctx.fillRect(0,0,1080,1500);
+ /* distant futuristic towers */
+ for(var layer=0;layer<2;layer++){var x=-20;while(x<1100){var w=28+Math.random()*68,h=(layer?160:250)+Math.random()*(layer?270:440);var y=1370-h;ctx.fillStyle=layer?"rgba(95,44,139,.26)":"rgba(31,14,55,.78)";ctx.fillRect(x,y,w,h);ctx.strokeStyle=layer?"rgba(255,119,224,.16)":"rgba(255,104,214,.24)";ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);for(var wy=y+20;wy<1360;wy+=27){for(var wx=x+9;wx<x+w-5;wx+=16){ctx.fillStyle=Math.random()>.38?(layer?"rgba(207,116,255,.42)":"rgba(255,111,218,.72)"):"rgba(126,76,170,.22)";ctx.fillRect(wx,wy,5,9);}}x+=w+8;}}
+ var horizon=ctx.createLinearGradient(0,1260,0,1550);horizon.addColorStop(0,"rgba(255,74,205,0)");horizon.addColorStop(.5,"rgba(255,74,205,.18)");horizon.addColorStop(1,"rgba(120,50,255,0)");ctx.fillStyle=horizon;ctx.fillRect(0,1200,1080,380);
+ /* perspective neon ground lines */
+ ctx.save();ctx.globalAlpha=.46;ctx.strokeStyle="#ff70d5";ctx.lineWidth=2;for(var gx=-500;gx<1600;gx+=100){ctx.beginPath();ctx.moveTo(540,1300);ctx.lineTo(gx,1900);ctx.stroke();}for(var gy=1330;gy<1930;gy+=42){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(1080,gy);ctx.stroke();}ctx.restore();
+ /* dark translucent foreground veil keeps story text readable */
+ var veil=ctx.createLinearGradient(0,0,0,1920);veil.addColorStop(0,"rgba(10,4,19,.22)");veil.addColorStop(.43,"rgba(10,4,19,.68)");veil.addColorStop(1,"rgba(7,4,16,.9)");ctx.fillStyle=veil;ctx.fillRect(0,0,1080,1920);
+ /* double glass border with soft neon edge */
+ ctx.shadowColor="#ff56ce";ctx.shadowBlur=28;ctx.strokeStyle="rgba(255,155,230,.95)";ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(52,58,976,1804,48);ctx.stroke();ctx.shadowBlur=0;ctx.strokeStyle="rgba(188,113,255,.68)";ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(68,74,944,1772,38);ctx.stroke();ctx.textAlign="center";
+ /* beveled metallic 3D wordmark */
+ ctx.font="1000 112px Arial";ctx.textAlign="center";ctx.lineWidth=9;ctx.strokeStyle="#42134f";ctx.strokeText("ELVION",540,350);ctx.fillStyle="#721b80";ctx.fillText("ELVION",544,359);var metal=ctx.createLinearGradient(0,225,0,365);metal.addColorStop(0,"#ffffff");metal.addColorStop(.22,"#ffd9f4");metal.addColorStop(.43,"#ff72cf");metal.addColorStop(.64,"#b55aff");metal.addColorStop(.82,"#f8c7ff");metal.addColorStop(1,"#ffffff");ctx.fillStyle=metal;ctx.shadowColor="#ff5bcf";ctx.shadowBlur=24;ctx.fillText("ELVION",540,350);ctx.shadowBlur=0;
+ /* floating 3D E emblem */
+ var eg=ctx.createLinearGradient(430,420,650,640);eg.addColorStop(0,"#fff4ff");eg.addColorStop(.22,"#ff8edb");eg.addColorStop(.55,"#c65bff");eg.addColorStop(.8,"#68208b");eg.addColorStop(1,"#ffd9f5");ctx.shadowColor="#ff52ca";ctx.shadowBlur=40;ctx.fillStyle="rgba(255,95,210,.18)";ctx.beginPath();ctx.roundRect(420,402,240,240,48);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle=eg;ctx.beginPath();ctx.roundRect(430,410,220,220,44);ctx.fill();ctx.strokeStyle="#fff0ff";ctx.lineWidth=3;ctx.stroke();ctx.strokeStyle="#ffffff88";ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(441,421,198,198,35);ctx.stroke();ctx.fillStyle="#fff";ctx.font="1000 152px Arial";ctx.shadowColor="#ff5acb";ctx.shadowBlur=18;ctx.fillText("E",540,574);ctx.shadowBlur=0;
+ ctx.fillStyle="#ffcaef";ctx.font="900 34px Arial";ctx.fillText("CLAIM  •  GROW  •  LEAD",540,190);
+ /* frosted glass title panel */
+ ctx.fillStyle="rgba(24,9,37,.68)";ctx.beginPath();ctx.roundRect(142,680,796,84,24);ctx.fill();ctx.strokeStyle="rgba(255,151,226,.55)";ctx.lineWidth=2;ctx.stroke();ctx.fillStyle="#fff0fc";ctx.font="bold 40px Arial";ctx.fillText("MY ELVION JOURNEY",540,735);
  var storyUser=(document.getElementById("profileUsername")||{}).textContent||"";
  if(!storyUser || storyUser==="Loading...") storyUser=(document.getElementById("profileName")||{}).textContent||"ELVION MEMBER";
  if(storyUser.charAt(0)!=="@" && storyUser!=="ELVION MEMBER") storyUser="@"+storyUser;
