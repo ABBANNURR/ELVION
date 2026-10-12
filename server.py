@@ -57,9 +57,9 @@ TOTAL_SUPPLY = 1_000_000_000
 
 LAUNCH_DATETIME = datetime(
     2026,
+    10,
+    13,
     11,
-    1,
-    0,
     0,
     0,
     tzinfo=timezone.utc
@@ -861,7 +861,7 @@ def health():
                 "TELEGRAM_BOT_USERNAME",
                 ""
             ),
-        "launch_date": "2026-11-01",
+        "launch_date": "2026-10-13",
         "launch_timestamp":
             LAUNCH_TIMESTAMP,
         "server_time": now()
@@ -898,7 +898,7 @@ def api_user():
 
         "launch": {
             "active": launch_active(),
-            "date": "2026-11-01",
+            "date": "2026-10-13",
             "timestamp": LAUNCH_TIMESTAMP
         },
 
@@ -984,7 +984,7 @@ def claim():
             "error":
                 "Mining has not launched yet",
             "launch_date":
-                "2026-11-01"
+                "2026-10-13"
         }), 400
 
     conn = get_db()
@@ -1920,7 +1920,7 @@ if __name__ == "__main__":
         f"Starting Bonus:{STARTING_BONUS:,} ELV"
     )
     print(
-        "Launch:        1 November 2026"
+        "Launch:        13 October 2026 at 12:00 WAT"
     )
     print(
         f"Dev Mode:      {DEV_MODE}"
