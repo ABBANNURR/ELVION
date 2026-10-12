@@ -55,13 +55,14 @@ TOTAL_SUPPLY = 1_000_000_000
 # LAUNCH
 # ============================================================
 
+# Mining launch is now immediate (deployment time: 12 October 2026, 00:56 UTC).
 LAUNCH_DATETIME = datetime(
     2026,
     10,
-    13,
-    11,
+    12,
     0,
-    0,
+    56,
+    34,
     tzinfo=timezone.utc
 )
 
@@ -1920,7 +1921,7 @@ if __name__ == "__main__":
         f"Starting Bonus:{STARTING_BONUS:,} ELV"
     )
     print(
-        "Launch:        13 October 2026 at 12:00 WAT"
+        "Launch:        NOW (12 October 2026)"
     )
     print(
         f"Dev Mode:      {DEV_MODE}"
