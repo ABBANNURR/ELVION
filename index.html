@@ -155,6 +155,31 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 .hidden-data{display:none!important}
 @media(max-width:370px){.claim-home{padding-top:12px}.claim-brand{margin-bottom:21px}.claim-orbit{width:min(76vw,275px)}.claim-logo{width:56px;height:56px;margin-bottom:12px}.claim-logo svg{width:42px;height:42px}.claim-time{font-size:22px!important}.cycle-panel{margin-top:20px}}
 
+
+/* ELVION startup animation and Story promo */
+#elvionBoot{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#26382d 0%,#101811 45%,#050806 100%);transition:opacity .45s ease,visibility .45s ease}
+#elvionBoot.is-done{opacity:0;visibility:hidden;pointer-events:none}
+.boot-inner{text-align:center}
+.boot-emblem{width:88px;height:88px;margin:0 auto 18px;border-radius:27px;display:grid;place-items:center;font-size:53px;font-weight:1000;color:#fff3c7;background:linear-gradient(135deg,#fff0b0,#d8a744 48%,#7a5017);box-shadow:0 0 0 7px #d7ad5b18,0 0 42px #e9b84b55;animation:elvionPulse 1.35s ease-in-out infinite}
+.boot-name{font-size:26px;font-weight:1000;letter-spacing:6px;color:#ffe7a1}
+.boot-tag{font-size:10px;letter-spacing:3px;color:#b5c3b5;margin-top:8px}
+.boot-track{width:150px;height:4px;border-radius:9px;background:#ffffff18;margin:25px auto 0;overflow:hidden}
+.boot-track:after{content:"";display:block;width:45%;height:100%;border-radius:9px;background:linear-gradient(90deg,#d9b46b,#fff1b7);animation:elvionLoad 1.1s ease-in-out infinite}
+@keyframes elvionPulse{50%{transform:scale(1.07);box-shadow:0 0 0 12px #d7ad5b0c,0 0 58px #e9b84b77}}
+@keyframes elvionLoad{from{transform:translateX(-110%)}to{transform:translateX(340%)}}
+.story-card{margin:14px 0;padding:18px;border:1px solid #d9b46b55;border-radius:20px;background:radial-gradient(circle at 85% 10%,#7b57272b,transparent 40%),linear-gradient(145deg,#17241b,#090e0b);box-shadow:0 12px 34px #0005}
+.story-card .story-kicker{font-size:10px;letter-spacing:2px;color:#d9b46b;font-weight:900}
+.story-card h3{font-size:19px;margin:8px 0;color:#fff2c8}
+.story-card p{font-size:12px;line-height:1.6;color:#b8c4b9}
+.story-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}
+.story-stat{padding:10px 5px;text-align:center;border-radius:12px;background:#ffffff08;border:1px solid #d9b46b28;min-width:0}
+.story-stat b{display:block;font-size:17px;color:#ffe6a0;overflow-wrap:anywhere}
+.story-stat span{display:block;margin-top:4px;font-size:9px;color:#aab8ad;letter-spacing:1px}
+.story-link{font-size:11px;line-height:1.5;overflow-wrap:anywhere;padding:10px;border-radius:10px;background:#0005;color:#f5d88f}
+.story-actions{display:flex;gap:9px;margin-top:12px}
+.story-actions button{flex:1;min-height:44px;border-radius:12px;border:1px solid #e0c27c66;background:linear-gradient(110deg,#ffe8a7,#d5a243);color:#201809;font-size:11px;font-weight:900;padding:10px}
+.story-actions button.secondary{background:#ffffff08;color:#ffe7a1}
+@media(prefers-reduced-motion:reduce){.boot-emblem,.boot-track:after{animation:none}}
 </style>
 
 <style id="elvion-color-refresh">
@@ -303,6 +328,8 @@ button:disabled,.task-btn.done{background:#281722!important;color:#9e7b90!import
 
 <body>
 
+<div id="elvionBoot" role="status" aria-label="Loading ELVION"><div class="boot-inner"><div class="boot-emblem">E</div><div class="boot-name">ELVION</div><div class="boot-tag">CLAIM • GROW • LEAD</div><div class="boot-track"></div></div></div>
+
 <div class="app">
 
 <div class="header">
@@ -354,6 +381,8 @@ Tasks reset every 24 hours.
 </div>
 
 </div>
+
+<div class="story-card"><div class="story-kicker">ELVION COMMUNITY PASS</div><h3>Share your ELVION journey</h3><p>Share a branded story with your current balance points, community rank, and personal referral link.</p><div class="story-stats"><div class="story-stat"><b id="storyRank">—</b><span>YOUR RANK</span></div><div class="story-stat"><b id="storyPoints">0</b><span>POINTS</span></div><div class="story-stat"><b id="storyReferrals">0</b><span>REFERRALS</span></div></div><div class="story-link" id="storyReferral">Loading your referral link…</div><div class="story-actions"><button type="button" onclick="shareElvionStory()">✦ SHARE TO STORY</button><button type="button" class="secondary" onclick="copyStoryLink()">COPY LINK</button></div></div>
 
 <div id="tasksList">
 <div class="loading">
@@ -622,6 +651,8 @@ number(u.balance) +
 document.getElementById("profileCycles")
 .innerText =
 number(u.mining_cycles);
+
+refreshStoryRank(u.balance);
 
 /* Use the server's remaining seconds as the source of truth.
    This avoids stale/legacy next_claim timestamps showing long countdowns. */
@@ -975,6 +1006,79 @@ function claimTask(id, button){
 }
 
 
+
+var elvionStoryData={rank:null,points:0,referrals:0,link:""};
+function hideElvionBoot(){
+ var boot=document.getElementById("elvionBoot");
+ if(boot) boot.classList.add("is-done");
+}
+window.addEventListener("load",function(){setTimeout(hideElvionBoot,900);});
+setTimeout(hideElvionBoot,6500);
+
+function refreshStoryRank(balance){
+ elvionStoryData.points=Number(balance||0);
+ var p=document.getElementById("storyPoints"); if(p)p.textContent=number(elvionStoryData.points);
+ fetch(api("/api/leaderboard")+"?category=global",{headers:{"Accept":"application/json"}})
+ .then(function(r){return r.json();})
+ .then(function(d){
+  if(!d || !d.success || !Array.isArray(d.leaderboard)) return;
+  var me=d.leaderboard.find(function(u){return String(u.telegram_id||u.user_id||"")===String((window.__elvionUserId||""))});
+  if(!me && d.leaderboard.length) {
+    var profileId=document.getElementById("profileId");
+    if(profileId) me=d.leaderboard.find(function(u){return String(u.telegram_id||u.user_id||"")===String(profileId.textContent||"")});
+  }
+  if(me) elvionStoryData.rank=Number(me.rank||d.leaderboard.indexOf(me)+1);
+  var rankEl=document.getElementById("storyRank"); if(rankEl)rankEl.textContent=elvionStoryData.rank?"#"+elvionStoryData.rank:"Unranked";
+ }).catch(function(){});
+}
+function updateStoryReferral(link,count){
+ elvionStoryData.link=link||"";
+ elvionStoryData.referrals=Number(count||0);
+ var l=document.getElementById("storyReferral"); if(l)l.textContent=elvionStoryData.link||"Referral link unavailable";
+ var r=document.getElementById("storyReferrals"); if(r)r.textContent=number(elvionStoryData.referrals);
+}
+function copyStoryLink(){
+ var link=elvionStoryData.link;
+ if(!link){toast("Referral link not ready");return;}
+ if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(function(){toast("Referral link copied");}).catch(function(){toast(link);});
+ else toast(link);
+}
+function shareElvionStory(){
+ var link=elvionStoryData.link;
+ if(!link){toast("Referral link not ready");return;}
+ var canvas=document.createElement("canvas"); canvas.width=1080;canvas.height=1920;
+ var ctx=canvas.getContext("2d");
+ var grad=ctx.createLinearGradient(0,0,1080,1920);grad.addColorStop(0,"#17261c");grad.addColorStop(.55,"#080d0a");grad.addColorStop(1,"#261c0c");ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1920);
+ ctx.strokeStyle="#d9b46b";ctx.lineWidth=5;ctx.beginPath();ctx.roundRect(58,70,964,1780,48);ctx.stroke();
+ ctx.textAlign="center";
+ ctx.fillStyle="#e9bd68";ctx.font="900 34px Arial";ctx.fillText("CLAIM • GROW • LEAD",540,180);
+ ctx.fillStyle="#fff0b7";ctx.font="1000 112px Arial";ctx.fillText("ELVION",540,350);
+ ctx.fillStyle="#d9b46b";ctx.beginPath();ctx.roundRect(438,420,204,204,48);ctx.fill();ctx.fillStyle="#fff7dc";ctx.font="1000 145px Arial";ctx.fillText("E",540,570);
+ ctx.fillStyle="#fff4d0";ctx.font="bold 44px Arial";ctx.fillText("MY ELVION JOURNEY",540,730);
+ ctx.fillStyle="#d9b46b";ctx.font="bold 27px Arial";ctx.fillText("COMMUNITY RANK",280,850);ctx.fillText("POINTS",800,850);
+ ctx.fillStyle="#fff0b7";ctx.font="1000 76px Arial";ctx.fillText(elvionStoryData.rank?"#"+elvionStoryData.rank:"—",280,950);ctx.fillText(number(elvionStoryData.points),800,950);
+ ctx.fillStyle="#d9b46b";ctx.font="bold 26px Arial";ctx.fillText("REFERRALS",540,1080);
+ ctx.fillStyle="#fff0b7";ctx.font="1000 65px Arial";ctx.fillText(number(elvionStoryData.referrals),540,1170);
+ ctx.fillStyle="#c3d0c5";ctx.font="32px Arial";ctx.fillText("Join the community and grow with us",540,1320);
+ ctx.fillStyle="#fff0b7";ctx.font="bold 26px Arial";ctx.fillText("MY REFERRAL LINK",540,1430);
+ ctx.fillStyle="#ffffff";ctx.font="25px Arial";
+ var safeLink=link.length>58?link.slice(0,55)+"…":link;ctx.fillText(safeLink,540,1490);
+ ctx.fillStyle="#d9b46b";ctx.font="bold 30px Arial";ctx.fillText("ELVION • MINE • CLAIM • GROW",540,1690);
+ canvas.toBlob(function(blob){
+  if(!blob){shareStoryLinkFallback(link);return;}
+  var file=new File([blob],"elvion-story.png",{type:"image/png"});
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+   navigator.share({files:[file],title:"My ELVION Story",text:"Join ELVION with my referral link: "+link}).catch(function(e){if(e&&e.name!=="AbortError")shareStoryLinkFallback(link);});
+  }else{
+   shareStoryLinkFallback(link);
+  }
+ },"image/png");
+}
+function shareStoryLinkFallback(link){
+ if(navigator.share){navigator.share({title:"Join ELVION",text:"My ELVION community rank: "+(elvionStoryData.rank?"#"+elvionStoryData.rank:"Unranked")+" • Points: "+number(elvionStoryData.points)+" • Join here: "+link,url:link}).catch(function(e){if(e&&e.name!=="AbortError")toast("Use COPY LINK to share your referral");});}
+ else {copyStoryLink();toast("Referral link copied or displayed");}
+}
+
 function loadReferral(){
 
 if(!initData){
@@ -1012,6 +1116,8 @@ document.getElementById(
 ).innerText =
 number(data.referral_earned) +
 " ELVION";
+
+updateStoryReferral(data.referral_link || "", data.referral_count || 0);
 
 });
 
