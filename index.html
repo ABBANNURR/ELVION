@@ -331,7 +331,7 @@ button:disabled,.task-btn.done{background:#281722!important;color:#9e7b90!import
     </div>
     <div class="cycle-panel"><span class="cycle-symbol">↻</span><span class="cycle-caption">MINING CYCLE</span><strong id="cycle">0</strong></div>
     <div class="claim-balance"><span class="claim-balance-label">YOUR BALANCE</span><strong><span id="balance">0</span> <small>ELV</small></strong></div>
-    <button id="claimBtn" class="green claim-action" onclick="claimMining()" disabled>MINING STARTS 1 NOVEMBER</button>
+    <button id="claimBtn" class="green claim-action" onclick="claimMining()" disabled>MINING STARTS NOW</button>
     <div class="claim-note">Your reward. Your cycle. Your progress.</div>
     <div class="hidden-data" aria-hidden="true"><span id="phaseCountdown">Loading...</span></div>
   </div>
@@ -641,7 +641,7 @@ var now =
 Math.floor(Date.now()/1000);
 
 var launch =
-1793491200;
+1791766594;
 
 var diff =
 Math.max(0,miningEnd-now);
@@ -673,7 +673,7 @@ if(now < launch){
 btn.disabled = true;
 
 btn.innerText =
-"MINING STARTS 1 NOVEMBER";
+"MINING STARTS NOW";
 
 document.getElementById(
 "miningStatus"
