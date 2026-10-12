@@ -623,10 +623,11 @@ document.getElementById("profileCycles")
 .innerText =
 number(u.mining_cycles);
 
-miningEnd =
-Number(
-data.mining.next_claim || 0
-);
+/* Use the server's remaining seconds as the source of truth.
+   This avoids stale/legacy next_claim timestamps showing long countdowns. */
+var remaining = Number(data.mining && data.mining.seconds_left);
+if (!Number.isFinite(remaining) || remaining < 0) remaining = 0;
+miningEnd = Math.floor(Date.now()/1000) + remaining;
 
 updateMining();
 
@@ -760,8 +761,9 @@ number(data.claimed) +
 " ELVION CLAIMED"
 );
 
-miningEnd =
-Number(data.mining && data.mining.next_claim || 0);
+var remaining = Number(data.mining && data.mining.seconds_left);
+if (!Number.isFinite(remaining) || remaining < 0) remaining = 0;
+miningEnd = Math.floor(Date.now()/1000) + remaining;
 
 document.getElementById(
 "balance"
