@@ -1053,13 +1053,7 @@ function copyStoryLink(){
 function shareElvionStory(){
  var link=elvionStoryData.link;
  if(!link){toast("Referral link not ready");return;}
- /* Telegram's native Story API requires a publicly reachable HTTPS media URL.
-    The locally rendered personalized image cannot be passed directly to shareToStory. */
- if(tg && typeof tg.shareToStory === "function"){
-   var storyUrl=window.location.origin + "/story-promo.png";
-   tg.shareToStory(storyUrl,{text:"Join ELVION with my referral link: "+link,widget_link:{url:link,name:"Join ELVION"}});
-   return;
- }
+
  var canvas=document.createElement("canvas"); canvas.width=1080;canvas.height=1920;
  var ctx=canvas.getContext("2d");
  var grad=ctx.createLinearGradient(0,0,1080,1920);grad.addColorStop(0,"#40112f");grad.addColorStop(.55,"#100914");grad.addColorStop(1,"#280d20");ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1920);
