@@ -862,7 +862,7 @@ def health():
                 "TELEGRAM_BOT_USERNAME",
                 ""
             ),
-        "launch_date": "2026-10-13",
+        "launch_date": "2026-10-12",
         "launch_timestamp":
             LAUNCH_TIMESTAMP,
         "server_time": now()
@@ -899,7 +899,7 @@ def api_user():
 
         "launch": {
             "active": launch_active(),
-            "date": "2026-10-13",
+            "date": "2026-10-12",
             "timestamp": LAUNCH_TIMESTAMP
         },
 
@@ -985,7 +985,7 @@ def claim():
             "error":
                 "Mining has not launched yet",
             "launch_date":
-                "2026-10-13"
+                "2026-10-12"
         }), 400
 
     conn = get_db()
@@ -1005,7 +1005,7 @@ def claim():
             return jsonify({
                 "success": False,
                 "error":
-                    "24-hour mining cycle is not complete",
+                    "You can claim every 5 minutes during the mining phase",
                 "mining": mining
             }), 400
 
