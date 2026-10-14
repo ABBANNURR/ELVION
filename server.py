@@ -832,74 +832,79 @@ def get_authenticated_user():
 # ============================================================
 
 VERIFICATION_TASKS = {
-    "notcoin": {"title": "Notcoin holder", "reward": 10000},
-    "dogs": {"title": "DOGS holder", "reward": 10000},
     "telegram_premium": {"title": "Telegram Premium", "reward": 5000},
-    "account_age": {"title": "Telegram account age (1+ year)", "reward": 10000},
+    "telegram_account": {"title": "Telegram account verified", "reward": 0},
 }
-
 
 @app.route("/api/verification", methods=["GET"])
 def verification_status():
-    user = get_authenticated_user()
-    if not user:
+    tg_user = authenticate()
+    if not tg_user:
         return jsonify({"success": False, "error": "Telegram authentication required"}), 401
+
+    # Telegram only exposes Premium status directly in signed Mini App initData.
+    # Never invent account age or third-party token ownership.
     conn = get_db()
     try:
         rows = conn.execute(
             "SELECT task_id, status, created_at, reviewed_at FROM verification_submissions WHERE telegram_id = ?",
-            (str(user["telegram_id"]),)
+            (str(tg_user["id"]),)
         ).fetchall()
-        submissions = {}
-        for row in rows:
-            submissions[row["task_id"]] = {
-                "status": row["status"],
-                "created_at": row["created_at"],
-                "reviewed_at": row["reviewed_at"]
+        submissions = {row["task_id"]: {
+            "status": row["status"], "created_at": row["created_at"],
+            "reviewed_at": row["reviewed_at"]
+        } for row in rows}
+
+        tasks = {
+            "telegram_account": {
+                "title": "Telegram account authenticated",
+                "reward": 0,
+                "status": "verified",
+                "description": "Your Telegram Mini App login was validated securely."
             }
-        return jsonify({
-            "success": True,
-            "tasks": VERIFICATION_TASKS,
-            "submissions": submissions
-        })
-    finally:
-        conn.close()
+        }
+        if tg_user.get("is_premium") is True:
+            tasks["telegram_premium"] = {
+                "title": "Telegram Premium",
+                "reward": VERIFICATION_TASKS["telegram_premium"]["reward"],
+                "status": "verified",
+                "description": "Telegram reports Premium for this account."
+            }
+            # Idempotent credit: once per user and task; preserve all existing balances.
+            existing = conn.execute(
+                "SELECT id FROM verification_submissions WHERE telegram_id = ? AND task_id = ?",
+                (str(tg_user["id"]), "telegram_premium")
+            ).fetchone()
+            if not existing:
+                timestamp = now()
+                conn.execute(
+                    """INSERT INTO verification_submissions
+                    (telegram_id, task_id, evidence, status, reward, created_at, reviewed_at, reviewer)
+                    VALUES (?, ?, ?, 'approved', ?, ?, ?, 'telegram_signed_init_data')""",
+                    (str(tg_user["id"]), "telegram_premium", "Telegram signed is_premium=true",
+                     VERIFICATION_TASKS["telegram_premium"]["reward"], timestamp, timestamp)
+                )
+                conn.execute(
+                    "UPDATE users SET balance = balance + ?, updated_at = ? WHERE telegram_id = ?",
+                    (VERIFICATION_TASKS["telegram_premium"]["reward"], timestamp, str(tg_user["id"]))
+                )
+                conn.execute(
+                    """INSERT INTO balance_history
+                    (telegram_id, amount, balance_after, reason, created_at)
+                    SELECT telegram_id, ?, balance, 'telegram_premium_auto_verification', ?
+                    FROM users WHERE telegram_id = ?""",
+                    (VERIFICATION_TASKS["telegram_premium"]["reward"], timestamp, str(tg_user["id"]))
+                )
+            submissions["telegram_premium"] = {"status": "approved"}
+        else:
+            tasks["telegram_premium"] = {
+                "title": "Telegram Premium",
+                "reward": VERIFICATION_TASKS["telegram_premium"]["reward"],
+                "status": "not_detected",
+                "description": "Premium was not reported by Telegram for this account."
+            }
 
-
-@app.route("/api/verification/submit", methods=["POST"])
-def submit_verification():
-    user = get_authenticated_user()
-    if not user:
-        return jsonify({"success": False, "error": "Telegram authentication required"}), 401
-    data = request.get_json(silent=True) or {}
-    task_id = str(data.get("task_id", "")).strip().lower()
-    evidence = str(data.get("evidence", "")).strip()
-    if task_id not in VERIFICATION_TASKS:
-        return jsonify({"success": False, "error": "Unknown verification task"}), 400
-    if len(evidence) < 8 or len(evidence) > 1500:
-        return jsonify({"success": False, "error": "Please provide evidence details (8–1500 characters)"}), 400
-
-    conn = get_db()
-    try:
-        existing = conn.execute(
-            "SELECT status FROM verification_submissions WHERE telegram_id = ? AND task_id = ?",
-            (str(user["telegram_id"]), task_id)
-        ).fetchone()
-        if existing:
-            return jsonify({
-                "success": False,
-                "error": "You have already submitted this task",
-                "status": existing["status"]
-            }), 409
-        conn.execute(
-            """INSERT INTO verification_submissions
-               (telegram_id, task_id, evidence, status, reward, created_at)
-               VALUES (?, ?, ?, 'pending', ?, ?)""",
-            (str(user["telegram_id"]), task_id, evidence,
-             VERIFICATION_TASKS[task_id]["reward"], now())
-        )
-        return jsonify({"success": True, "status": "pending",
-                        "message": "Evidence submitted for review. No coins are added until approval."}), 201
+        return jsonify({"success": True, "tasks": tasks, "submissions": submissions})
     finally:
         conn.close()
 
