@@ -1278,7 +1278,7 @@ TASKS = [
             "Join the official ELVION Telegram Channel.",
 
         "reward":
-            TASK_REWARD,
+            10000,
 
         "url":
             CHANNEL_LINK
@@ -1295,7 +1295,7 @@ TASKS = [
             "Join the official ELVION community group.",
 
         "reward":
-            TASK_REWARD,
+            10000,
 
         "url":
             GROUP_LINK
