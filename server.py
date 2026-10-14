@@ -1305,16 +1305,16 @@ TASKS = [
             "official_website",
 
         "title":
-            "Visit ELVION Official Website",
+            "Explore ELVION Mini App",
 
         "description":
-            "Explore ELVION tokenomics, roadmap and official project information.",
+            "Open the official ELVION app to view your mining status, balance, community and project information.",
 
         "reward":
             TASK_REWARD,
 
         "url":
-            "https://elvion-official-website.onrender.com"
+            "https://elvion-tyb7.onrender.com"
     }
 ]
 
