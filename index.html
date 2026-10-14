@@ -41,7 +41,7 @@ window.elvionTonFallback = function() {
 </script>
 
 <style>
-:root{color-scheme:dark;--bg:#160817;--panel:#29112b;--panel2:#35163a;--line:rgba(255,126,201,.25);--muted:#d0a9c8;--white:#fff3fb;--cyan:#ff8bc4;--blue:#f06ab0;--violet:#c78bff;--green:#ff9bcf;--gold:#ff70bd;--gold2:#ffd0ea;--rose:#ff9bcf}
+:root{color-scheme:dark;--bg:#160817;--panel:#29112b;--panel2:#35163a;--line:rgba(255,126,201,.25);--muted:#e3b9d4;--white:#fff3fb;--cyan:#ff8bc4;--blue:#f06ab0;--violet:#d58cff;--green:#ff9bcf;--gold:#ff70bd;--gold2:#ffd0ea;--rose:#ff9bcf}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg);scroll-behavior:smooth}
 body{min-height:100vh;color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 0% 0%,rgba(255,112,189,.20),transparent 34%),radial-gradient(ellipse at 100% 16%,rgba(199,139,255,.16),transparent 34%),radial-gradient(ellipse at 55% 100%,rgba(240,106,176,.12),transparent 43%),linear-gradient(160deg,#261029 0%,#160817 52%,#211026 100%);padding-bottom:105px}
@@ -86,7 +86,7 @@ button{font:inherit;cursor:pointer}
 .copy{width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:#17223a;color:#f4f7ff;font-weight:900;font-size:10px;letter-spacing:.7px}
 .token{margin-bottom:16px}.token:last-child{margin-bottom:0}.token-top{display:flex;justify-content:space-between;gap:10px;font-size:11px;margin-bottom:8px;color:#dce6ff}.token-top b{color:var(--cyan)}
 .bar{height:7px;background:#080e1d;border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet))}
-.nav{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 16px);max-width:530px;background:rgba(30,10,34,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(232,189,104,.25);border-radius:20px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:6px 4px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.nav{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 16px);max-width:530px;background:rgba(30,10,34,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(232,189,104,.25);border-radius:20px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:6px 4px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,.4)}
 .nav button{border:0;background:none;color:#7f8eaf;font-size:8px;font-weight:900;padding:7px 1px;border-radius:12px;min-width:0}
 .nav button.active{color:#ffebae;background:linear-gradient(180deg,rgba(232,189,104,.16),rgba(112,238,224,.07));box-shadow:inset 0 0 0 1px rgba(232,189,104,.1)}
 .icon{display:block;font-size:17px;margin-bottom:4px}.loading{text-align:center;padding:22px;color:var(--muted);font-size:11px}
@@ -185,6 +185,19 @@ body{background:radial-gradient(ellipse at 50% -15%,rgba(65,143,101,.2),transpar
 .story-actions button{flex:1;min-height:44px;border-radius:12px;border:1px solid #f34fa866;background:linear-gradient(110deg,#ffb4dc,#ed4fa4);color:#270b1c;font-size:11px;font-weight:900;padding:10px}
 .story-actions button.secondary{background:#ffffff08;color:#ffe7a1}
 @media(prefers-reduced-motion:reduce){.boot-emblem,.boot-track:after{animation:none}}
+
+/* ELVION pink premium dashboard refresh */
+:root{--bg:#160817;--panel:#29112b;--panel2:#35163a;--line:rgba(255,126,201,.25);--muted:#e3b9d4;--white:#fff3fb;--cyan:#ff8bc4;--blue:#f06ab0;--violet:#d58cff;--green:#ff9bcf;--gold:#ff70bd;--gold2:#ffd0ea;--rose:#ff9bcf}
+body{background:radial-gradient(ellipse at 0% 0%,rgba(255,112,189,.22),transparent 36%),radial-gradient(ellipse at 100% 18%,rgba(213,140,255,.18),transparent 36%),linear-gradient(160deg,#261029 0%,#160817 55%,#211026 100%)}
+.card,.task{background:linear-gradient(145deg,rgba(58,20,51,.98),rgba(29,10,29,.99));border-color:rgba(255,126,201,.23)}
+.balance,.mining,.mini-stat,.quick-tile{background:linear-gradient(135deg,#40172f,#241022 72%,#1a0b1b);border-color:rgba(255,126,201,.28)}
+.balance .amount{background:linear-gradient(90deg,#fff5fb,#ff8bc4 48%,#ffd0ea);-webkit-background-clip:text;background-clip:text;color:transparent}
+.green,.task-btn{background:linear-gradient(110deg,#ffd0ea,#ff70bd 55%,#d58cff);color:#2a0920;border-color:rgba(255,208,234,.6)}
+.nav{background:rgba(30,10,34,.97);border-color:rgba(255,126,201,.32)}
+.nav button.active{color:#ffd0ea;background:rgba(255,112,189,.15)}
+#leaderboard,#referral,#nav-leaderboard,#nav-referral{display:none!important}
+.story-card:has(#storyRank),.story-actions:has(button[onclick*="leaderboard"]){display:none!important}
+
 </style>
 
 <style id="elvion-color-refresh">
@@ -448,11 +461,11 @@ input,textarea,select{background:#0a1020!important;color:#f4f7ff!important;borde
 <div class="card" style="margin-top:16px">
 <div class="section-head"><div class="title">Explore ELVION</div><span class="header-badge">COMMUNITY</span></div>
 <div class="description">See community rankings or invite friends to join ELVION.</div>
-<div class="story-actions"><button type="button" onclick="showPage('leaderboard')">LEADERBOARD</button><button type="button" class="secondary" onclick="showPage('referral')">INVITE FRIENDS</button></div>
+<div class="story-actions"><button type="button" onclick="showPage('tasks')">VIEW TASKS</button><button type="button" class="secondary" onclick="showPage('profile')">MY PROFILE</button></div>
 </div>
 <div class="card" style="margin-top:16px">
 <div class="section-head"><div class="title">Community & Channel Tasks</div><span class="header-badge">JOIN ELVION</span></div>
-<div class="description">Join our official community and channel to stay updated on announcements and launch news.</div>
+<div class="description">Join our official community and channel to stay updated on announcements and launch news. Community and group joining do not award points.</div><div class="description" style="border:1px solid rgba(255,126,201,.25);border-radius:14px;padding:12px;color:#ffc4e5;background:rgba(255,105,180,.07)">Invite friends to ELVION. A special community reward may be announced in the future. Details will be shared officially.</div>
 <div class="story-actions"><a class="green" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:12px 16px;border-radius:12px;flex:1" href="https://t.me/+m0VojVWAuNk4ZWY8" target="_blank" rel="noopener">JOIN COMMUNITY</a><a class="secondary" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:12px 16px;border-radius:12px;flex:1" href="https://t.me/ELVIONOFFICIAL" target="_blank" rel="noopener">JOIN CHANNEL</a></div>
 </div>
 </section>
