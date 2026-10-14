@@ -1102,75 +1102,34 @@ function loadTasks(){
 function loadVerification(){
   var box = document.getElementById("verificationList");
   if (!box) return;
-  if (!initData) { box.innerHTML = '<div class="loading">Open ELVION inside Telegram to submit verification.</div>'; return; }
-  box.innerHTML = '<div class="loading">Loading verification tasks…</div>';
+  if (!initData) { box.innerHTML = '<div class="loading">Open ELVION inside Telegram to verify your account automatically.</div>'; return; }
+  box.innerHTML = '<div class="loading">Checking your Telegram account…</div>';
   fetch(api("/api/verification"), {headers: {"Accept":"application/json"}})
-    .then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Could not load verification"); return d; }); })
+    .then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Verification unavailable"); return d; }); })
     .then(function(data){
       box.innerHTML = "";
-      var labels = {
-        notcoin: "Notcoin holder",
-        dogs: "DOGS holder",
-        telegram_premium: "Telegram Premium",
-        account_age: "Telegram account age (1+ year)"
-      };
-      Object.keys(data.tasks || {}).forEach(function(id){
-        var task = data.tasks[id], submission = (data.submissions || {})[id];
-        var card = document.createElement("div");
-        card.className = "task";
-        card.style.marginTop = "10px";
-        var left = document.createElement("div");
-        left.style.flex = "1";
-        var title = document.createElement("div");
-        title.className = "task-name";
-        title.textContent = labels[id] || task.title || id;
-        var reward = document.createElement("div");
-        reward.className = "task-reward";
-        reward.textContent = "+" + number(task.reward) + " ELVION";
-        var desc = document.createElement("div");
-        desc.className = "task-description";
-        desc.textContent = submission ? ("Status: " + submission.status.toUpperCase()) : "Explain your proof or provide a link to evidence.";
-        left.appendChild(title); left.appendChild(reward); left.appendChild(desc);
-        if (!submission) {
-          var evidence = document.createElement("textarea");
-          evidence.maxLength = 1500;
-          evidence.minLength = 8;
-          evidence.placeholder = "Proof details or evidence link (8–1500 characters)";
-          evidence.setAttribute("aria-label", "Evidence for " + title.textContent);
-          evidence.style.cssText = "display:block;width:100%;min-height:72px;margin-top:10px;padding:10px;border-radius:10px;box-sizing:border-box;background:#17121b;color:#fff;border:1px solid #6f536d;";
-          var submit = document.createElement("button");
-          submit.type = "button";
-          submit.className = "task-btn";
-          submit.style.marginTop = "8px";
-          submit.textContent = "SUBMIT FOR REVIEW";
-          submit.onclick = function(){
-            var proof = evidence.value.trim();
-            if (proof.length < 8) { toast("Please enter proof details (at least 8 characters)"); return; }
-            submit.disabled = true; submit.textContent = "SUBMITTING…";
-            fetch(api("/api/verification/submit"), {
-              method: "POST",
-              headers: {"Content-Type":"application/json", "Accept":"application/json"},
-              body: JSON.stringify({initData:initData, task_id:id, evidence:proof})
-            }).then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Submission failed"); return d; }); })
-            .then(function(){ toast("Proof submitted for review"); loadVerification(); })
-            .catch(function(err){ toast(err.message || "Submission failed"); submit.disabled = false; submit.textContent = "SUBMIT FOR REVIEW"; });
-          };
-          left.appendChild(evidence); left.appendChild(submit);
-        } else {
-          var badge = document.createElement("span");
-          badge.className = "header-badge";
-          badge.textContent = submission.status.toUpperCase();
-          left.appendChild(badge);
-        }
-        card.appendChild(left); box.appendChild(card);
+      var tasks = data.tasks || {};
+      var ids = Object.keys(tasks);
+      if (!ids.length) { box.textContent = "No verification checks are available right now."; return; }
+      ids.forEach(function(id){
+        var task=tasks[id]||{}, row=document.createElement("div");
+        row.className="task"; row.style.marginTop="10px";
+        var title=document.createElement("div"); title.className="task-name"; title.textContent=task.title||id;
+        var status=document.createElement("div"); status.className="task-description";
+        var verified = task.status==="verified" || task.status==="approved" || ((data.submissions||{})[id]||{}).status==="approved";
+        status.textContent=verified ? "✓ Verified automatically" : (task.status==="not_detected" ? "Not detected in Telegram account data" : "Checking status");
+        status.style.color=verified?"#83d7a7":"#aab6cc";
+        var reward=document.createElement("div"); reward.className="task-reward";
+        reward.textContent=Number(task.reward||0)>0 ? "+"+number(task.reward)+" ELVION reward" : "No reward attached to this check";
+        var desc=document.createElement("div"); desc.className="task-description"; desc.textContent=task.description||"";
+        row.appendChild(title); row.appendChild(status); row.appendChild(reward); row.appendChild(desc); box.appendChild(row);
       });
+      var note=document.createElement("div"); note.className="claim-note"; note.style.marginTop="12px";
+      note.textContent="Checks run automatically when this page loads. No forms or Submit button are needed.";
+      box.appendChild(note);
+      if(typeof loadUser==="function") loadUser();
     })
-    .catch(function(err){
-      console.error("ELVION verification load:", err);
-      box.innerHTML = '<div class="loading">Verification could not load. <button type="button" id="verificationRetry">Try again</button></div>';
-      var retry = document.getElementById("verificationRetry");
-      if (retry) retry.onclick = loadVerification;
-    });
+    .catch(function(err){ box.innerHTML='<div class="loading">Could not verify right now. Reopen ELVION from Telegram and try again.</div>'; console.error("ELVION auto verification:",err); });
 }
 
 function claimTask(id, button){
