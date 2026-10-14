@@ -706,6 +706,20 @@ class="toast">
 .story-preview-sheet img{display:block;width:min(100%,260px);max-height:52dvh;object-fit:contain;margin:10px auto;border-radius:12px;background:#100914}
 .story-preview-buttons{display:grid;grid-template-columns:1fr;gap:9px;margin-top:12px}.story-preview-buttons button{min-height:46px;border:1px solid #f34fa866;border-radius:12px;padding:12px;background:linear-gradient(110deg,#ffb4dc,#ed4fa4);color:#270b1c;font-weight:950;font-size:11px}.story-preview-buttons .story-share-button{background:linear-gradient(110deg,#ffe7a0,#d9b46b);border-color:#ffe7a0;color:#241606}
 .story-preview-sheet small{display:block;color:#bba9b8;font-size:10px;line-height:1.5;margin-top:11px}
+
+/* FINAL MOBILE HOME LAYOUT: centered full-width content and screen-height home */
+html,body{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;overflow-x:hidden!important}
+body{padding-left:0!important;padding-right:0!important}
+.app{width:100%!important;max-width:520px!important;min-width:0!important;margin-left:auto!important;margin-right:auto!important;left:auto!important;right:auto!important;transform:none!important;translate:none!important}
+#home.page.active{display:block!important;position:relative!important;box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;margin-left:auto!important;margin-right:auto!important;left:auto!important;right:auto!important;transform:none!important;translate:none!important;padding-left:14px!important;padding-right:14px!important;padding-bottom:calc(105px + env(safe-area-inset-bottom))!important;min-height:calc(100vh - 75px)!important;min-height:calc(100dvh - 75px)!important}
+#home .claim-home,#home>.card{box-sizing:border-box!important;position:relative!important;left:auto!important;right:auto!important;float:none!important;transform:none!important;translate:none!important;width:100%!important;max-width:100%!important;min-width:0!important;margin-left:0!important;margin-right:0!important}
+#home .claim-home{margin-top:0!important}
+#home>.card{margin-top:14px!important}
+@media(max-width:390px){#home.page.active{padding-left:12px!important;padding-right:12px!important}}
+/* Startup animation is capped at two seconds */
+#elvionBoot{animation:elvionBootTimeout 2s linear forwards}
+@keyframes elvionBootTimeout{to{visibility:hidden;pointer-events:none}}
+
 </style>
 
 
@@ -1247,7 +1261,7 @@ function hideElvionBoot(){
  if(boot) boot.classList.add("is-done");
 }
 var elvionBootStarted=Date.now();
-function finishElvionBootAfterFourSeconds(){setTimeout(hideElvionBoot,Math.max(0,4000-(Date.now()-elvionBootStarted)));}
+function finishElvionBootAfterFourSeconds(){setTimeout(hideElvionBoot,Math.max(0,2000-(Date.now()-elvionBootStarted)));}
 window.addEventListener("load",finishElvionBootAfterFourSeconds);
 setTimeout(finishElvionBootAfterFourSeconds,4500);
 
