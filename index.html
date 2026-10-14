@@ -439,6 +439,12 @@ Tasks reset every 24 hours.
 
 <div class="story-card"><div class="story-kicker">ELVION COMMUNITY PASS</div><h3>Share your ELVION journey</h3><p>Share a branded story with your current balance points, community rank, and personal referral link.</p><div class="story-stats"><div class="story-stat"><b id="storyRank">—</b><span>YOUR RANK</span></div><div class="story-stat"><b id="storyPoints">0</b><span>POINTS</span></div><div class="story-stat"><b id="storyReferrals">0</b><span>REFERRALS</span></div></div><div class="story-link" id="storyReferral">Loading your referral link…</div><div class="story-actions"><button type="button" onclick="shareElvionStory()">✦ SHARE TO STORY</button><button type="button" class="secondary" onclick="copyStoryLink()">COPY LINK</button></div></div>
 
+<div class="card" id="verificationCard" style="margin-top:16px">
+  <div class="title">Verification rewards</div>
+  <div class="description">Submit proof for review. Rewards are added only after approval. Each task can be submitted once.</div>
+  <div id="verificationList"><div class="loading">Loading verification tasks…</div></div>
+</div>
+
 <div id="tasksList">
 <div class="loading">
 Loading tasks...
@@ -657,7 +663,7 @@ if(target){target.classList.add("active");}
 document.querySelectorAll(".nav button").forEach(function(b){b.classList.remove("active");});
 var nav = document.getElementById("nav-" + page);
 if(nav){nav.classList.add("active");}
-if(page === "tasks"){loadTasks();}
+if(page === "tasks"){loadTasks();loadVerification();}
 if(page === "profile"){loadUser();}
 if(page === "referral"){loadReferral();}
 if(page === "leaderboard"){loadLeaderboard("global");}
@@ -1059,6 +1065,80 @@ function loadTasks(){
     });
 }
 
+function loadVerification(){
+  var box = document.getElementById("verificationList");
+  if (!box) return;
+  if (!initData) { box.innerHTML = '<div class="loading">Open ELVION inside Telegram to submit verification.</div>'; return; }
+  box.innerHTML = '<div class="loading">Loading verification tasks…</div>';
+  fetch(api("/api/verification"), {headers: {"Accept":"application/json"}})
+    .then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Could not load verification"); return d; }); })
+    .then(function(data){
+      box.innerHTML = "";
+      var labels = {
+        notcoin: "Notcoin holder",
+        dogs: "DOGS holder",
+        telegram_premium: "Telegram Premium",
+        account_age: "Telegram account age (1+ year)"
+      };
+      Object.keys(data.tasks || {}).forEach(function(id){
+        var task = data.tasks[id], submission = (data.submissions || {})[id];
+        var card = document.createElement("div");
+        card.className = "task";
+        card.style.marginTop = "10px";
+        var left = document.createElement("div");
+        left.style.flex = "1";
+        var title = document.createElement("div");
+        title.className = "task-name";
+        title.textContent = labels[id] || task.title || id;
+        var reward = document.createElement("div");
+        reward.className = "task-reward";
+        reward.textContent = "+" + number(task.reward) + " ELVION";
+        var desc = document.createElement("div");
+        desc.className = "task-description";
+        desc.textContent = submission ? ("Status: " + submission.status.toUpperCase()) : "Explain your proof or provide a link to evidence.";
+        left.appendChild(title); left.appendChild(reward); left.appendChild(desc);
+        if (!submission) {
+          var evidence = document.createElement("textarea");
+          evidence.maxLength = 1500;
+          evidence.minLength = 8;
+          evidence.placeholder = "Proof details or evidence link (8–1500 characters)";
+          evidence.setAttribute("aria-label", "Evidence for " + title.textContent);
+          evidence.style.cssText = "display:block;width:100%;min-height:72px;margin-top:10px;padding:10px;border-radius:10px;box-sizing:border-box;background:#17121b;color:#fff;border:1px solid #6f536d;";
+          var submit = document.createElement("button");
+          submit.type = "button";
+          submit.className = "task-btn";
+          submit.style.marginTop = "8px";
+          submit.textContent = "SUBMIT FOR REVIEW";
+          submit.onclick = function(){
+            var proof = evidence.value.trim();
+            if (proof.length < 8) { toast("Please enter proof details (at least 8 characters)"); return; }
+            submit.disabled = true; submit.textContent = "SUBMITTING…";
+            fetch(api("/api/verification/submit"), {
+              method: "POST",
+              headers: {"Content-Type":"application/json", "Accept":"application/json"},
+              body: JSON.stringify({initData:initData, task_id:id, evidence:proof})
+            }).then(function(r){ return r.json().then(function(d){ if(!r.ok || !d.success) throw new Error(d.error || "Submission failed"); return d; }); })
+            .then(function(){ toast("Proof submitted for review"); loadVerification(); })
+            .catch(function(err){ toast(err.message || "Submission failed"); submit.disabled = false; submit.textContent = "SUBMIT FOR REVIEW"; });
+          };
+          left.appendChild(evidence); left.appendChild(submit);
+        } else {
+          var badge = document.createElement("span");
+          badge.className = "header-badge";
+          badge.textContent = submission.status.toUpperCase();
+          left.appendChild(badge);
+        }
+        card.appendChild(left); box.appendChild(card);
+      });
+    })
+    .catch(function(err){
+      console.error("ELVION verification load:", err);
+      box.innerHTML = '<div class="loading">Verification could not load. <button type="button" id="verificationRetry">Try again</button></div>';
+      var retry = document.getElementById("verificationRetry");
+      if (retry) retry.onclick = loadVerification;
+    });
+}
+
 function claimTask(id, button){
   if (!initData) { toast("Open ELVION inside Telegram"); return; }
   if (button) { button.disabled = true; button.textContent = "CLAIMING…"; }
@@ -1432,6 +1512,7 @@ setTimeout(function(){
 
 loadUser();
 loadReferral();
+loadVerification();
 loadLeaderboard("global");
 initWallet();
 
