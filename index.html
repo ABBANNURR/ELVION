@@ -379,6 +379,49 @@ button:disabled,.task-btn.done{background:linear-gradient(145deg,#302139,#1b1126
 </style>
 
 </style>
+
+<style id="elvion-major-redesign">
+:root{--elv-blue:#4b8cff;--elv-blue2:#2368f5;--elv-bg:#070a12;--elv-panel:#101522;--elv-line:#222c40;--elv-text:#f5f7ff;--elv-muted:#8e9bb4}
+html,body{background:var(--elv-bg)!important;color:var(--elv-text)!important}
+body{background-image:radial-gradient(ellipse at 50% -15%,#17356b 0,transparent 48%)!important}
+.app{max-width:560px!important;padding-bottom:112px!important}
+.header{background:rgba(10,15,27,.9)!important;border:1px solid #24324d!important;border-radius:22px!important;box-shadow:0 10px 36px #0005!important}
+.logo{color:#f8faff!important;letter-spacing:.16em!important;font-weight:950!important}
+.subtitle{color:#789bdb!important;letter-spacing:.16em!important}
+.header-live-mark{color:#7fb0ff!important;background:#14284a!important;border:1px solid #2b4e87!important;border-radius:999px!important}
+.page{animation:elvionPageIn .22s ease-out}
+.card,.claim-home,.claim-balance,.phase,.mining,.cycle-panel,.story-card,.task,.wallet-profile-action,.boost-card,.token-card,.stat,.quick-tile,.panel,.profile-card,.leader-row,.stat-card{background:linear-gradient(145deg,#121a2a,#0c111d)!important;border:1px solid var(--elv-line)!important;box-shadow:0 12px 30px #0003,inset 0 1px 0 #ffffff08!important;border-radius:22px!important}
+.claim-home{background:radial-gradient(ellipse at 50% 0%,#183b78 0,#111b30 36%,#0c111d 75%)!important;border-color:#2b4d80!important;overflow:hidden!important}
+.claim-brand-mark{background:linear-gradient(135deg,#78b0ff,#286cf4)!important;color:white!important;box-shadow:0 0 26px #357bff55!important}
+.claim-brand-name,.claim-label,.cycle-caption,.claim-balance-label{color:#9db7e9!important}
+.claim-orbit{filter:drop-shadow(0 0 22px #377fff25)}
+.claim-core{background:linear-gradient(145deg,#172641,#0b1220)!important;border:1px solid #31548a!important;box-shadow:inset 0 0 32px #347aff17!important}
+.claim-time{color:#fff!important;text-shadow:0 0 24px #4c8dff4a!important}
+.claim-status{color:#94b8ff!important}
+.claim-dot{background:#56a0ff!important;box-shadow:0 0 10px #4b8cff!important}
+.cycle-panel{background:#0c1422!important}
+.claim-balance{background:#0b1321!important}
+.claim-balance strong{color:#fff!important}
+.primary-btn,.claim-btn,.task-btn,.boost-btn,.leader-tab.active,.nav button.active,.green,.claim-action{background:linear-gradient(135deg,#70adff,#347bff 60%,#205ce0)!important;color:#fff!important;border:1px solid #82b7ff66!important;box-shadow:0 6px 20px #2e72ff2b!important}
+button{transition:transform .16s ease,filter .16s ease}
+button:active{transform:scale(.98)}
+.title,.section-head .title{color:#f3f6ff!important}
+.description,.label,.claim-note{color:var(--elv-muted)!important}
+.story-card{background:linear-gradient(140deg,#14264a,#0c111d)!important}
+.story-kicker,.header-badge{color:#9bc1ff!important;background:#1a3157!important;border-color:#2d4e81!important}
+.story-actions button,.secondary-btn,.wallet-button,.leader-tab,.copy{background:#172238!important;color:#c9dcff!important;border:1px solid #2b4269!important;border-radius:13px!important}
+.leader-tab.active{color:#fff!important}
+.nav.elvion-wag-nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;max-width:470px!important;bottom:max(9px,env(safe-area-inset-bottom))!important;padding:8px!important;gap:6px!important;background:rgba(8,12,22,.96)!important;border:1px solid #263550!important;border-radius:23px!important;box-shadow:0 12px 40px #0009!important;backdrop-filter:blur(22px)!important}
+.nav.elvion-wag-nav button{font-size:10px!important;min-height:48px!important;color:#8493af!important;border-radius:15px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important}
+.nav.elvion-wag-nav button .icon{font-size:18px!important;color:inherit!important}
+.nav.elvion-wag-nav button.active{background:linear-gradient(135deg,#347cff,#245fe0)!important;color:#fff!important;border:1px solid #8cbaff55!important;box-shadow:0 5px 18px #286cff38!important}
+input,textarea,select{background:#0a1020!important;color:#f4f7ff!important;border-color:#293a59!important}
+.toast{border:1px solid #31558c!important;background:#111c30!important;color:#f3f7ff!important}
+@keyframes elvionPageIn{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.page,button{animation:none!important;transition:none!important}}
+@media(max-width:390px){.app{padding-left:12px!important;padding-right:12px!important}.nav.elvion-wag-nav button{font-size:9px!important}}
+</style>
+
 </head>
 
 <body>
@@ -558,12 +601,10 @@ id="refEarned">
 
 <!-- NAV -->
 
-<nav class="nav">
+<nav class="nav elvion-wag-nav">
 <button id="nav-home" class="active" onclick="showPage('home')"><span class="icon">⌂</span>Home</button>
-<button id="nav-tasks" onclick="showPage('tasks')"><span class="icon">◈</span>Tasks</button>
-<button id="nav-leaderboard" onclick="showPage('leaderboard')"><span class="icon">🏆</span>Ranks</button>
-<button id="nav-referral" onclick="showPage('referral')"><span class="icon">♧</span>Referral</button>
-<button id="nav-profile" onclick="showPage('profile')"><span class="icon">◎</span>Profile</button>
+<button id="nav-leaderboard" onclick="showPage('leaderboard')"><span class="icon">♜</span>Leaderboard</button>
+<button id="nav-referral" onclick="showPage('referral')"><span class="icon">♧</span>Friends</button>
 </nav>
 
 
