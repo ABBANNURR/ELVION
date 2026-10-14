@@ -1252,7 +1252,7 @@ TASKS = [
             "Join the official ELVION community group.",
 
         "reward":
-            10000,
+            0,
 
         "url":
             GROUP_LINK
@@ -1536,7 +1536,7 @@ def referrals():
             ),
 
         "reward_per_referral":
-            REFERRAL_REWARD
+            0
     })
 
 
@@ -1883,7 +1883,7 @@ def tokenomics():
             TASK_REWARD,
 
         "referral_reward":
-            REFERRAL_REWARD
+            0
     })
 
 
