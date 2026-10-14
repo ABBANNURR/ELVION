@@ -28,7 +28,7 @@ VERSION = "V2"
 # CORE SETTINGS
 # ============================================================
 
-STARTING_BONUS = 10_000
+STARTING_BONUS = 20_000
 
 # 1 ELV per minute
 MINING_RATE = 1
@@ -472,50 +472,7 @@ def create_user(
             "dev_test_grant_1b"
         )
 
-    # Referral reward only when a new user is created
-    if referred_by and str(referred_by) != str(telegram_id):
-
-        referrer = conn.execute(
-            """
-            SELECT *
-            FROM users
-            WHERE referral_code = ?
-            """,
-            (str(referred_by),)
-        ).fetchone()
-
-        if referrer:
-
-            new_balance = (
-                float(referrer["balance"])
-                + REFERRAL_REWARD
-            )
-
-            conn.execute(
-                """
-                UPDATE users
-                SET balance = ?,
-                    referral_count = referral_count + 1,
-                    referral_earned =
-                        referral_earned + ?,
-                    updated_at = ?
-                WHERE telegram_id = ?
-                """,
-                (
-                    new_balance,
-                    REFERRAL_REWARD,
-                    current,
-                    referrer["telegram_id"]
-                )
-            )
-
-            add_history(
-                conn,
-                referrer["telegram_id"],
-                REFERRAL_REWARD,
-                new_balance,
-                "referral_reward"
-            )
+    # Referral tracking remains available, but referrals do not credit points.
     return get_user(
         conn,
         telegram_id
@@ -1278,7 +1235,7 @@ TASKS = [
             "Join the official ELVION Telegram Channel.",
 
         "reward":
-            10000,
+            0,
 
         "url":
             CHANNEL_LINK
