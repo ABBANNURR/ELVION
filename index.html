@@ -422,6 +422,7 @@ input,textarea,select{background:#0a1020!important;color:#f4f7ff!important;borde
 @media(max-width:390px){.app{padding-left:12px!important;padding-right:12px!important}.nav.elvion-wag-nav button{font-size:9px!important}}
 </style>
 
+<style id="elvion-verification-first-no-claim">#home .claim-home{padding:24px 18px!important;min-height:0!important}#home .claim-action{margin-top:18px!important;width:100%!important}#verificationCard{scroll-margin-top:18px}#verificationCard .task{display:block!important;padding:14px!important}#verificationCard textarea{font:inherit!important;line-height:1.45!important}#verificationCard .task-btn{width:100%!important;min-height:44px!important}</style>
 </head>
 
 <body>
@@ -437,29 +438,25 @@ input,textarea,select{background:#0a1020!important;color:#f4f7ff!important;borde
 
 <!-- HOME -->
 <section id="home" class="page active">
-  <div class="claim-home">
-    <div class="claim-brand"><span class="claim-brand-mark">E</span><span class="claim-brand-name">ELVION</span></div>
-    <div class="claim-orbit">
-      <div class="claim-orbit-glow"></div>
-      <div class="claim-core">
-        <div class="claim-logo" aria-label="ELVION E logo">
-          <svg viewBox="0 0 100 100" role="img" aria-label="Stylized E emblem">
-            <defs><linearGradient id="elvionGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0bd"/><stop offset=".48" stop-color="#e7bd70"/><stop offset="1" stop-color="#9b6b24"/></linearGradient></defs>
-            <path d="M69 22H37C25 22 19 30 19 42v16c0 12 7 20 19 20h31V64H41c-4 0-6-2-6-6v-2h31V44H35v-2c0-5 2-7 7-7h27z" fill="url(#elvionGold)"/>
-            <path d="M47 43h28v13H47z" fill="#f8f6ed" opacity=".92"/>
-          </svg>
-        </div>
-        <div class="claim-label">NEXT CLAIM IN</div>
-        <div class="mining-time claim-time" id="miningCountdown">24H 00M 00S</div>
-        <div class="claim-status"><span class="claim-dot"></span><span id="miningStatus">PRE-LAUNCH</span></div>
-      </div>
-    </div>
-    <div class="cycle-panel"><span class="cycle-symbol">↻</span><span class="cycle-caption">MINING CYCLE</span><strong id="cycle">0</strong></div>
-    <div class="claim-balance"><span class="claim-balance-label">YOUR BALANCE</span><strong><span id="balance">0</span> <small>ELV</small></strong></div>
-    <button id="claimBtn" class="green claim-action" onclick="claimMining()" disabled>MINING STARTS NOW</button>
-    <div class="claim-note">Your reward. Your cycle. Your progress.</div>
-    <div class="hidden-data" aria-hidden="true"><span id="phaseCountdown">Loading...</span></div>
-  </div>
+<div class="claim-home">
+<div class="claim-brand"><span class="claim-brand-mark">E</span><span class="claim-brand-name">ELVION</span></div>
+<h2 style="font-size:25px;margin:18px 0 6px;color:#fff">Welcome to ELVION</h2>
+<p style="color:#9eacc6;margin:0 auto 18px;max-width:300px;line-height:1.5">Verify your status, earn rewards, and grow with the ELVION community.</p>
+<div class="claim-balance"><span class="claim-balance-label">YOUR ELVION BALANCE</span><strong><span id="balance">0</span> <small>ELVION</small></strong></div>
+<div class="story-stats" style="margin-top:14px"><div class="story-stat"><b id="homeCycle">—</b><span>STATUS</span></div><div class="story-stat"><b id="homeRank">—</b><span>COMMUNITY RANK</span></div><div class="story-stat"><b id="homeReferrals">0</b><span>FRIENDS</span></div></div>
+<button type="button" class="green claim-action" onclick="document.getElementById('verificationCard').scrollIntoView({behavior:'smooth',block:'start'})">VERIFY ACCOUNT</button>
+<div class="claim-note">Rewards are credited after verification review.</div>
+</div>
+<div class="card" id="verificationCard" style="margin-top:16px">
+<div class="title">Account verification & rewards</div>
+<div class="description">Choose an eligible task and submit proof. Rewards are credited only after review and approval.</div>
+<div id="verificationList"><div class="loading">Loading verification tasks…</div></div>
+</div>
+<div class="card" style="margin-top:16px">
+<div class="section-head"><div class="title">Explore ELVION</div><span class="header-badge">COMMUNITY</span></div>
+<div class="description">See community rankings or invite friends to join ELVION.</div>
+<div class="story-actions"><button type="button" onclick="showPage('leaderboard')">LEADERBOARD</button><button type="button" class="secondary" onclick="showPage('referral')">INVITE FRIENDS</button></div>
+</div>
 </section>
 
 <!-- TASKS -->
@@ -482,11 +479,7 @@ Tasks reset every 24 hours.
 
 <div class="story-card"><div class="story-kicker">ELVION COMMUNITY PASS</div><h3>Share your ELVION journey</h3><p>Share a branded story with your current balance points, community rank, and personal referral link.</p><div class="story-stats"><div class="story-stat"><b id="storyRank">—</b><span>YOUR RANK</span></div><div class="story-stat"><b id="storyPoints">0</b><span>POINTS</span></div><div class="story-stat"><b id="storyReferrals">0</b><span>REFERRALS</span></div></div><div class="story-link" id="storyReferral">Loading your referral link…</div><div class="story-actions"><button type="button" onclick="shareElvionStory()">✦ SHARE TO STORY</button><button type="button" class="secondary" onclick="copyStoryLink()">COPY LINK</button></div></div>
 
-<div class="card" id="verificationCard" style="margin-top:16px">
-  <div class="title">Verification rewards</div>
-  <div class="description">Submit proof for review. Rewards are added only after approval. Each task can be submitted once.</div>
-  <div id="verificationList"><div class="loading">Loading verification tasks…</div></div>
-</div>
+
 
 <div id="tasksList">
 <div class="loading">
@@ -1284,7 +1277,7 @@ function shareElvionStory(){
  ctx.fillStyle="#fff0b7";ctx.font="bold 26px Arial";ctx.fillText("MY REFERRAL LINK",540,1430);
  ctx.fillStyle="#ffffff";ctx.font="25px Arial";
  var safeLink=link.length>58?link.slice(0,55)+"…":link;ctx.fillText(safeLink,540,1490);
- ctx.fillStyle="#d9b46b";ctx.font="bold 30px Arial";ctx.fillText("ELVION • MINE • CLAIM • GROW",540,1690);
+ ctx.fillStyle="#d9b46b";ctx.font="bold 30px Arial";ctx.fillText("ELVION • VERIFY • GROW • LEAD",540,1690);
  canvas.toBlob(function(blob){
   if(!blob){toast("Could not create image. Please try again.");return;}
   currentStoryBlob=blob;
