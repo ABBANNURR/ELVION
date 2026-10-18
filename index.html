@@ -720,6 +720,26 @@ body{padding-left:0!important;padding-right:0!important}
 #elvionBoot{animation:elvionBootTimeout 2s linear forwards}
 @keyframes elvionBootTimeout{to{visibility:hidden;pointer-events:none}}
 
+
+/* ELVION luxury black + gold + emerald dashboard; robust mobile centering */
+html,body{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;overflow-x:hidden!important}
+body{padding-bottom:calc(100px + env(safe-area-inset-bottom))!important;background:radial-gradient(ellipse at 50% 0%,rgba(225,174,68,.18),transparent 42%),radial-gradient(ellipse at 12% 45%,rgba(18,201,138,.08),transparent 38%),linear-gradient(180deg,#090a08,#030504 72%,#080b08)!important;color:#fff9e9!important}
+.app{display:block!important;float:none!important;position:relative!important;left:auto!important;right:auto!important;translate:none!important;transform:none!important;width:100%!important;max-width:520px!important;min-width:0!important;margin-left:auto!important;margin-right:auto!important;padding-left:0!important;padding-right:0!important}
+.header,.page,.page.active{box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;margin-left:auto!important;margin-right:auto!important;left:auto!important;right:auto!important;translate:none!important}
+.page{padding-left:14px!important;padding-right:14px!important;padding-bottom:22px!important}
+#home{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0 auto!important;left:auto!important;right:auto!important;transform:none!important}
+#home>*{box-sizing:border-box!important;max-width:100%!important;min-width:0!important}
+#home .card,#home .claim-home,#home .mining,#home .balance,#home .home-stats,#home .quick-grid{width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;float:none!important;left:auto!important;right:auto!important;transform:none!important}
+:root{--bg:#050907;--panel:#101710;--panel2:#162319;--line:rgba(231,189,92,.28);--muted:#c3b99d;--white:#fff9e9;--cyan:#80f0d9;--blue:#18c98a;--violet:#e3c16d;--green:#38e6a1;--gold:#e7bd70;--gold2:#ffedbd;--rose:#e7bd70}
+.logo,.welcome-title span,.claim-brand-name,.claim-balance strong{background:linear-gradient(100deg,#fff8dc 0%,#f5d77d 42%,#c9912f 70%,#fff0b3 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+.card,#home .card,#home .claim-home{background:linear-gradient(145deg,rgba(31,27,15,.92),rgba(8,14,10,.97) 58%,rgba(13,29,21,.94))!important;border:1px solid rgba(231,189,92,.27)!important;box-shadow:inset 0 1px 0 rgba(255,245,200,.10),0 12px 28px rgba(0,0,0,.30),0 0 20px rgba(218,164,56,.045)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
+.balance,#home .balance{background:radial-gradient(ellipse at 100% 0%,rgba(231,189,92,.18),transparent 50%),linear-gradient(145deg,#183323,#09150d 76%)!important;border-color:rgba(231,189,92,.45)!important}
+.green,#home button.green,.copy,#home .copy{background:linear-gradient(105deg,#ffeab0,#e7bd70 55%,#d39b36)!important;color:#211606!important;border-color:rgba(255,239,190,.55)!important}
+.status,.live-chip{color:#53f0b2!important;border-color:rgba(56,230,161,.30)!important;background:rgba(18,201,138,.09)!important}
+.nav{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100% - 16px)!important;max-width:520px!important;box-sizing:border-box!important;background:rgba(5,9,7,.96)!important;border-color:rgba(231,189,92,.32)!important}
+.nav button.active{color:#ffe7a0!important;background:linear-gradient(180deg,rgba(231,189,92,.18),rgba(18,201,138,.08))!important}
+@media(max-width:390px){.page{padding-left:12px!important;padding-right:12px!important}.header{padding-left:14px!important;padding-right:14px!important}}
+
 </style>
 
 
@@ -1263,7 +1283,7 @@ function hideElvionBoot(){
 var elvionBootStarted=Date.now();
 function finishElvionBootAfterFourSeconds(){setTimeout(hideElvionBoot,Math.max(0,2000-(Date.now()-elvionBootStarted)));}
 window.addEventListener("load",finishElvionBootAfterFourSeconds);
-setTimeout(finishElvionBootAfterFourSeconds,4500);
+setTimeout(finishElvionBootAfterFourSeconds,2000);
 
 function refreshStoryRank(balance){
  elvionStoryData.points=Number(balance||0);
